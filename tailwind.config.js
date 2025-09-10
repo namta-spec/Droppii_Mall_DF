@@ -14,8 +14,14 @@ module.exports = {
         pink: colors.fuchsia,
       },
       fontFamily:{
-        sans: ['Graphik', 'sans-serif'],
-        serif: ['Merriweather', 'serif'],
+        MontserratBlack: ['Montserrat-Black'],
+        MontserratBold: ['Montserrat-Bold'],
+        MontserratLight: ['Montserrat-Light'],
+        MontserratItalic: ['Montserrat-Italic'],
+        MontserratMedium: ['Montserrat-Medium'],
+        MontserratRegular: ['Montserrat-Regular'],
+        MontserratSemiBold: ['Montserrat-SemiBold'],
+        MontserratThin: ['Montserrat-Thin'],
       }
     },
   },
