@@ -1,29 +1,15 @@
 {
   "extends": "@react-native/typescript-config",
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "nativewind-env.d.ts"
-  ],
-  "exclude": [
-    "**/node_modules",
-    "**/Pods"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"],
+  "exclude": ["**/node_modules", "**/Pods"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "src/*"
-      ],
-      "tests": [
-        "tests/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ]
+      "*": ["src/*"],
+      "tests": ["tests/*"],
+      "@components/*": ["src/components/*"],
+      "@assets/*": ["src/assets/*"],
+      "@lib/*": ["src/lib/*"]
     }
   }
 }
