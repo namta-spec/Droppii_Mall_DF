@@ -5,15 +5,11 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { Button, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import "./global.css"
-import AppProvider, { AppContext, AppContextType } from 'context/AppContext';
-import { useContext } from 'react';
+import { StatusBar, useColorScheme } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import './global.css';
+import AppProvider from './src/context/AppContext';
+import OnBoarding from 'screens/Onboarding';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,26 +25,7 @@ function App() {
 }
 
 function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-  const {isDarkMode, setIsDarkMode} = useContext(AppContext) as AppContextType;
-
-  console.log(isDarkMode ? 'light-content' : 'dark-content');
-
-  return (
-    <View style={styles.container}>  
-    <Button title="Tap to switch" onPress={() => setIsDarkMode(!isDarkMode)}/>   
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
+  return <OnBoarding />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
