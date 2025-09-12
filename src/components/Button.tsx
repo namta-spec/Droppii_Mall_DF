@@ -21,7 +21,7 @@ function ButtonCostumized({
   return (
     <Pressable
       className={classNameButton}
-      style={[styles.buttonType]}
+      style={styles.buttonType}
       onPress={onPress}
     >
       {iconLeft}
@@ -37,8 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingVertical: 16,
     gap: 10,
   },
 });

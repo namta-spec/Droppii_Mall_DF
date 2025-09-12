@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Icons from '../../assets/icons/index';
 
 type headType = {
   title: string;
@@ -17,10 +18,16 @@ function HeaderCostumized({
   viewRight,
 }: headType) {
   return (
-    <View style={[styles.headType]} className={classNameHead}>
-      {viewLeft}
+    <View style={styles.headType} className={classNameHead}>
+      <View className="absolute left-6 bg-red-100">
+        {viewLeft || (
+          <Pressable onPress={() => console.log('Back')}>
+            <Icons.ArrowLeft width={24} height={24} />
+          </Pressable>
+        )}
+      </View>
       <Text className={classNameText}>{title}</Text>
-      {viewRight}
+      <View className="absolute right-6 bg-red-100">{viewRight}</View>
     </View>
   );
 }
@@ -29,12 +36,10 @@ const styles = StyleSheet.create({
   headType: {
     borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: 24,
-    paddingRight: 24,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
   },
 });
 

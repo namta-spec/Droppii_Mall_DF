@@ -11,6 +11,9 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      spacing: {
+        5.5: '22px',
+      },
       colors: {
         primary: {
           0: '#FFFFFF',

@@ -23,18 +23,18 @@ function ItemAccount({ variant }: { variant: ItemType }) {
     switch (variantInput.line) {
       case 'long':
         return {
-          className: 'px-[24px]',
+          className: 'px-6',
           borderWidth: 1,
         };
       case 'short':
         return {
-          className: 'ml-20 pr-[24px]',
+          className: 'pl-20 pr-6',
           borderWidth: 1,
         };
       case 'large':
         return { borderWidth: 8 };
       default:
-        return { className: 'px-[24px]', borderWidth: 1 };
+        return { className: 'px-6', borderWidth: 1 };
     }
   }
 
@@ -46,7 +46,7 @@ function ItemAccount({ variant }: { variant: ItemType }) {
           style={{ borderTopWidth: getLine(variant).borderWidth }}
         />
       </View>
-      <View className="px-[24px]">
+      <View className="px-6">
         <View
           style={styles.itemAccountStyle}
           className="flex flex-row items-center gap-5"
@@ -63,7 +63,7 @@ function ItemAccount({ variant }: { variant: ItemType }) {
 }
 
 function Account() {
-  const arrayItem: ItemType[] = [
+  const accountMenuItem: ItemType[] = [
     {
       id: 1,
       icon: <Icons.Box />,
@@ -120,21 +120,16 @@ function Account() {
       <HeaderCostumized
         title="Account"
         classNameHead="bg-white"
-        viewLeft={
-          <Pressable onPress={() => console.log('Back')}>
-            <Icons.ArrowLeft width={24} height={24} />
-          </Pressable>
-        }
         viewRight={
           <Pressable onPress={() => console.log('Bell')}>
             <Icons.Bell width={24} height={24} />
           </Pressable>
         }
-        classNameText="font-MontserratSemiBold primary-900 text-[24px]"
+        classNameText="font-MontserratSemiBold primary-900 text-2xl"
       />
       <FlatList
         className="flex-1"
-        data={arrayItem}
+        data={accountMenuItem}
         renderItem={({ item }) => <ItemAccount variant={item} />}
         keyExtractor={item => item.id.toString()}
       />
