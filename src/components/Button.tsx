@@ -21,7 +21,7 @@ function ButtonCostumized({
   return (
     <Pressable
       className={classNameButton}
-      style={[styles.buttonType]}
+      style={styles.buttonType}
       onPress={onPress}
     >
       {iconLeft}

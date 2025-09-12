@@ -9,7 +9,7 @@ import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import './global.css';
 import AppProvider from './src/context/AppContext';
-import OnBoarding from 'screens/Onboarding';
+import Account from 'screens/Account';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -25,7 +25,7 @@ function App() {
 }
 
 function AppContent() {
-  return <OnBoarding />;
+  return <Account />;
 }
 
 export default App;
