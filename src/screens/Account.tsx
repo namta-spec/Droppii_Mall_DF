@@ -116,10 +116,10 @@ function Account() {
     },
   ];
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-primary-0">
       <HeaderCostumized
         title="Account"
-        classNameHead="bg-white"
+        classNameHead="bg-primary-0"
         viewRight={
           <Pressable onPress={() => console.log('Bell')}>
             <Icons.Bell width={24} height={24} />

@@ -1,12 +1,13 @@
-import { Animated, Image, StyleSheet, Text, View } from 'react-native';
+import { Animated, Image, StyleSheet, Text } from 'react-native';
 import image from '@assets/images/index';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCallback, useEffect, useRef } from 'react';
 import Icons from '../../assets/icons/index';
 import ButtonCostumized from '@components/Button';
+import { NativeStackProps } from '../../routes';
 
 type VectorIcon = { key: number; size: number };
-function OnBoarding() {
+function OnBoarding({ navigation }: NativeStackProps) {
   const textAnim = useRef(new Animated.Value(-300)).current;
   const imageAnim = useRef(new Animated.Value(300)).current;
   const buttonAnim = useRef(new Animated.Value(0)).current;
@@ -49,7 +50,7 @@ function OnBoarding() {
   }, [scaleAnim, textAnim, imageAnim, buttonAnim]);
 
   const handleTap = () => {
-    console.log('Ok Tap');
+    navigation.navigate('Main');
   };
 
   useEffect(() => {
@@ -57,75 +58,70 @@ function OnBoarding() {
   }, [moveIn]);
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        <Animated.View
-          style={{
-            transform: [
-              {
-                scale: scaleAnim,
-              },
-            ],
-          }}
-          className="fixed top-52 flex-1 justify-center items-center"
-        >
-          {arrayVectorIcon.map(item => {
-            return (
-              <Icons.Vector
-                key={item.key}
-                width={item.size}
-                height={item.size}
-                style={styles.vectorStyle}
-              />
-            );
-          })}
-        </Animated.View>
-        <Animated.View
-          className="w-full h-full absolute"
-          style={[
+    <SafeAreaView className="flex-1 bg-primary-0">
+      <Animated.View
+        style={{
+          transform: [
             {
-              transform: [{ translateX: textAnim }],
+              scale: scaleAnim,
             },
-          ]}
+          ],
+        }}
+        className="fixed top-52 flex-1 justify-center items-center"
+      >
+        {arrayVectorIcon.map(item => {
+          return (
+            <Icons.Vector
+              key={item.key}
+              width={item.size}
+              height={item.size}
+              style={styles.vectorStyle}
+            />
+          );
+        })}
+      </Animated.View>
+      <Animated.View
+        className="w-full h-full absolute"
+        style={[
+          {
+            transform: [{ translateX: textAnim }],
+          },
+        ]}
+      >
+        <Text
+          style={[styles.textStyle]}
+          className="font-MontserratSemiBold text-7xl left-6 top-16 text-primary-900"
         >
-          <Text
-            style={[styles.textStyle]}
-            className="font-MontserratSemiBold text-7xl left-6 top-16 text-primary-900"
-          >
-            Define yourself in your unique way.
-          </Text>
-        </Animated.View>
-        <Animated.View
-          className="w-full h-full absolute"
-          style={[
-            {
-              transform: [{ translateX: imageAnim }],
-            },
-          ]}
-        >
-          <Image style={styles.imageStyle} source={image.image_onboarding} />
-        </Animated.View>
-        <Animated.View
-          className="px-6 py-5.5 bg-white"
-          style={[styles.buttonStyle, { opacity: buttonAnim }]}
-        >
-          <ButtonCostumized
-            onPress={handleTap}
-            title="Get Started"
-            classNameButton="bg-primary-900"
-            classNameText="color-white text-xl"
-            iconRight={<Icons.ArrowRight width={24} height={24} />}
-          />
-        </Animated.View>
-      </SafeAreaView>
-    </View>
+          Define yourself in your unique way.
+        </Text>
+      </Animated.View>
+      <Animated.View
+        className="w-full h-full absolute"
+        style={[
+          {
+            transform: [{ translateX: imageAnim }],
+          },
+        ]}
+      >
+        <Image style={styles.imageStyle} source={image.image_onboarding} />
+      </Animated.View>
+      <Animated.View
+        className="px-6 py-5.5 bg-white"
+        style={[styles.buttonStyle, { opacity: buttonAnim }]}
+      >
+        <ButtonCostumized
+          onPress={handleTap}
+          title="Get Started"
+          classNameButton="bg-primary-900"
+          classNameText="color-white text-xl"
+          iconRight={<Icons.ArrowRight width={24} height={24} />}
+        />
+      </Animated.View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   vectorStyle: {
     position: 'absolute',
   },

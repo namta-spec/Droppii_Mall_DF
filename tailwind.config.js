@@ -11,6 +11,9 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontSize: {
+        large: '32px',
+      },
       spacing: {
         5.5: '22px',
       },
@@ -20,6 +23,7 @@ module.exports = {
           100: '#E6E6E6',
           200: '#CCCCCC',
           300: '#B3B3B3',
+          400: '#999999',
           900: '#1A1A1A',
         },
         blue: '#1877F1',

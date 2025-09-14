@@ -11,6 +11,11 @@ import Headphones from './Headphones.svg';
 import Question from './Question.svg';
 import Address from './Address.svg';
 import Logout from './Logout.svg';
+import User from './User.svg';
+import Cart from './Cart.svg';
+import Search from './Search.svg';
+import Saved from './Heart.svg';
+
 const Icons = {
   Home,
   ArrowRight,
@@ -25,6 +30,10 @@ const Icons = {
   Question,
   Address,
   Logout,
+  User,
+  Cart,
+  Saved,
+  Search,
 };
 
 export default Icons;
