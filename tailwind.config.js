@@ -16,6 +16,8 @@ module.exports = {
       },
       spacing: {
         5.5: '22px',
+        13: '52px',
+        30: '122px',
       },
       colors: {
         primary: {
@@ -24,6 +26,7 @@ module.exports = {
           200: '#CCCCCC',
           300: '#B3B3B3',
           400: '#999999',
+          500: '#808080',
           900: '#1A1A1A',
         },
         blue: '#1877F1',

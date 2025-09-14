@@ -112,8 +112,8 @@ function OnBoarding({ navigation }: NativeStackProps) {
         <ButtonCostumized
           onPress={handleTap}
           title="Get Started"
-          classNameButton="bg-primary-900"
-          classNameText="color-white text-xl"
+          classNameButton="bg-primary-900 py-4 gap-2"
+          classNameText="color-primary-0 text-xl"
           iconRight={<Icons.ArrowRight width={24} height={24} />}
         />
       </Animated.View>
