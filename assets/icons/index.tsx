@@ -15,7 +15,11 @@ import User from './User.svg';
 import Cart from './Cart.svg';
 import Search from './Search.svg';
 import Saved from './Heart.svg';
-
+import Mic from './Mic.svg';
+import Filter from './Filter.svg';
+import Heart from './Heart.svg';
+import HeartFilled from './HeartFilled.svg';
+import SavedProduct from './SavedProduct.svg';
 const Icons = {
   Home,
   ArrowRight,
@@ -34,6 +38,11 @@ const Icons = {
   Cart,
   Saved,
   Search,
+  Mic,
+  Filter,
+  Heart,
+  SavedProduct,
+  HeartFilled,
 };
 
 export default Icons;
