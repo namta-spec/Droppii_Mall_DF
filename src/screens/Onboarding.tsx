@@ -1,4 +1,11 @@
-import { Animated, Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import image from '@assets/images/index';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCallback, useEffect, useRef } from 'react';
@@ -7,6 +14,8 @@ import ButtonCostumized from '@components/Button';
 
 type VectorIcon = { key: number; size: number };
 function OnBoarding() {
+  const screenWidth = Dimensions.get('window').width;
+  const screenHeight = Dimensions.get('window').height;
   const textAnim = useRef(new Animated.Value(-300)).current;
   const imageAnim = useRef(new Animated.Value(300)).current;
   const buttonAnim = useRef(new Animated.Value(0)).current;
@@ -61,13 +70,10 @@ function OnBoarding() {
       <SafeAreaView style={styles.container}>
         <Animated.View
           style={{
-            transform: [
-              {
-                scale: scaleAnim,
-              },
-            ],
+            transform: [{ scale: scaleAnim }],
+            top: screenHeight * 0.35,
           }}
-          className="fixed top-52 flex-1 justify-center items-center"
+          className="fixed flex-1 justify-center items-center"
         >
           {arrayVectorIcon.map(item => {
             return (
@@ -82,26 +88,25 @@ function OnBoarding() {
         </Animated.View>
         <Animated.View
           className="w-full h-full absolute"
-          style={[
-            {
-              transform: [{ translateX: textAnim }],
-            },
-          ]}
+          style={{
+            transform: [{ translateX: textAnim }],
+            top: screenHeight * 0.05,
+          }}
         >
           <Text
-            style={[styles.textStyle]}
-            className="font-MontserratSemiBold text-7xl left-6 top-16 text-primary-900"
+            style={styles.textStyle}
+            className="font-MontserratSemiBold text-7xl inset-x-6 text-primary-900"
           >
             Define yourself in your unique way.
           </Text>
         </Animated.View>
         <Animated.View
           className="w-full h-full absolute"
-          style={[
-            {
-              transform: [{ translateX: imageAnim }],
-            },
-          ]}
+          style={{
+            transform: [{ translateX: imageAnim }],
+            top: screenHeight * 0.15,
+            left: screenWidth * 0.1,
+          }}
         >
           <Image style={styles.imageStyle} source={image.image_onboarding} />
         </Animated.View>
@@ -132,8 +137,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: '100%',
     height: '100%',
-    left: 32,
-    top: 147,
   },
   buttonStyle: {
     position: 'absolute',
