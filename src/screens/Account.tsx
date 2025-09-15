@@ -1,7 +1,7 @@
 import HeaderCostumized from 'components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icons from '../../assets/icons/index';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ReactElement } from 'react';
 
 type ItemType = {
@@ -116,15 +116,10 @@ function Account() {
     },
   ];
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-primary-0">
       <HeaderCostumized
         title="Account"
-        classNameHead="bg-white"
-        viewRight={
-          <Pressable onPress={() => console.log('Bell')}>
-            <Icons.Bell width={24} height={24} />
-          </Pressable>
-        }
+        classNameHead="bg-primary-0"
         classNameText="font-MontserratSemiBold primary-900 text-2xl"
       />
       <FlatList

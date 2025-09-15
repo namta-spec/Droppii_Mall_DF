@@ -1,9 +1,10 @@
 import { ReactElement } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Icons from '../../assets/icons/index';
+import { useNavigation } from '@react-navigation/native';
 
 type headType = {
-  title: string;
+  title?: string;
   viewLeft?: ReactElement;
   classNameText?: string;
   classNameHead?: string;
@@ -17,24 +18,39 @@ function HeaderCostumized({
   classNameHead,
   viewRight,
 }: headType) {
+  const navigation = useNavigation();
+
+  function handleGoBack() {
+    navigation.goBack();
+  }
+
+  function openNotification() {
+    console.log('Open Notification');
+  }
+
   return (
     <View style={styles.headType} className={classNameHead}>
       <View>
         {viewLeft || (
-          <Pressable onPress={() => console.log('Back')}>
+          <Pressable onPress={handleGoBack}>
             <Icons.ArrowLeft width={24} height={24} />
           </Pressable>
         )}
       </View>
       <Text className={classNameText}>{title}</Text>
-      <View>{viewRight}</View>
+      <View>
+        {viewRight || (
+          <Pressable onPress={openNotification}>
+            <Icons.Bell width={24} height={24} />
+          </Pressable>
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   headType: {
-    borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

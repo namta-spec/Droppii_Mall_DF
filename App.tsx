@@ -5,27 +5,39 @@
  * @format
  */
 
-import { StatusBar, useColorScheme } from 'react-native';
+import {
+  Keyboard,
+  StatusBar,
+  TouchableWithoutFeedback,
+  useColorScheme,
+} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import './global.css';
 import AppProvider from './src/context/AppContext';
-import Account from 'screens/Account';
+import { NavigationContainer } from '@react-navigation/native';
+import RootNavigator from 'navigation/RootStack';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
+  function getStatusBarStyle(darkMode: boolean) {
+    return darkMode ? 'light-content' : 'dark-content';
+  }
+
   return (
     <AppProvider>
-      <SafeAreaProvider>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <AppContent />
-      </SafeAreaProvider>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <SafeAreaProvider className="bg-primary-0">
+          <NavigationContainer>
+            <StatusBar
+              className="bg-primary-0"
+              barStyle={getStatusBarStyle(isDarkMode)}
+            />
+            <RootNavigator />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </TouchableWithoutFeedback>
     </AppProvider>
   );
 }
-
-function AppContent() {
-  return <Account />;
-}
-
 export default App;
