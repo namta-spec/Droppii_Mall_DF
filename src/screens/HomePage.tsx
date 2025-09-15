@@ -3,7 +3,14 @@ import Icons from '../../assets/icons/index';
 import HeaderCostumized from 'components/Header';
 import SearchCostumized from 'components/Search';
 import { useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
 import ProductCard from 'components/ProductCard';
@@ -84,6 +91,14 @@ function HomePage() {
     },
   ];
 
+  function openFilter() {
+    console.log('Open Filter');
+  }
+
+  function handleSelectCat(item: categoryType) {
+    setSelectedCategory(item);
+  }
+
   function handleTapProduct(id: number) {
     console.log('Tap product: ', id);
   }
@@ -93,79 +108,77 @@ function HomePage() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-0">
-      <HeaderCostumized
-        viewLeft={
-          <Text className="font-MontserratSemiBold text-large">Discover</Text>
-        }
-        viewRight={
-          <Pressable onPress={() => console.log('Bell')}>
-            <Icons.Bell width={24} height={24} />
-          </Pressable>
-        }
-        classNameText="font-MontserratSemiBold primary-900 text-2xl"
-      />
-      <View className="px-6 flex flex-row gap-2">
-        <SearchCostumized
-          placeholder="Search for clothes..."
-          onChangeText={setSearch}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView className="flex-1 bg-primary-0">
+        <HeaderCostumized
+          viewLeft={
+            <Text className="font-MontserratSemiBold text-large">Discover</Text>
+          }
+          classNameText="font-MontserratSemiBold primary-900 text-2xl"
         />
-        <ButtonCostumized
-          title=""
-          onPress={() => console.log('Open Filter')}
-          classNameButton="bg-primary-900 px-4"
-          iconLeft={<Icons.Filter />}
-        />
-      </View>
-      <View className="ml-6 mt-4">
-        <FlatList
-          horizontal
-          data={categories}
-          keyExtractor={item => item.id.toString()}
-          contentContainerStyle={styles.gapStyle}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => {
-            const isActive = item.id === selectedCategory.id;
+        <View className="px-6 flex flex-row gap-2">
+          <SearchCostumized
+            placeholder="Search for clothes..."
+            onChangeText={setSearch}
+          />
+          <ButtonCostumized
+            title=""
+            onPress={openFilter}
+            classNameButton="bg-primary-900 px-4"
+            iconLeft={<Icons.Filter />}
+          />
+        </View>
+        <View className="ml-6 mt-4">
+          <FlatList
+            horizontal
+            data={categories}
+            keyExtractor={item => item.id.toString()}
+            contentContainerStyle={styles.gapStyle}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => {
+              const isActive = item.id === selectedCategory.id;
 
-            return (
-              <ButtonCostumized
-                title={item.value.toString()}
-                onPress={() => setSelectedCategory(item)}
-                classNameButton={cn(
-                  'bg-primary-0 px-6 py-3 border border-primary-100',
-                  {
-                    'bg-primary-900 border-primary-900': isActive,
-                  },
-                )}
-                classNameText={cn(
-                  'text-primary-900 text-xs font-MontserratMedium',
-                  {
-                    'text-primary-0': isActive,
-                  },
-                )}
+              return (
+                <ButtonCostumized
+                  title={item.value.toString()}
+                  onPress={() => handleSelectCat(item)}
+                  classNameButton={cn(
+                    'bg-primary-0 px-6 py-3 border border-primary-100',
+                    {
+                      'bg-primary-900 border-primary-900': isActive,
+                    },
+                  )}
+                  classNameText={cn(
+                    'text-primary-900 text-xs font-MontserratMedium',
+                    {
+                      'text-primary-0': isActive,
+                    },
+                  )}
+                />
+              );
+            }}
+          />
+        </View>
+        <View className="flex-1 px-6 mt-4">
+          <FlatList
+            onScroll={Keyboard.dismiss}
+            data={products}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => item.id.toString()}
+            numColumns={2} // 2 rows
+            contentContainerStyle={styles.gapStyle}
+            columnWrapperStyle={styles.gapStyle}
+            renderItem={({ item }) => (
+              <ProductCard
+                {...item}
+                onPress={handleTapProduct}
+                tapSaved={handelSaveProduct}
               />
-            );
-          }}
-        />
-      </View>
-      <View className="flex-1 px-6 mt-4">
-        <FlatList
-          data={products}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id.toString()}
-          numColumns={2} // 2 rows
-          contentContainerStyle={styles.gapStyle}
-          columnWrapperStyle={styles.gapStyle}
-          renderItem={({ item }) => (
-            <ProductCard
-              {...item}
-              onPress={handleTapProduct}
-              tapSaved={handelSaveProduct}
-            />
-          )}
-        />
-      </View>
-    </SafeAreaView>
+            )}
+          />
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
