@@ -5,84 +5,32 @@
  * @format
  */
 
-import {
-  Keyboard,
-  StatusBar,
-  TouchableWithoutFeedback,
-  useColorScheme,
-} from 'react-native';
+import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import './global.css';
 import AppProvider from './src/context/AppContext';
 import { NavigationContainer } from '@react-navigation/native';
-import { RootBottomParamList, RootStackParamList } from './routes';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TabBar from 'components/TabBar';
-import OnBoarding from '@screens/Onboarding';
-import HomePage from '@screens/HomePage';
-import Account from '@screens/Account';
-import Search from '@screens/Search';
-import Saved from '@screens/Saved';
-import Cart from '@screens/Cart';
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
-const Tab = createBottomTabNavigator<RootBottomParamList>();
-
-function RootTab() {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        animation: 'fade',
-      }}
-      tabBar={props => <TabBar {...props} />}
-    >
-      <Tab.Screen name="Home" component={HomePage} />
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Saved" component={Saved} />
-      <Tab.Screen name="Cart" component={Cart} />
-      <Tab.Screen name="Account" component={Account} />
-    </Tab.Navigator>
-  );
-}
-
-function RootStack() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        animation: 'flip',
-      }}
-    >
-      <Stack.Screen name="Onboarding" component={OnBoarding} />
-      <Stack.Screen name="Main" component={RootTab} />
-    </Stack.Navigator>
-  );
-}
+import RootNavigator from 'navigation/RootStack';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
+  function getStatusBarStyle(darkMode: boolean) {
+    return darkMode ? 'light-content' : 'dark-content';
+  }
+
   return (
     <AppProvider>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <SafeAreaProvider className="bg-primary-0">
-          <NavigationContainer>
-            <StatusBar
-              className="bg-primary-0"
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
-            <AppContent />
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </TouchableWithoutFeedback>
+      <SafeAreaProvider className="bg-primary-0">
+        <NavigationContainer>
+          <StatusBar
+            className="bg-primary-0"
+            barStyle={getStatusBarStyle(isDarkMode)}
+          />
+          <RootNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
     </AppProvider>
   );
 }
-
-function AppContent() {
-  return <RootStack />;
-}
-
 export default App;

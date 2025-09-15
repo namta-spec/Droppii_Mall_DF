@@ -3,9 +3,9 @@ import { PlatformPressable } from '@react-navigation/elements';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
-import { Keyboard, Text } from 'react-native';
+import { Text } from 'react-native';
 import Icons from '../../assets/icons/index';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement } from 'react';
 import { RootBottomParamList } from '../../routes';
 
 type TabLabel = keyof RootBottomParamList;
@@ -38,75 +38,55 @@ function IconTab({ label, size, color }: typeIconTab) {
 
 function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const { buildHref } = useLinkBuilder();
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setVisible(false);
-    });
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setVisible(true);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
 
   return (
-    visible && (
-      <SafeAreaView
-        edges={['bottom']}
-        className="flex flex-row px-6 py-4 bg-primary-0 border-t border-primary-100"
-      >
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
+    <SafeAreaView
+      edges={['bottom']}
+      className="flex flex-row px-6 py-4 bg-primary-0 border-t border-primary-100"
+    >
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
 
-          const isFocused = state.index === index;
+        const isFocused = state.index === index;
 
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
 
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name, route.params);
-            }
-          };
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name, route.params);
+          }
+        };
 
-          return (
-            <PlatformPressable
-              href={buildHref(route.name, route.params)}
-              accessibilityState={isFocused ? { selected: true } : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarButtonTestID}
-              onPress={onPress}
-              className="flex-1 items-center"
-              key={index}
+        return (
+          <PlatformPressable
+            href={buildHref(route.name, route.params)}
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarButtonTestID}
+            onPress={onPress}
+            className="flex-1 items-center"
+            key={index}
+          >
+            <IconTab
+              size={24}
+              color={isFocused ? '#1A1A1A' : '#999999'}
+              label={route.name as TabLabel}
+            />
+            <Text
+              className={cn('text-primary-400 text-sm font-MontserratMedium', {
+                'text-primary-900 ': isFocused,
+              })}
             >
-              <IconTab
-                size={24}
-                color={isFocused ? '#1A1A1A' : '#999999'}
-                label={route.name as TabLabel}
-              />
-              <Text
-                className={cn(
-                  'text-primary-400 text-sm font-MontserratMedium',
-                  {
-                    'text-primary-900 ': isFocused,
-                  },
-                )}
-              >
-                {route.name}
-              </Text>
-            </PlatformPressable>
-          );
-        })}
-      </SafeAreaView>
-    )
+              {route.name}
+            </Text>
+          </PlatformPressable>
+        );
+      })}
+    </SafeAreaView>
   );
 }
 
