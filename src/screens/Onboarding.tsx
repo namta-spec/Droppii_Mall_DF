@@ -13,11 +13,12 @@ import Icons from '../../assets/icons/index';
 import ButtonCostumized from '@components/Button';
 
 type VectorIcon = { key: number; size: number };
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
+
 function OnBoarding() {
-  const screenWidth = Dimensions.get('window').width;
-  const screenHeight = Dimensions.get('window').height;
-  const textAnim = useRef(new Animated.Value(-300)).current;
-  const imageAnim = useRef(new Animated.Value(300)).current;
+  const textAnim = useRef(new Animated.Value(-screenWidth * 0.5)).current;
+  const imageAnim = useRef(new Animated.Value(screenWidth * 0.5)).current;
   const buttonAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.5)).current;
 
