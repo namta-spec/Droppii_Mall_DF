@@ -16,7 +16,10 @@ import './global.css';
 import AppProvider from './src/context/AppContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { RootBottomParamList, RootStackParamList } from './routes';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabBar from 'components/TabBar';
 import OnBoarding from '@screens/Onboarding';
@@ -29,6 +32,10 @@ import Cart from '@screens/Cart';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootBottomParamList>();
 
+function CustomTabBar(props: BottomTabBarProps) {
+  return <TabBar {...props} />;
+}
+
 function RootTab() {
   return (
     <Tab.Navigator
@@ -36,7 +43,7 @@ function RootTab() {
         headerShown: false,
         animation: 'fade',
       }}
-      tabBar={props => <TabBar {...props} />}
+      tabBar={CustomTabBar}
     >
       <Tab.Screen name="Home" component={HomePage} />
       <Tab.Screen name="Search" component={Search} />
