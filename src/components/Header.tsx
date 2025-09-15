@@ -19,17 +19,32 @@ function HeaderCostumized({
   viewRight,
 }: headType) {
   const navigation = useNavigation();
+
+  function handleGoBack() {
+    navigation.goBack();
+  }
+
+  function openNotification() {
+    console.log('Open Notification');
+  }
+
   return (
     <View style={styles.headType} className={classNameHead}>
       <View>
         {viewLeft || (
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={handleGoBack}>
             <Icons.ArrowLeft width={24} height={24} />
           </Pressable>
         )}
       </View>
       <Text className={classNameText}>{title}</Text>
-      <View>{viewRight}</View>
+      <View>
+        {viewRight || (
+          <Pressable onPress={openNotification}>
+            <Icons.Bell width={24} height={24} />
+          </Pressable>
+        )}
+      </View>
     </View>
   );
 }

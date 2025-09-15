@@ -7,6 +7,12 @@ export type RootStackParamList = {
 };
 export type NativeStackProps = NativeStackScreenProps<RootStackParamList>;
 
+export type MainStackParamList = {
+  MainTabs: undefined;
+  Notification: undefined;
+};
+export type MainNativeStackProps = NativeStackScreenProps<MainStackParamList>;
+
 export type RootBottomParamList = {
   Home: undefined;
   Search: undefined;
