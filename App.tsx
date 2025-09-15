@@ -5,7 +5,12 @@
  * @format
  */
 
-import { StatusBar, useColorScheme } from 'react-native';
+import {
+  Keyboard,
+  StatusBar,
+  TouchableWithoutFeedback,
+  useColorScheme,
+} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import './global.css';
 import AppProvider from './src/context/AppContext';
@@ -61,15 +66,17 @@ function App() {
 
   return (
     <AppProvider>
-      <SafeAreaProvider className="bg-primary-0">
-        <NavigationContainer>
-          <StatusBar
-            className="bg-primary-0"
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          />
-          <AppContent />
-        </NavigationContainer>
-      </SafeAreaProvider>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <SafeAreaProvider className="bg-primary-0">
+          <NavigationContainer>
+            <StatusBar
+              className="bg-primary-0"
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            />
+            <AppContent />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </TouchableWithoutFeedback>
     </AppProvider>
   );
 }
