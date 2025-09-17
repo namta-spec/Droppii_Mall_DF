@@ -2,7 +2,7 @@ import ButtonCostumized from 'components/Button';
 import Icons from '../../assets/icons/index';
 import HeaderCostumized from 'components/Header';
 import SearchCostumized from 'components/Search';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   FlatList,
   Keyboard,
@@ -14,6 +14,13 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
 import ProductCard from 'components/ProductCard';
+import {
+  BottomSheetView,
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
+import Filter from 'components/Filter';
 
 type categoryType = {
   id: number;
@@ -28,14 +35,16 @@ type productType = {
   discount?: number;
   saved?: boolean;
 };
+
 function HomePage() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<categoryType>({
     id: 1,
     value: 'All',
   });
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
   console.log(search);
-  console.log(selectedCategory);
 
   const categories: categoryType[] = [
     { id: 1, value: 'All' },
@@ -91,10 +100,6 @@ function HomePage() {
     },
   ];
 
-  function openFilter() {
-    console.log('Open Filter');
-  }
-
   function handleSelectCat(item: categoryType) {
     setSelectedCategory(item);
   }
@@ -106,6 +111,25 @@ function HomePage() {
   function handelSaveProduct(id: number) {
     console.log('Saved product: ', id);
   }
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleCloseModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
+  const renderBackdrop = useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+      />
+    ),
+    [],
+  );
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -123,7 +147,7 @@ function HomePage() {
           />
           <ButtonCostumized
             title=""
-            onPress={openFilter}
+            onPress={handlePresentModalPress}
             classNameButton="bg-primary-900 px-4"
             iconLeft={<Icons.Filter />}
           />
@@ -177,6 +201,17 @@ function HomePage() {
             )}
           />
         </View>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          backgroundStyle={styles.backgroundStyle}
+          handleIndicatorStyle={styles.handleIndicatorStyle}
+          backdropComponent={renderBackdrop}
+          enableContentPanningGesture={false}
+        >
+          <BottomSheetView>
+            <Filter handleCloseModal={handleCloseModalPress} />
+          </BottomSheetView>
+        </BottomSheetModal>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -185,6 +220,15 @@ function HomePage() {
 const styles = StyleSheet.create({
   gapStyle: {
     gap: 10,
+  },
+  backgroundStyle: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+  },
+  handleIndicatorStyle: {
+    backgroundColor: '#E6E6E6',
+    width: 64,
+    borderRadius: 40,
   },
 });
 

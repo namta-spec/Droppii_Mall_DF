@@ -11,6 +11,8 @@ import './global.css';
 import AppProvider from './src/context/AppContext';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from 'navigation/RootStack';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,14 +23,19 @@ function App() {
 
   return (
     <AppProvider>
-      <SafeAreaProvider className="bg-primary-0">
-        <NavigationContainer>
-          <StatusBar
-            className="bg-primary-0"
-            barStyle={getStatusBarStyle(isDarkMode)}
-          />
-          <RootNavigator />
-        </NavigationContainer>
+      <SafeAreaProvider>
+        <GestureHandlerRootView>
+          <BottomSheetModalProvider>
+            <NavigationContainer>
+              <StatusBar
+                barStyle={getStatusBarStyle(isDarkMode)}
+                translucent
+                backgroundColor="transparent"
+              />
+              <RootNavigator />
+            </NavigationContainer>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
       </SafeAreaProvider>
     </AppProvider>
   );

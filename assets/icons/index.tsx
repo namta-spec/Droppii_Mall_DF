@@ -20,6 +20,8 @@ import Filter from './Filter.svg';
 import Heart from './Heart.svg';
 import HeartFilled from './HeartFilled.svg';
 import SavedProduct from './SavedProduct.svg';
+import Cancel from './Cancel.svg';
+import ChevronDown from './ChevronDown.svg';
 const Icons = {
   Home,
   ArrowRight,
@@ -43,6 +45,8 @@ const Icons = {
   Heart,
   SavedProduct,
   HeartFilled,
+  Cancel,
+  ChevronDown,
 };
 
 export default Icons;
