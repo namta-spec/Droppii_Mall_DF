@@ -1,7 +1,8 @@
 import { ReactElement } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Icons from '../../assets/icons/index';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainStackParamList } from '../../routes';
 
 type headType = {
   title?: string;
@@ -18,14 +19,14 @@ function HeaderCostumized({
   classNameHead,
   viewRight,
 }: headType) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   function handleGoBack() {
     navigation.goBack();
   }
 
   function openNotification() {
-    console.log('Open Notification');
+    navigation.navigate('SubStack', { screen: 'Notification' });
   }
 
   return (
