@@ -15,9 +15,15 @@ import { memo } from 'react';
 
 const heightScreen = Dimensions.get('window').height;
 
-type SizeType = {
-  value: 'S' | 'M' | 'L' | 'XL' | '2XL' | '3XL' | '4XL';
-};
+enum SizeType {
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+  XXL = '2XL',
+  XXXL = '3XL',
+  XXXXL = '4XL',
+}
 
 type SizeSelecterType = {
   size: SizeType | null;
@@ -25,27 +31,13 @@ type SizeSelecterType = {
 };
 
 const dataSize: SizeType[] = [
-  {
-    value: 'S',
-  },
-  {
-    value: 'M',
-  },
-  {
-    value: 'L',
-  },
-  {
-    value: 'XL',
-  },
-  {
-    value: '2XL',
-  },
-  {
-    value: '3XL',
-  },
-  {
-    value: '4XL',
-  },
+  SizeType.S,
+  SizeType.M,
+  SizeType.L,
+  SizeType.XL,
+  SizeType.XXL,
+  SizeType.XXXL,
+  SizeType.XXXXL,
 ];
 
 function SizeSelecter({ size, setSize }: SizeSelecterType) {
@@ -76,7 +68,7 @@ function SizeSelecter({ size, setSize }: SizeSelecterType) {
           onPress={onOpenModal}
         >
           <Text className="font-MontserratRegular text-primary-500 text-base">
-            {size?.value || 'Select size'}
+            {size || 'Select size'}
           </Text>
           <Icons.ChevronDown />
         </Pressable>
@@ -100,14 +92,14 @@ function SizeSelecter({ size, setSize }: SizeSelecterType) {
               horizontal={true}
               data={dataSize}
               contentContainerStyle={styles.contentContainerStyle}
-              keyExtractor={item => item.value}
+              keyExtractor={item => item}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }: { item: SizeType }) => {
-                const isActive = item.value === size?.value;
+                const isActive = item === size;
 
                 return (
                   <ButtonCostumized
-                    title={item.value}
+                    title={item}
                     onPress={() => handleChangeValue(item)}
                     classNameButton={cn(
                       'bg-primary-0 h-16 w-16 justify-center items-center border border-primary-100',

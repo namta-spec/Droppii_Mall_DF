@@ -1,34 +1,62 @@
+import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Icons from '../../assets/icons/index';
 import ButtonCostumized from './Button';
 import Sort from './Sort';
-import { useState } from 'react';
 import SliderPrice from './SliderPrice';
 import SizeSelecter from './SizeSelecter';
-
-type FilterProps = {
-  handleCloseModal: () => void;
-};
 
 type SortType = {
   id: number;
   label: string;
 };
 
-type SizeType = {
-  value: 'S' | 'M' | 'L' | 'XL' | '2XL' | '3XL' | '4XL';
+enum SizeType {
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+  XXL = '2XL',
+  XXXL = '3XL',
+  XXXXL = '4XL',
+}
+
+type filterType = {
+  sortType: SortType;
+  price: number[];
+  size: SizeType | null;
 };
 
-function Filter({ handleCloseModal }: FilterProps) {
-  const [sortType, setSortType] = useState<SortType>({
-    id: 1,
-    label: 'Relevance',
-  });
-  const [price, setPrice] = useState<number[]>([0, 100]);
-  const [size, setSize] = useState<SizeType | null>(null);
+type FilterProps = {
+  dataFilter: filterType;
+  setDataFilter: (dataFilter: filterType) => void;
+  handleCloseModal: () => void;
+};
+
+function Filter({ dataFilter, setDataFilter, handleCloseModal }: FilterProps) {
+  const [sortType, setSortType] = useState<SortType>(dataFilter.sortType);
+  const [price, setPrice] = useState<number[]>(dataFilter.price);
+  const [size, setSize] = useState<SizeType | null>(dataFilter.size);
+
+  function handleSetSort(sortInput: SortType) {
+    setSortType(sortInput);
+  }
+
+  function handleSetPrice(priceInput: number[]) {
+    setPrice(priceInput);
+  }
+
+  function handleSetSize(sizeInput: SizeType) {
+    setSize(sizeInput);
+  }
 
   function handleTapApply() {
-    console.log('Apply: ', sortType, price, size);
+    setDataFilter({
+      sortType: sortType,
+      price: price,
+      size: size,
+    });
+
     handleCloseModal();
   }
 
@@ -43,14 +71,14 @@ function Filter({ handleCloseModal }: FilterProps) {
         </Pressable>
       </View>
       <View className="gap-4">
-        <Sort sortType={sortType} setSortType={setSortType} />
+        <Sort sortType={sortType} setSortType={handleSetSort} />
         <SliderPrice
           minValue={0}
           maxValue={100}
           price={price}
-          setPrice={setPrice}
+          setPrice={handleSetPrice}
         />
-        <SizeSelecter size={size} setSize={setSize} />
+        <SizeSelecter size={size} setSize={handleSetSize} />
       </View>
       <View className="px-6 pb-4">
         <ButtonCostumized

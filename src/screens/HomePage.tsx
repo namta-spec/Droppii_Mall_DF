@@ -1,7 +1,9 @@
-import ButtonCostumized from 'components/Button';
-import Icons from '../../assets/icons/index';
-import HeaderCostumized from 'components/Header';
-import SearchCostumized from 'components/Search';
+import {
+  BottomSheetView,
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
 import { useCallback, useRef, useState } from 'react';
 import {
   FlatList,
@@ -14,12 +16,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
 import ProductCard from 'components/ProductCard';
-import {
-  BottomSheetView,
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetBackdropProps,
-} from '@gorhom/bottom-sheet';
+import ButtonCostumized from 'components/Button';
+import HeaderCostumized from 'components/Header';
+import SearchCostumized from 'components/Search';
+import Icons from '../../assets/icons/index';
 import Filter from 'components/Filter';
 
 type categoryType = {
@@ -36,6 +36,27 @@ type productType = {
   saved?: boolean;
 };
 
+type SortType = {
+  id: number;
+  label: string;
+};
+
+enum SizeType {
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+  XXL = '2XL',
+  XXXL = '3XL',
+  XXXXL = '4XL',
+}
+
+type filterType = {
+  sortType: SortType;
+  price: number[];
+  size: SizeType | null;
+};
+
 function HomePage() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<categoryType>({
@@ -45,6 +66,15 @@ function HomePage() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   console.log(search);
+
+  const [dataFilter, setDataFilter] = useState<filterType>({
+    sortType: {
+      id: 1,
+      label: 'Relevance',
+    },
+    price: [0, 100],
+    size: null,
+  });
 
   const categories: categoryType[] = [
     { id: 1, value: 'All' },
@@ -131,6 +161,10 @@ function HomePage() {
     [],
   );
 
+  function handleSetDataFilter(filterInput: filterType) {
+    setDataFilter(filterInput);
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView className="flex-1 bg-primary-0">
@@ -209,7 +243,11 @@ function HomePage() {
           enableContentPanningGesture={false}
         >
           <BottomSheetView>
-            <Filter handleCloseModal={handleCloseModalPress} />
+            <Filter
+              dataFilter={dataFilter}
+              setDataFilter={handleSetDataFilter}
+              handleCloseModal={handleCloseModalPress}
+            />
           </BottomSheetView>
         </BottomSheetModal>
       </SafeAreaView>
