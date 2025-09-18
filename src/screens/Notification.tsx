@@ -1,13 +1,8 @@
-import Icons from '../../assets/icons/index';
-import HeaderCostumized from 'components/Header';
-import { ReactElement } from 'react';
 import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import isYesterday from 'dayjs/plugin/isYesterday';
-dayjs.extend(isToday);
-dayjs.extend(isYesterday);
+import HeaderCostumized from 'components/Header';
+import { getIcon, getTitleDate } from 'lib/utils';
+import Icons from '../../assets/icons/index';
 
 type NotificationType = {
   id: number;
@@ -66,31 +61,6 @@ const dataNotification: NotificationType[] = [
   },
 ];
 
-function getIcon(category: NotificationType['category']): ReactElement {
-  switch (category) {
-    case 'Discount':
-      return <Icons.DiscountDuotone />;
-    case 'Credit':
-      return <Icons.CardDuotone />;
-    case 'E-Wallet':
-      return <Icons.WalletDuotone />;
-    case 'Location':
-      return <Icons.LocationDuotone />;
-    case 'Account':
-      return <Icons.UserDuotone />;
-    default:
-      return <Icons.BellDuotoneMini />;
-  }
-}
-
-function getTitleDate(inputDate: number): string {
-  if (dayjs(inputDate).isToday()) return 'Today';
-
-  if (dayjs(inputDate).isYesterday()) return 'Yesterday';
-
-  return dayjs(inputDate).format('MMMM D, YYYY');
-}
-
 function convertNotification(
   originalData: NotificationType[],
 ): ConvertNotificationType[] {
@@ -115,13 +85,13 @@ function renderItem(item: NotificationType, index: number) {
     <View className="px-6 gap-4">
       {index !== 0 && <View className="border-primary-100 border-t mx-12" />}
       <View className="flex flex-row items-center gap-5">
-        {getIcon(item.category)}
+        {getIcon(item?.category)}
         <View className="gap-1">
           <Text className="font-MontserratSemiBold text-base text-primary-900">
-            {item.title}
+            {item?.title}
           </Text>
           <Text className="font-MontserratRegular text-sm text-primary-500">
-            {item.subTitle}
+            {item?.subTitle}
           </Text>
         </View>
       </View>
@@ -162,25 +132,23 @@ function Notification() {
         classNameHead="bg-primary-0"
         classNameText="font-MontserratSemiBold primary-900 text-2xl"
       />
-      {dataNotification.length === 0 ? (
-        <NotificationsEmpty />
-      ) : (
-        <SectionList
-          sections={convertNotification(dataNotification)}
-          keyExtractor={(item, index) => (item.id + index).toString()}
-          contentContainerStyle={styles.contentContainerStyle}
-          renderItem={({ item, index }) => renderItem(item, index)}
-          renderSectionHeader={({ section: { titleDate } }) =>
-            renderSectionHeader(titleDate)
-          }
-        />
-      )}
+      <SectionList
+        sections={convertNotification(dataNotification)}
+        keyExtractor={(item, index) => (item.id + index).toString()}
+        contentContainerStyle={styles.contentContainerStyle}
+        renderItem={({ item, index }) => renderItem(item, index)}
+        renderSectionHeader={({ section: { titleDate } }) =>
+          renderSectionHeader(titleDate)
+        }
+        ListEmptyComponent={<NotificationsEmpty />}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
+    flex: 1,
     gap: 16,
   },
 });
