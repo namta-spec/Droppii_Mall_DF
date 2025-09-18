@@ -1,24 +1,16 @@
-import {
-  Animated,
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Animated, Image, StyleSheet, Text, View } from 'react-native';
 import image from '@assets/images/index';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCallback, useEffect, useRef } from 'react';
 import Icons from '../../assets/icons/index';
 import ButtonCostumized from '@components/Button';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '@constants/screens';
 
 type VectorIcon = { key: number; size: number };
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 
 function OnBoarding() {
-  const textAnim = useRef(new Animated.Value(-screenWidth * 0.5)).current;
-  const imageAnim = useRef(new Animated.Value(screenWidth * 0.5)).current;
+  const textAnim = useRef(new Animated.Value(-SCREEN_WIDTH * 0.5)).current;
+  const imageAnim = useRef(new Animated.Value(SCREEN_WIDTH * 0.5)).current;
   const buttonAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.5)).current;
 
@@ -72,7 +64,7 @@ function OnBoarding() {
         <Animated.View
           style={{
             transform: [{ scale: scaleAnim }],
-            top: screenHeight * 0.35,
+            top: SCREEN_HEIGHT * 0.35,
           }}
           className="fixed flex-1 justify-center items-center"
         >
@@ -91,7 +83,7 @@ function OnBoarding() {
           className="w-full h-full absolute"
           style={{
             transform: [{ translateX: textAnim }],
-            top: screenHeight * 0.05,
+            top: SCREEN_HEIGHT * 0.05,
           }}
         >
           <Text
@@ -105,8 +97,8 @@ function OnBoarding() {
           className="w-full h-full absolute"
           style={{
             transform: [{ translateX: imageAnim }],
-            top: screenHeight * 0.15,
-            left: screenWidth * 0.1,
+            top: SCREEN_HEIGHT * 0.15,
+            left: SCREEN_WIDTH * 0.1,
           }}
         >
           <Image style={styles.imageStyle} source={image.image_onboarding} />
