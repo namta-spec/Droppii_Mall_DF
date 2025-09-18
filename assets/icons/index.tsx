@@ -3,6 +3,8 @@ import ArrowRight from './ArrowRight.svg';
 import ArrowLeft from './ArrowLeft.svg';
 import Vector from './Vector.svg';
 import Bell from './Bell.svg';
+import BellDuotone from './BellDuotone.svg';
+import BellDuotoneMini from './BellDuotoneMini.svg';
 import Chevron from './Chevron.svg';
 import Box from './Box.svg';
 import Card from './Card.svg';
@@ -20,12 +22,18 @@ import Filter from './Filter.svg';
 import Heart from './Heart.svg';
 import HeartFilled from './HeartFilled.svg';
 import SavedProduct from './SavedProduct.svg';
+import CardDuotone from './CardDuotone.svg';
+import DiscountDuotone from './DiscountDuotone.svg';
+import LocationDuotone from './LocationDuotone.svg';
+import UserDuotone from './UserDuotone.svg';
+import WalletDuotone from './WalletDuotone.svg';
 const Icons = {
   Home,
   ArrowRight,
   ArrowLeft,
   Vector,
   Bell,
+  BellDuotone,
   Chevron,
   Box,
   Card,
@@ -43,6 +51,12 @@ const Icons = {
   Heart,
   SavedProduct,
   HeartFilled,
+  CardDuotone,
+  DiscountDuotone,
+  UserDuotone,
+  WalletDuotone,
+  LocationDuotone,
+  BellDuotoneMini,
 };
 
 export default Icons;
