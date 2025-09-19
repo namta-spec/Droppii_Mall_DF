@@ -5,11 +5,13 @@ import { useCallback, useEffect, useRef } from 'react';
 import Icons from '../../assets/icons/index';
 import ButtonCostumized from '@components/Button';
 import { NativeStackProps } from '../../routes';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '@constants/screens';
 
 type VectorIcon = { key: number; size: number };
+
 function OnBoarding({ navigation }: NativeStackProps) {
-  const textAnim = useRef(new Animated.Value(-300)).current;
-  const imageAnim = useRef(new Animated.Value(300)).current;
+  const textAnim = useRef(new Animated.Value(-SCREEN_WIDTH * 0.5)).current;
+  const imageAnim = useRef(new Animated.Value(SCREEN_WIDTH * 0.5)).current;
   const buttonAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.5)).current;
 
@@ -61,13 +63,10 @@ function OnBoarding({ navigation }: NativeStackProps) {
     <SafeAreaView className="flex-1 bg-primary-0">
       <Animated.View
         style={{
-          transform: [
-            {
-              scale: scaleAnim,
-            },
-          ],
+          transform: [{ scale: scaleAnim }],
+          top: SCREEN_HEIGHT * 0.35,
         }}
-        className="fixed top-52 flex-1 justify-center items-center"
+        className="fixed flex-1 justify-center items-center"
       >
         {arrayVectorIcon.map(item => {
           return (
@@ -82,26 +81,25 @@ function OnBoarding({ navigation }: NativeStackProps) {
       </Animated.View>
       <Animated.View
         className="w-full h-full absolute"
-        style={[
-          {
-            transform: [{ translateX: textAnim }],
-          },
-        ]}
+        style={{
+          transform: [{ translateX: textAnim }],
+          top: SCREEN_HEIGHT * 0.05,
+        }}
       >
         <Text
-          style={[styles.textStyle]}
-          className="font-MontserratSemiBold text-7xl left-6 top-16 text-primary-900"
+          style={styles.textStyle}
+          className="font-MontserratSemiBold text-7xl inset-x-6 text-primary-900"
         >
           Define yourself in your unique way.
         </Text>
       </Animated.View>
       <Animated.View
         className="w-full h-full absolute"
-        style={[
-          {
-            transform: [{ translateX: imageAnim }],
-          },
-        ]}
+        style={{
+          transform: [{ translateX: imageAnim }],
+          top: SCREEN_HEIGHT * 0.15,
+          left: SCREEN_WIDTH * 0.1,
+        }}
       >
         <Image style={styles.imageStyle} source={image.image_onboarding} />
       </Animated.View>
@@ -112,8 +110,8 @@ function OnBoarding({ navigation }: NativeStackProps) {
         <ButtonCostumized
           onPress={handleTap}
           title="Get Started"
-          classNameButton="bg-primary-900 py-4 gap-2"
-          classNameText="color-primary-0 text-xl"
+          classNameButton="bg-primary-900"
+          classNameText="color-white text-xl"
           iconRight={<Icons.ArrowRight width={24} height={24} />}
         />
       </Animated.View>
@@ -128,8 +126,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: '100%',
     height: '100%',
-    left: 32,
-    top: 147,
   },
   buttonStyle: {
     position: 'absolute',
