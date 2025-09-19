@@ -1,24 +1,27 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export type RootStackParamList = {
-  Onboarding: undefined;
-  Main: undefined;
-};
-export type NativeStackProps = NativeStackScreenProps<RootStackParamList>;
-
 export type MainStackParamList = {
-  MainTabs: undefined;
+  Onboarding: undefined;
   Notification: undefined;
+  MainStack: undefined;
+  MainTab: undefined;
+  SubStack: {
+    screen: keyof MainStackParamList;
+    params?: any;
+  };
+  HomeScreen: undefined;
+  SearchScreen: undefined;
+  SavedScreen: undefined;
+  CartScreen: undefined;
+  AccountScreen: undefined;
 };
-export type MainNativeStackProps = NativeStackScreenProps<MainStackParamList>;
+
+export type NativeStackProps = NativeStackScreenProps<MainStackParamList>;
 
 export type RootBottomParamList = {
   Home: undefined;
   Search: undefined;
   Saved: undefined;
   Cart: undefined;
-  Account: { userId: number; userName: string };
+  Account: undefined;
 };
-
-export type BotomTabProps = BottomTabScreenProps<RootBottomParamList>;

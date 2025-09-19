@@ -4,11 +4,11 @@ import {
 } from '@react-navigation/bottom-tabs';
 import TabBar from 'components/TabBar';
 import { RootBottomParamList } from '../../routes';
-import HomePage from 'screens/HomePage';
-import Search from 'screens/Search';
-import Saved from 'screens/Saved';
-import Cart from 'screens/Cart';
-import Account from 'screens/Account';
+import HomeStack from './HomeStack';
+import SearchStack from './SearchStack';
+import SavedStack from './SavedStack';
+import CartStack from './CartStack';
+import AccountStack from './AccountStack';
 
 const TabBarNavigator = createBottomTabNavigator<RootBottomParamList>();
 
@@ -25,11 +25,11 @@ function MainTab() {
       }}
       tabBar={CustomTabBar}
     >
-      <TabBarNavigator.Screen name="Home" component={HomePage} />
-      <TabBarNavigator.Screen name="Search" component={Search} />
-      <TabBarNavigator.Screen name="Saved" component={Saved} />
-      <TabBarNavigator.Screen name="Cart" component={Cart} />
-      <TabBarNavigator.Screen name="Account" component={Account} />
+      <TabBarNavigator.Screen name="Home" component={HomeStack} />
+      <TabBarNavigator.Screen name="Search" component={SearchStack} />
+      <TabBarNavigator.Screen name="Saved" component={SavedStack} />
+      <TabBarNavigator.Screen name="Cart" component={CartStack} />
+      <TabBarNavigator.Screen name="Account" component={AccountStack} />
     </TabBarNavigator.Navigator>
   );
 }

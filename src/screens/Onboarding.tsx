@@ -52,7 +52,7 @@ function OnBoarding({ navigation }: NativeStackProps) {
   }, [scaleAnim, textAnim, imageAnim, buttonAnim]);
 
   const handleTap = () => {
-    navigation.navigate('Main');
+    navigation.navigate('MainStack');
   };
 
   useEffect(() => {
