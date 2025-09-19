@@ -1,12 +1,9 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import ButtonCostumized from './Button';
 import { cn } from 'lib/utils';
 import { memo } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import ButtonCostumized from './Button';
+import { SortType } from 'constants/type';
 
-type SortType = {
-  id: number;
-  label: string;
-};
 
 type SortProp = {
   sortType: SortType;

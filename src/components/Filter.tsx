@@ -5,21 +5,8 @@ import ButtonCostumized from './Button';
 import Sort from './Sort';
 import SliderPrice from './SliderPrice';
 import SizeSelecter from './SizeSelecter';
-
-type SortType = {
-  id: number;
-  label: string;
-};
-
-enum SizeType {
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-  XXL = '2XL',
-  XXXL = '3XL',
-  XXXXL = '4XL',
-}
+import { SizeType, SortType } from 'constants/type';
+import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
 
 type filterType = {
   sortType: SortType;
@@ -73,8 +60,8 @@ function Filter({ dataFilter, setDataFilter, handleCloseModal }: FilterProps) {
       <View className="gap-4">
         <Sort sortType={sortType} setSortType={handleSetSort} />
         <SliderPrice
-          minValue={0}
-          maxValue={100}
+          minValue={MIN_PRICE}
+          maxValue={MAX_PRICE}
           price={price}
           setPrice={handleSetPrice}
         />

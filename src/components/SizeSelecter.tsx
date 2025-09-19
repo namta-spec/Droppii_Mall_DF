@@ -1,8 +1,6 @@
 import { cn } from 'lib/utils';
-import Icons from '../../assets/icons/index';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import {
-  Dimensions,
   FlatList,
   Modal,
   Pressable,
@@ -11,19 +9,9 @@ import {
   View,
 } from 'react-native';
 import ButtonCostumized from './Button';
-import { memo } from 'react';
-
-const heightScreen = Dimensions.get('window').height;
-
-enum SizeType {
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-  XXL = '2XL',
-  XXXL = '3XL',
-  XXXXL = '4XL',
-}
+import Icons from '../../assets/icons/index';
+import { SCREEN_HEIGHT } from 'constants/screens';
+import { SizeType } from 'constants/type';
 
 type SizeSelecterType = {
   size: SizeType | null;
@@ -135,7 +123,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   modalView: {
-    height: heightScreen * 0.2,
+    height: SCREEN_HEIGHT * 0.2,
   },
 });
 

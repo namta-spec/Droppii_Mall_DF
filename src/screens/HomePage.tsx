@@ -21,6 +21,7 @@ import HeaderCostumized from 'components/Header';
 import SearchCostumized from 'components/Search';
 import Icons from '../../assets/icons/index';
 import Filter from 'components/Filter';
+import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
 
 type categoryType = {
   id: number;
@@ -65,14 +66,12 @@ function HomePage() {
   });
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  console.log(search);
-
   const [dataFilter, setDataFilter] = useState<filterType>({
     sortType: {
       id: 1,
       label: 'Relevance',
     },
-    price: [0, 100],
+    price: [MIN_PRICE, MAX_PRICE],
     size: null,
   });
 
@@ -177,6 +176,7 @@ function HomePage() {
         <View className="px-6 flex flex-row gap-2">
           <SearchCostumized
             placeholder="Search for clothes..."
+            textSearch={search}
             onChangeText={setSearch}
           />
           <ButtonCostumized

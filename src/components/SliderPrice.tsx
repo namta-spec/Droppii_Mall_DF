@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
 import { memo } from 'react';
 import { Slider } from '@miblanchard/react-native-slider';
+import { StyleSheet, Text, View } from 'react-native';
 
 type SliderPriceType = {
   minValue: number;
