@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes';
+import { MainStackParamList } from '../../routes';
 import OnBoarding from 'screens/Onboarding';
-import MainStack from './MainStack';
+import MainStacks from './MainStack';
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
+const RootStack = createNativeStackNavigator<MainStackParamList>();
 
 function RootNavigator() {
   return (
@@ -14,7 +14,7 @@ function RootNavigator() {
       }}
     >
       <RootStack.Screen name="Onboarding" component={OnBoarding} />
-      <RootStack.Screen name="Main" component={MainStack} />
+      <RootStack.Screen name="MainStack" component={MainStacks} />
     </RootStack.Navigator>
   );
 }

@@ -27,6 +27,8 @@ import DiscountDuotone from './DiscountDuotone.svg';
 import LocationDuotone from './LocationDuotone.svg';
 import UserDuotone from './UserDuotone.svg';
 import WalletDuotone from './WalletDuotone.svg';
+import Cancel from './Cancel.svg';
+import ChevronDown from './ChevronDown.svg';
 const Icons = {
   Home,
   ArrowRight,
@@ -57,6 +59,8 @@ const Icons = {
   WalletDuotone,
   LocationDuotone,
   BellDuotoneMini,
+  Cancel,
+  ChevronDown,
 };
 
 export default Icons;

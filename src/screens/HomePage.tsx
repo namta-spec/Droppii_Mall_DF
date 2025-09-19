@@ -1,8 +1,10 @@
-import ButtonCostumized from 'components/Button';
-import Icons from '../../assets/icons/index';
-import HeaderCostumized from 'components/Header';
-import SearchCostumized from 'components/Search';
-import { useState } from 'react';
+import {
+  BottomSheetView,
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
+import { useCallback, useRef, useState } from 'react';
 import {
   FlatList,
   Keyboard,
@@ -14,6 +16,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
 import ProductCard from 'components/ProductCard';
+import ButtonCostumized from 'components/Button';
+import HeaderCostumized from 'components/Header';
+import SearchCostumized from 'components/Search';
+import Icons from '../../assets/icons/index';
+import Filter from 'components/Filter';
+import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
 
 type categoryType = {
   id: number;
@@ -28,14 +36,44 @@ type productType = {
   discount?: number;
   saved?: boolean;
 };
+
+type SortType = {
+  id: number;
+  label: string;
+};
+
+enum SizeType {
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+  XXL = '2XL',
+  XXXL = '3XL',
+  XXXXL = '4XL',
+}
+
+type filterType = {
+  sortType: SortType;
+  price: number[];
+  size: SizeType | null;
+};
+
 function HomePage() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<categoryType>({
     id: 1,
     value: 'All',
   });
-  console.log(search);
-  console.log(selectedCategory);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const [dataFilter, setDataFilter] = useState<filterType>({
+    sortType: {
+      id: 1,
+      label: 'Relevance',
+    },
+    price: [MIN_PRICE, MAX_PRICE],
+    size: null,
+  });
 
   const categories: categoryType[] = [
     { id: 1, value: 'All' },
@@ -91,10 +129,6 @@ function HomePage() {
     },
   ];
 
-  function openFilter() {
-    console.log('Open Filter');
-  }
-
   function handleSelectCat(item: categoryType) {
     setSelectedCategory(item);
   }
@@ -105,6 +139,29 @@ function HomePage() {
 
   function handelSaveProduct(id: number) {
     console.log('Saved product: ', id);
+  }
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleCloseModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
+  const renderBackdrop = useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+      />
+    ),
+    [],
+  );
+
+  function handleSetDataFilter(filterInput: filterType) {
+    setDataFilter(filterInput);
   }
 
   return (
@@ -119,11 +176,12 @@ function HomePage() {
         <View className="px-6 flex flex-row gap-2">
           <SearchCostumized
             placeholder="Search for clothes..."
+            textSearch={search}
             onChangeText={setSearch}
           />
           <ButtonCostumized
             title=""
-            onPress={openFilter}
+            onPress={handlePresentModalPress}
             classNameButton="bg-primary-900 px-4"
             iconLeft={<Icons.Filter />}
           />
@@ -177,6 +235,21 @@ function HomePage() {
             )}
           />
         </View>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          backgroundStyle={styles.backgroundStyle}
+          handleIndicatorStyle={styles.handleIndicatorStyle}
+          backdropComponent={renderBackdrop}
+          enableContentPanningGesture={false}
+        >
+          <BottomSheetView>
+            <Filter
+              dataFilter={dataFilter}
+              setDataFilter={handleSetDataFilter}
+              handleCloseModal={handleCloseModalPress}
+            />
+          </BottomSheetView>
+        </BottomSheetModal>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -185,6 +258,15 @@ function HomePage() {
 const styles = StyleSheet.create({
   gapStyle: {
     gap: 10,
+  },
+  backgroundStyle: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+  },
+  handleIndicatorStyle: {
+    backgroundColor: '#E6E6E6',
+    width: 64,
+    borderRadius: 40,
   },
 });
 

@@ -2,6 +2,7 @@ import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderCostumized from 'components/Header';
 import { getIcon, getTitleDate } from 'lib/utils';
+import { typeCategory } from 'constants/type';
 import Icons from '../../assets/icons/index';
 
 type NotificationType = {
@@ -10,7 +11,7 @@ type NotificationType = {
   subTitle: string;
   date: number;
   line: 'long' | 'short';
-  category: 'Discount' | 'E-Wallet' | 'Location' | 'Credit' | 'Account';
+  category: typeCategory;
 };
 
 type ConvertNotificationType = {

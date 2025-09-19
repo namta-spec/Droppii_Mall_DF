@@ -1,23 +1,20 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../routes';
-import MainTabs from './MainTabs';
-import Notification from 'screens/Notification';
+import MainTab from './MainTabs';
 
-const RootStack = createNativeStackNavigator<MainStackParamList>();
+const MainStack = createNativeStackNavigator<MainStackParamList>();
 
-function MainStack() {
+function MainStacks() {
   return (
-    <RootStack.Navigator
+    <MainStack.Navigator
       screenOptions={{
         headerShown: false,
         animation: 'flip',
       }}
-      initialRouteName="MainTabs"
     >
-      <RootStack.Screen name="MainTabs" component={MainTabs} />
-      <RootStack.Screen name="Notification" component={Notification} />
-    </RootStack.Navigator>
+      <MainStack.Screen name="MainTab" component={MainTab} />
+    </MainStack.Navigator>
   );
 }
 
-export default MainStack;
+export default MainStacks;
