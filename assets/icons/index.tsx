@@ -15,6 +15,7 @@ import Address from './Address.svg';
 import Logout from './Logout.svg';
 import User from './User.svg';
 import Cart from './Cart.svg';
+import CartDuotone from './CartDuotone.svg';
 import Search from './Search.svg';
 import Saved from './Heart.svg';
 import Mic from './Mic.svg';
@@ -29,6 +30,10 @@ import UserDuotone from './UserDuotone.svg';
 import WalletDuotone from './WalletDuotone.svg';
 import Cancel from './Cancel.svg';
 import ChevronDown from './ChevronDown.svg';
+import Trash from './Trash.svg';
+import Minus from './Minus.svg';
+import Plus from './Plus.svg';
+
 const Icons = {
   Home,
   ArrowRight,
@@ -46,6 +51,7 @@ const Icons = {
   Logout,
   User,
   Cart,
+  CartDuotone,
   Saved,
   Search,
   Mic,
@@ -61,6 +67,9 @@ const Icons = {
   BellDuotoneMini,
   Cancel,
   ChevronDown,
+  Trash,
+  Minus,
+  Plus,
 };
 
 export default Icons;
