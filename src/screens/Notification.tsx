@@ -1,8 +1,9 @@
 import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderCostumized from 'components/Header';
-import { getIcon, getTitleDate } from 'lib/utils';
+import { cn, getIcon, getTitleDate } from 'lib/utils';
 import { typeCategory } from 'constants/type';
+import DataEmpty from 'components/DataEmpty';
 import Icons from '../../assets/icons/index';
 
 type NotificationType = {
@@ -83,7 +84,7 @@ function convertNotification(
 
 function renderItem(item: NotificationType, index: number) {
   return (
-    <View className="px-6 gap-4">
+    <View className="gap-4">
       {index !== 0 && <View className="border-primary-100 border-t mx-12" />}
       <View className="flex flex-row items-center gap-5">
         {getIcon(item?.category)}
@@ -102,24 +103,10 @@ function renderItem(item: NotificationType, index: number) {
 
 function renderSectionHeader(titleDate: number) {
   return (
-    <View className="px-6 gap-5">
+    <View className="gap-5">
       <View className="border-primary-100 border-t" />
       <Text className="font-MontserratSemiBold text-base text-primary-900 ">
         {getTitleDate(titleDate)}
-      </Text>
-    </View>
-  );
-}
-
-function NotificationsEmpty() {
-  return (
-    <View className="flex-1 justify-center items-center">
-      <Icons.BellDuotone />
-      <Text className="text-primary-900 font-MontserratSemiBold text-2xl text-center">
-        You haven’t gotten any notifications yet!
-      </Text>
-      <Text className="text-primary-500 font-MontserratRegular text-xl text-center">
-        We’ll alert you when something cool happens.
       </Text>
     </View>
   );
@@ -133,23 +120,34 @@ function Notification() {
         classNameHead="bg-primary-0"
         classNameText="font-MontserratSemiBold primary-900 text-2xl"
       />
-      <SectionList
-        sections={convertNotification(dataNotification)}
-        keyExtractor={(item, index) => (item.id + index).toString()}
-        contentContainerStyle={styles.contentContainerStyle}
-        renderItem={({ item, index }) => renderItem(item, index)}
-        renderSectionHeader={({ section: { titleDate } }) =>
-          renderSectionHeader(titleDate)
-        }
-        ListEmptyComponent={<NotificationsEmpty />}
-      />
+      <View
+        className={cn('flex-1 px-6 mt-4', {
+          'flex-row justify-center items-center': dataNotification.length === 0,
+        })}
+      >
+        <SectionList
+          sections={convertNotification(dataNotification)}
+          keyExtractor={(item, index) => (item.id + index).toString()}
+          contentContainerStyle={styles.contentContainerStyle}
+          renderItem={({ item, index }) => renderItem(item, index)}
+          renderSectionHeader={({ section: { titleDate } }) =>
+            renderSectionHeader(titleDate)
+          }
+          ListEmptyComponent={
+            <DataEmpty
+              icon={<Icons.BellDuotone />}
+              title="You haven’t gotten any notifications yet!"
+              describe="We’ll alert you when something cool happens."
+            />
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
-    flex: 1,
     gap: 16,
   },
 });

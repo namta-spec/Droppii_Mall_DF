@@ -1,8 +1,10 @@
-import Icons from '../../assets/icons/index';
-import HeaderCostumized from 'components/Header';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { cn } from 'lib/utils';
+import HeaderCostumized from 'components/Header';
 import ProductCard from 'components/ProductCard';
+import DataEmpty from 'components/DataEmpty';
+import Icons from '../../assets/icons/index';
 
 type productType = {
   id: number;
@@ -77,14 +79,13 @@ function Saved() {
       <HeaderCostumized
         title="Saved Items"
         classNameHead="bg-primary-0"
-        viewRight={
-          <Pressable onPress={() => console.log('Bell')}>
-            <Icons.Bell width={24} height={24} />
-          </Pressable>
-        }
         classNameText="font-MontserratSemiBold primary-900 text-2xl"
       />
-      <View className="flex-1 px-6 mt-4">
+      <View
+        className={cn('flex-1 px-6 mt-4', {
+          'flex-row justify-center items-center': products.length === 0,
+        })}
+      >
         <FlatList
           data={products}
           showsVerticalScrollIndicator={false}
@@ -100,6 +101,13 @@ function Saved() {
               classNameImage="h-30"
             />
           )}
+          ListEmptyComponent={
+            <DataEmpty
+              icon={<Icons.HeartDuotone />}
+              title="No Saved Items!"
+              describe="You don’t have any saved items. Go to home and add some."
+            />
+          }
         />
       </View>
     </SafeAreaView>

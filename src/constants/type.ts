@@ -19,3 +19,12 @@ export type typeCategory =
   | 'Location'
   | 'Credit'
   | 'Account';
+
+export type productType = {
+  id: number;
+  name: string;
+  cost: number;
+  image: string;
+  discount?: number;
+  saved?: boolean;
+};

@@ -45,7 +45,7 @@ function OnBoarding({ navigation }: NativeStackProps) {
       ]),
       Animated.timing(buttonAnim, {
         toValue: 1,
-        duration: 100,
+        duration: 500,
         useNativeDriver: true,
       }),
     ]).start();

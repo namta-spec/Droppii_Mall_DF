@@ -1,10 +1,12 @@
+import { debounce } from 'lodash';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useCallback, useRef, useState } from 'react';
 import {
   BottomSheetView,
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet';
-import { useCallback, useRef, useState } from 'react';
 import {
   FlatList,
   Keyboard,
@@ -13,28 +15,19 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
+import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
+import { productType } from 'constants/type';
 import ProductCard from 'components/ProductCard';
 import ButtonCostumized from 'components/Button';
 import HeaderCostumized from 'components/Header';
 import SearchCostumized from 'components/Search';
-import Icons from '../../assets/icons/index';
 import Filter from 'components/Filter';
-import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
+import Icons from '../../assets/icons/index';
 
 type categoryType = {
   id: number;
   value: String;
-};
-
-type productType = {
-  id: number;
-  name: string;
-  cost: number;
-  image: string;
-  discount?: number;
-  saved?: boolean;
 };
 
 type SortType = {
@@ -129,6 +122,10 @@ function HomePage() {
     },
   ];
 
+  const handleChange = debounce((inputText: string) => {
+    setSearch(inputText);
+  }, 500);
+
   function handleSelectCat(item: categoryType) {
     setSelectedCategory(item);
   }
@@ -177,7 +174,7 @@ function HomePage() {
           <SearchCostumized
             placeholder="Search for clothes..."
             textSearch={search}
-            onChangeText={setSearch}
+            onChangeText={handleChange}
           />
           <ButtonCostumized
             title=""

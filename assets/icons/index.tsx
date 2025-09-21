@@ -15,12 +15,15 @@ import Address from './Address.svg';
 import Logout from './Logout.svg';
 import User from './User.svg';
 import Cart from './Cart.svg';
+import CartDuotone from './CartDuotone.svg';
 import Search from './Search.svg';
+import Searchduotone from './Searchduotone.svg';
 import Saved from './Heart.svg';
 import Mic from './Mic.svg';
 import Filter from './Filter.svg';
 import Heart from './Heart.svg';
 import HeartFilled from './HeartFilled.svg';
+import HeartDuotone from './HeartDuotone.svg';
 import SavedProduct from './SavedProduct.svg';
 import CardDuotone from './CardDuotone.svg';
 import DiscountDuotone from './DiscountDuotone.svg';
@@ -29,7 +32,14 @@ import UserDuotone from './UserDuotone.svg';
 import WalletDuotone from './WalletDuotone.svg';
 import Cancel from './Cancel.svg';
 import ChevronDown from './ChevronDown.svg';
+import CancelCircle from './CancelCircle.svg';
+import Arrow from './Arrow.svg';
+import Trash from './Trash.svg';
+import Minus from './Minus.svg';
+import Plus from './Plus.svg';
+
 const Icons = {
+  Arrow,
   Home,
   ArrowRight,
   ArrowLeft,
@@ -46,13 +56,16 @@ const Icons = {
   Logout,
   User,
   Cart,
+  CartDuotone,
   Saved,
   Search,
+  Searchduotone,
   Mic,
   Filter,
   Heart,
   SavedProduct,
   HeartFilled,
+  HeartDuotone,
   CardDuotone,
   DiscountDuotone,
   UserDuotone,
@@ -61,6 +74,10 @@ const Icons = {
   BellDuotoneMini,
   Cancel,
   ChevronDown,
+  CancelCircle,
+  Trash,
+  Minus,
+  Plus,
 };
 
 export default Icons;
