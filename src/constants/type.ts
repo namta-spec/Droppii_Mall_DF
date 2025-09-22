@@ -28,3 +28,8 @@ export type productType = {
   discount?: number;
   saved?: boolean;
 };
+
+export type cartProductType = {
+  amount: number;
+  size: SizeType;
+} & productType;
