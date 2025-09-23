@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Icons from '../../assets/icons/index';
 import ButtonCostumized from './Button';
 import Sort from './Sort';
@@ -7,6 +7,7 @@ import SliderPrice from './SliderPrice';
 import SizeSelecter from './SizeSelecter';
 import { SizeType, SortType } from 'constants/type';
 import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
+import { colors } from 'constants/color';
 
 type filterType = {
   sortType: SortType;
@@ -71,12 +72,21 @@ function Filter({ dataFilter, setDataFilter, handleCloseModal }: FilterProps) {
         <ButtonCostumized
           onPress={handleTapApply}
           title="Apply Filters"
-          classNameButton="bg-primary-900 py-4"
-          classNameText="color-primary-0 text-xl font-MontserratMedium"
+          style={[styles.buttonStyle]}
+          textStyle={[styles.textStyle]}
         />
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonStyle: { backgroundColor: colors.primary['900'], paddingVertical: 16 },
+  textStyle: {
+    color: colors.primary['0'],
+    fontSize: 20,
+    fontFamily: 'Montserrat-Medium',
+  },
+});
 
 export default Filter;

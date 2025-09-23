@@ -6,6 +6,7 @@ import ButtonCostumized from '@components/Button';
 import { NativeStackProps } from '../../routes';
 import Icons from '../../assets/icons/index';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from 'constants/screens';
+import { colors } from 'constants/color';
 
 type VectorIcon = { key: number; size: number };
 
@@ -110,8 +111,8 @@ function OnBoarding({ navigation }: NativeStackProps) {
         <ButtonCostumized
           onPress={handleTap}
           title="Get Started"
-          classNameButton="bg-primary-900 py-4 gap-2"
-          classNameText="color-white text-xl"
+          style={[styles.buttonCostumizedStyle]}
+          textStyle={[styles.textButtonStyle]}
           iconRight={<Icons.ArrowRight width={24} height={24} />}
         />
       </Animated.View>
@@ -139,6 +140,15 @@ const styles = StyleSheet.create({
     letterSpacing: -5,
     position: 'absolute',
     height: '100%',
+  },
+  buttonCostumizedStyle: {
+    gap: 8,
+    paddingVertical: 16,
+    backgroundColor: colors.primary['900'],
+  },
+  textButtonStyle: {
+    fontSize: 20,
+    color: colors.primary['0'],
   },
 });
 

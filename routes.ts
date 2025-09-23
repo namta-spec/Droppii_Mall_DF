@@ -14,6 +14,11 @@ export type MainStackParamList = {
   SavedScreen: undefined;
   CartScreen: undefined;
   AccountScreen: undefined;
+  Checkout: {
+    subTotal: number;
+    VAT: number;
+    shippingFee: number;
+  };
 };
 
 export type NativeStackProps = NativeStackScreenProps<MainStackParamList>;

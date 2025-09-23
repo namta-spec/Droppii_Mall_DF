@@ -12,7 +12,7 @@ function SubStack() {
         animation: 'flip',
       }}
     >
-      <SubStacks.Screen name={'Notification'} component={Notification} />
+      <SubStacks.Screen name="Notification" component={Notification} />
     </SubStacks.Navigator>
   );
 }

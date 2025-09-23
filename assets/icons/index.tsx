@@ -26,7 +26,9 @@ import HeartFilled from './HeartFilled.svg';
 import HeartDuotone from './HeartDuotone.svg';
 import SavedProduct from './SavedProduct.svg';
 import CardDuotone from './CardDuotone.svg';
+import Discount from './Discount.svg';
 import DiscountDuotone from './DiscountDuotone.svg';
+import Location from './Location.svg';
 import LocationDuotone from './LocationDuotone.svg';
 import UserDuotone from './UserDuotone.svg';
 import WalletDuotone from './WalletDuotone.svg';
@@ -37,6 +39,10 @@ import Arrow from './Arrow.svg';
 import Trash from './Trash.svg';
 import Minus from './Minus.svg';
 import Plus from './Plus.svg';
+import Visa from './Visa.svg';
+import Edit from './Edit.svg';
+import ApplePay from './ApplePay.svg';
+import Cash from './Cash.svg';
 
 const Icons = {
   Arrow,
@@ -67,9 +73,11 @@ const Icons = {
   HeartFilled,
   HeartDuotone,
   CardDuotone,
+  Discount,
   DiscountDuotone,
   UserDuotone,
   WalletDuotone,
+  Location,
   LocationDuotone,
   BellDuotoneMini,
   Cancel,
@@ -78,6 +86,10 @@ const Icons = {
   Trash,
   Minus,
   Plus,
+  Cash,
+  ApplePay,
+  Edit,
+  Visa,
 };
 
 export default Icons;

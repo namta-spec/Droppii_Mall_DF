@@ -1,9 +1,8 @@
-import { cn } from 'lib/utils';
 import { memo } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import ButtonCostumized from './Button';
 import { SortType } from 'constants/type';
-
+import { colors } from 'constants/color';
 
 type SortProp = {
   sortType: SortType;
@@ -46,18 +45,14 @@ function Sort({ sortType, setSortType }: SortProp) {
               <ButtonCostumized
                 title={item.label.toString()}
                 onPress={() => setSortType(item)}
-                classNameButton={cn(
-                  'bg-primary-0 px-6 py-3 border border-primary-100',
-                  {
-                    'bg-primary-900 border-primary-900': isActive,
-                  },
-                )}
-                classNameText={cn(
-                  'text-primary-900 text-xs font-MontserratMedium',
-                  {
-                    'text-primary-0': isActive,
-                  },
-                )}
+                style={[
+                  styles.buttonStyle,
+                  isActive ? styles.buttonActiveStyle : {},
+                ]}
+                textStyle={[
+                  styles.textStyle,
+                  isActive ? styles.textActiveStyle : {},
+                ]}
               />
             );
           }}
@@ -70,6 +65,25 @@ function Sort({ sortType, setSortType }: SortProp) {
 const styles = StyleSheet.create({
   gapStyle: {
     gap: 10,
+  },
+  buttonStyle: {
+    backgroundColor: colors.primary['0'],
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderWidth: 1,
+    borderColor: colors.primary['100'],
+  },
+  buttonActiveStyle: {
+    borderColor: colors.primary['900'],
+    backgroundColor: colors.primary['900'],
+  },
+  textStyle: {
+    color: colors.primary['900'],
+    fontSize: 12,
+    fontFamily: 'Montserrat-Medium',
+  },
+  textActiveStyle: {
+    color: colors.primary['100'],
   },
 });
 

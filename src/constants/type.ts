@@ -33,3 +33,24 @@ export type cartProductType = {
   amount: number;
   size: SizeType;
 } & productType;
+
+export type addressType = {
+  id: number;
+  title: string;
+  address: string;
+  default?: boolean;
+};
+
+// export type categoryMethod = 'Card' | 'Cash' | 'ApplePay';
+
+export enum categoryMethod {
+  Card = 'Card',
+  Cash = 'Cash',
+  ApplePay = 'ApplePay',
+}
+
+export type TypePaymentMethod = {
+  id: number;
+  title: string;
+  category: categoryMethod;
+};

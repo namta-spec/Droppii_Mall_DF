@@ -7,21 +7,14 @@ import isYesterday from 'dayjs/plugin/isYesterday';
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
 import Icons from '../../assets/icons/index';
-
-type NotificationType = {
-  id: number;
-  title: string;
-  subTitle: string;
-  date: number;
-  line: 'long' | 'short';
-  category: 'Discount' | 'E-Wallet' | 'Location' | 'Credit' | 'Account';
-};
+import { addressType, categoryMethod, typeCategory } from 'constants/type';
+import { colors } from 'constants/color';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getIcon(category: NotificationType['category']): ReactElement {
+export function getIcon(category: typeCategory): ReactElement {
   switch (category) {
     case 'Discount':
       return <Icons.DiscountDuotone />;
@@ -50,5 +43,42 @@ export function formatNumber(
   value: number,
   options?: Intl.NumberFormatOptions,
 ): string {
-  return value.toLocaleString('en-US', options);
+  if (typeof value === 'number') {
+    return value.toLocaleString('en-US', options);
+  }
+  return '';
+}
+
+export function getPaymentIcon(
+  inputCategory: categoryMethod,
+  isActive: boolean,
+): ReactElement {
+  const iconColor = isActive ? colors.primary['0'] : colors.primary['900'];
+  switch (inputCategory) {
+    case categoryMethod.Card:
+      return <Icons.Card color={iconColor} />;
+    case categoryMethod.Cash:
+      return <Icons.Cash color={iconColor} />;
+    case categoryMethod.ApplePay:
+      return <Icons.ApplePay color={iconColor} />;
+    default:
+      return <Icons.Card color={iconColor} />;
+  }
+}
+
+export function getDefaultAddress(data: addressType[]): addressType | null {
+  if (data && data.length > 0) {
+    return data.find(item => item.default) || data[0];
+  }
+  return null;
+}
+
+export function formatCreditCard(creditcard: number, hash: boolean) {
+  if (creditcard) {
+    const str = String(creditcard).replace(' ', '').replace('-', '');
+    const format = str.replace(/(\d{4})/g, '$1 ').trim();
+    const last = str.slice(-4);
+    return hash ? '**** **** **** ' + last : format;
+  }
+  return null;
 }

@@ -1,4 +1,3 @@
-import { cn } from 'lib/utils';
 import { useState, memo } from 'react';
 import {
   FlatList,
@@ -12,6 +11,7 @@ import ButtonCostumized from './Button';
 import Icons from '../../assets/icons/index';
 import { SCREEN_HEIGHT } from 'constants/screens';
 import { SizeType } from 'constants/type';
+import { colors } from 'constants/color';
 
 type SizeSelecterType = {
   size: SizeType | null;
@@ -89,18 +89,14 @@ function SizeSelecter({ size, setSize }: SizeSelecterType) {
                   <ButtonCostumized
                     title={item}
                     onPress={() => handleChangeValue(item)}
-                    classNameButton={cn(
-                      'bg-primary-0 h-16 w-16 justify-center items-center border border-primary-100',
-                      {
-                        'bg-primary-900 border-primary-900': isActive,
-                      },
-                    )}
-                    classNameText={cn(
-                      'text-primary-900 text-base font-MontserratMedium',
-                      {
-                        'text-primary-0': isActive,
-                      },
-                    )}
+                    style={[
+                      styles.buttonStyle,
+                      isActive ? styles.buttonActiveStyle : {},
+                    ]}
+                    textStyle={[
+                      styles.textStyle,
+                      isActive ? styles.textActiveStyle : {},
+                    ]}
                   />
                 );
               }}
@@ -124,6 +120,27 @@ const styles = StyleSheet.create({
   },
   modalView: {
     height: SCREEN_HEIGHT * 0.2,
+  },
+  buttonStyle: {
+    backgroundColor: colors.primary['0'],
+    height: 64,
+    width: 64,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.primary['100'],
+  },
+  buttonActiveStyle: {
+    borderColor: colors.primary['900'],
+    backgroundColor: colors.primary['900'],
+  },
+  textStyle: {
+    color: colors.primary['900'],
+    fontSize: 12,
+    fontFamily: 'Montserrat-Medium',
+  },
+  textActiveStyle: {
+    color: colors.primary['100'],
   },
 });
 

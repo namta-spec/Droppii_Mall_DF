@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icons from '../../assets/icons/index';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ReactElement } from 'react';
+import { colors } from 'constants/color';
 
 type ItemType = {
   id: number;
@@ -84,7 +85,7 @@ function Account() {
     },
     {
       id: 4,
-      icon: <Icons.Card />,
+      icon: <Icons.Card color={colors.primary['900']} />,
       title: 'Payment Methods',
       line: 'short',
     },

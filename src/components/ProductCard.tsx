@@ -1,7 +1,8 @@
 import Icons from '../../assets/icons/index';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ButtonCostumized from './Button';
 import { cn } from 'lib/utils';
+import { colors } from 'constants/color';
 type productType = {
   id: number;
   name: string;
@@ -48,11 +49,18 @@ function ProductCard({
           onPress={() => tapSaved(id)}
           title=""
           iconLeft={saved ? <Icons.HeartFilled /> : <Icons.SavedProduct />}
-          classNameButton="bg-primary-0 p-2"
+          style={[styles.buttonStyle]}
         />
       </View>
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonStyle: {
+    backgroundColor: colors.primary['0'],
+    padding: 8,
+  },
+});
 
 export default ProductCard;

@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { Slider } from '@miblanchard/react-native-slider';
 import { StyleSheet, Text, View } from 'react-native';
+import { colors } from 'constants/color';
 
 type SliderPriceType = {
   minValue: number;
@@ -41,8 +42,8 @@ const styles = StyleSheet.create({
   sliderStyle: { width: '100%' },
   thumbStyle: {
     borderWidth: 1,
-    borderColor: '#CCCCCC',
-    backgroundColor: '#FFFFFF',
+    borderColor: colors.primary['200'],
+    backgroundColor: colors.primary['0'],
   },
 });
 

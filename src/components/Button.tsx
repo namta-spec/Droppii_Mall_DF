@@ -1,31 +1,33 @@
 import { ReactElement } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import {
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  Text,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 
-type buttonType = {
+interface buttonProps extends PressableProps {
   title: string;
-  classNameButton?: string;
-  classNameText?: string;
   iconLeft?: ReactElement;
   iconRight?: ReactElement;
-  onPress: () => void;
-};
+  style?: ViewStyle[];
+  textStyle?: TextStyle[];
+}
 
 function ButtonCostumized({
   title,
-  classNameButton,
-  classNameText,
   iconLeft,
   iconRight,
-  onPress,
-}: buttonType) {
+  textStyle,
+  style,
+  ...rest
+}: buttonProps) {
   return (
-    <Pressable
-      className={classNameButton}
-      style={styles.buttonType}
-      onPress={onPress}
-    >
+    <Pressable {...rest} style={[styles.buttonType, style]}>
       {iconLeft}
-      <Text className={classNameText}>{title}</Text>
+      <Text style={textStyle}>{title}</Text>
       {iconRight}
     </Pressable>
   );

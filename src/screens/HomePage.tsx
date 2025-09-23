@@ -15,7 +15,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { cn } from 'lib/utils';
 import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
 import { productType } from 'constants/type';
 import ProductCard from 'components/ProductCard';
@@ -24,6 +23,7 @@ import HeaderCostumized from 'components/Header';
 import SearchCostumized from 'components/Search';
 import Filter from 'components/Filter';
 import Icons from '../../assets/icons/index';
+import { colors } from 'constants/color';
 
 type categoryType = {
   id: number;
@@ -179,7 +179,7 @@ function HomePage() {
           <ButtonCostumized
             title=""
             onPress={handlePresentModalPress}
-            classNameButton="bg-primary-900 px-4"
+            style={[styles.buttonStyle]}
             iconLeft={<Icons.Filter />}
           />
         </View>
@@ -197,18 +197,16 @@ function HomePage() {
                 <ButtonCostumized
                   title={item.value.toString()}
                   onPress={() => handleSelectCat(item)}
-                  classNameButton={cn(
-                    'bg-primary-0 px-6 py-3 border border-primary-100',
-                    {
-                      'bg-primary-900 border-primary-900': isActive,
-                    },
-                  )}
-                  classNameText={cn(
-                    'text-primary-900 text-xs font-MontserratMedium',
-                    {
-                      'text-primary-0': isActive,
-                    },
-                  )}
+                  style={[
+                    styles.categoryStyle,
+                    isActive
+                      ? styles.categoryStyleActive
+                      : {},
+                  ]}
+                  textStyle={[
+                    styles.textStyle,
+                    isActive ? styles.textStyleActive : {},
+                  ]}
                 />
               );
             }}
@@ -257,13 +255,36 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   backgroundStyle: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.primary['0'],
     borderRadius: 20,
   },
   handleIndicatorStyle: {
-    backgroundColor: '#E6E6E6',
+    backgroundColor: colors.primary['100'],
     width: 64,
     borderRadius: 40,
+  },
+  buttonStyle: {
+    paddingHorizontal: 16,
+    backgroundColor: colors.primary['900'],
+  },
+  categoryStyleActive: {
+    backgroundColor: colors.primary['900'],
+    borderColor: colors.primary['900'],
+  },
+  categoryStyle: {
+    backgroundColor: colors.primary['0'],
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: colors.primary['100'],
+  },
+  textStyleActive: {
+    color: colors.primary['0'],
+  },
+  textStyle: {
+    fontFamily: 'Montserrat-Medium',
+    color: colors.primary['900'],
+    fontSize: 12,
   },
 });
 

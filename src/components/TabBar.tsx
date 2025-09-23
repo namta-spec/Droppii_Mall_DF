@@ -3,10 +3,13 @@ import { PlatformPressable } from '@react-navigation/elements';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
-import { Text } from 'react-native';
+import { navigationRef } from 'lib/navigation';
+import { Keyboard, Text } from 'react-native';
 import Icons from '../../assets/icons/index';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { RootBottomParamList } from '../../routes';
+import { ROUTES_HIDDEN_TABBAR } from 'constants/screens';
+import { colors } from 'constants/color';
 
 type TabLabel = keyof RootBottomParamList;
 
@@ -38,11 +41,35 @@ function IconTab({ label, size, color }: typeIconTab) {
 
 function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const { buildHref } = useLinkBuilder();
+  const routeName = navigationRef.current?.getCurrentRoute()?.name;
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setVisible(false);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setTimeout(() => {
+        setVisible(true);
+      }, 100);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   return (
     <SafeAreaView
       edges={['bottom']}
-      className="flex flex-row px-6 py-4 bg-primary-0 border-t border-primary-100"
+      className={cn(
+        'flex flex-row px-6 py-4 bg-primary-0 border-t border-primary-100',
+        {
+          'hidden border-hidden':
+            ROUTES_HIDDEN_TABBAR.includes(routeName) || !visible,
+        },
+      )}
     >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -73,7 +100,7 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           >
             <IconTab
               size={24}
-              color={isFocused ? '#1A1A1A' : '#999999'}
+              color={isFocused ? colors.primary['900'] : colors.primary['400']}
               label={route.name as TabLabel}
             />
             <Text

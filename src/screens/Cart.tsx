@@ -1,101 +1,59 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { cartProductType, SizeType } from 'constants/type';
-import { cn, formatNumber } from 'lib/utils';
-import { SHIPPING_FEE, VAT } from 'constants/screens';
+import { cn } from 'lib/utils';
 import HeaderCostumized from 'components/Header';
 import DataEmpty from 'components/DataEmpty';
 import ButtonCostumized from 'components/Button';
 import ItemCart from 'components/ItemCart';
 import Icons from '../../assets/icons/index';
+import CartSummary from 'components/CartSummary';
+import { NativeStackProps } from '../../routes';
+import { colors } from 'constants/color';
 
-type CartSummaryProps = {
-  subTotal: number;
-  vat: number;
-  shippingFee: number;
-};
+const dataCart: cartProductType[] = [
+  {
+    id: 1,
+    name: 'Regular Fit Slogan',
+    cost: 1190,
+    amount: 2,
+    size: SizeType.L,
+    image:
+      'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+  },
 
-const RowSumary = ({
-  label,
-  value,
-  bold,
-}: {
-  label: string;
-  value: string;
-  bold?: boolean;
-}) => (
-  <View className="flex-row justify-between items-center">
-    <Text
-      className={cn('font-MontserratRegular text-base text-primary-500', {
-        'text-primary-900': bold,
-      })}
-    >
-      {label}
-    </Text>
-    <Text
-      className={cn('font-MontserratMedium text-base text-primary-900', {
-        'font-MontserratSemiBold': bold,
-      })}
-    >
-      $ {value}
-    </Text>
-  </View>
-);
+  {
+    id: 2,
+    name: 'Regular Fit Polo',
+    cost: 1100,
+    amount: 1,
+    size: SizeType.M,
+    image:
+      'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+  },
+  {
+    id: 3,
+    name: 'Regular Fit Black',
+    cost: 1690,
+    amount: 1,
+    size: SizeType.L,
+    image:
+      'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+  },
+];
 
-function CartSummary({ subTotal, vat, shippingFee }: CartSummaryProps) {
-  const total = subTotal + vat + shippingFee;
-
-  return (
-    <View className="gap-4">
-      <RowSumary label="Sub-total" value={formatNumber(subTotal)} />
-      <RowSumary
-        label="VAT (%)"
-        value={formatNumber(vat, { minimumFractionDigits: 2 })}
-      />
-      <RowSumary label="Shipping fee" value={formatNumber(shippingFee)} />
-      <View className="border-primary-100 border-t" />
-      <RowSumary label="Total" value={formatNumber(total)} bold />
-    </View>
-  );
-}
-
-function Cart() {
-  const dataCart: cartProductType[] = [
-    {
-      id: 1,
-      name: 'Regular Fit Slogan',
-      cost: 1190,
-      amount: 2,
-      size: SizeType.L,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-
-    {
-      id: 2,
-      name: 'Regular Fit Polo',
-      cost: 1100,
-      amount: 1,
-      size: SizeType.M,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 3,
-      name: 'Regular Fit Black',
-      cost: 1690,
-      amount: 1,
-      size: SizeType.L,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-  ];
+function Cart({ navigation }: NativeStackProps) {
+  const VAT = 0;
+  const shippingFee = 80;
 
   function getSubTotal(dataCartInput: cartProductType[]): number {
-    return dataCartInput.reduce(
-      (subtotal, item) => subtotal + item.cost * item.amount,
-      0,
-    );
+    if (dataCartInput && dataCartInput.length > 0) {
+      return dataCartInput.reduce(
+        (subtotal, item) => subtotal + item.cost * item.amount,
+        0,
+      );
+    }
+    return 0;
   }
 
   function handleChangeAmount(
@@ -115,7 +73,7 @@ function Cart() {
         <CartSummary
           subTotal={getSubTotal(dataCart)}
           vat={VAT}
-          shippingFee={SHIPPING_FEE}
+          shippingFee={shippingFee}
         />
       );
     }
@@ -130,6 +88,14 @@ function Cart() {
         handleChangeAmount={handleChangeAmount}
       />
     );
+  }
+
+  function openCheckout() {
+    navigation.navigate('Checkout', {
+      VAT: VAT,
+      shippingFee: shippingFee,
+      subTotal: getSubTotal(dataCart),
+    });
   }
 
   return (
@@ -162,10 +128,10 @@ function Cart() {
           <View className="py-5">
             <ButtonCostumized
               title="Go to checkout"
-              classNameButton="gap-3 bg-primary-900 p-4"
-              classNameText="text-primary-0 font-MontserratMedium text-base"
+              style={[styles.buttonStyle]}
+              textStyle={[styles.textStyle]}
               iconRight={<Icons.ArrowRight />}
-              onPress={() => console.log('Check out')}
+              onPress={openCheckout}
             />
           </View>
         )}
@@ -177,6 +143,16 @@ function Cart() {
 const styles = StyleSheet.create({
   contentContainerStyle: {
     gap: 14,
+  },
+  buttonStyle: {
+    gap: 12,
+    backgroundColor: colors.primary['900'],
+    padding: 16,
+  },
+  textStyle: {
+    fontSize: 16,
+    fontFamily: 'Montserrat-Medium',
+    color: colors.primary['0'],
   },
 });
 export default Cart;
