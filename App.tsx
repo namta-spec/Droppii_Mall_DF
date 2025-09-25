@@ -10,9 +10,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import './global.css';
-import AppProvider from './src/context/AppContext';
 import RootNavigator from 'navigation/RootStack';
 import { navigationRef } from 'lib/navigation';
+import { AuthProvider } from 'contexts/providers/AuthProvider';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -22,7 +22,7 @@ function App() {
   }
 
   return (
-    <AppProvider>
+    <AuthProvider>
       <SafeAreaProvider>
         <GestureHandlerRootView>
           <BottomSheetModalProvider>
@@ -37,7 +37,7 @@ function App() {
           </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
-    </AppProvider>
+    </AuthProvider>
   );
 }
 export default App;

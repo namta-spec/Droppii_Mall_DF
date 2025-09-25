@@ -1,3 +1,9 @@
+import {
+  FETCH_CARTS,
+  FETCH_LIST_ADDRESS,
+  UPDATE_ADDRESS,
+} from 'contexts/constant';
+
 export enum SizeType {
   S = 'S',
   M = 'M',
@@ -41,8 +47,6 @@ export type addressType = {
   default?: boolean;
 };
 
-// export type categoryMethod = 'Card' | 'Cash' | 'ApplePay';
-
 export enum categoryMethod {
   Card = 'Card',
   Cash = 'Cash',
@@ -54,3 +58,8 @@ export type TypePaymentMethod = {
   title: string;
   category: categoryMethod;
 };
+
+export type ActionType =
+  | { type: typeof FETCH_LIST_ADDRESS; payload: addressType[] }
+  | { type: typeof UPDATE_ADDRESS; payload: addressType | null }
+  | { type: typeof FETCH_CARTS; payload: cartProductType[] };

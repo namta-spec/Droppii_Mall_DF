@@ -68,27 +68,23 @@ function PaymentMethod({ method, onChangeMethod }: PaymentMethodProps) {
               );
             })}
           </View>
-          <ButtonCostumized
-            title=""
-            style={[
-              styles.buttonCardStyle,
-              method.category !== categoryMethod.Card
-                ? styles.buttonCardHidden
-                : {},
-            ]}
-            iconLeft={
-              <View className="flex-1 flex-row items-center gap-2">
-                <Icons.Visa />
-                <Text className="font-MontserratMedium text-primary-900 text-base">
-                  {formatCreditCard(2345573832982512, true)}
-                </Text>
-              </View>
-            }
-            iconRight={<Icons.Edit />}
-            textStyle={[styles.textCardStyle]}
-            onPress={onPressVisa}
-            disabled={method.category !== categoryMethod.Card}
-          />
+          {method.category === categoryMethod.Card && (
+            <ButtonCostumized
+              title=""
+              style={[styles.buttonCardStyle]}
+              iconLeft={
+                <View className="flex-1 flex-row items-center gap-2">
+                  <Icons.Visa />
+                  <Text className="font-MontserratMedium text-primary-900 text-base">
+                    {formatCreditCard(2345573832982512, true)}
+                  </Text>
+                </View>
+              }
+              iconRight={<Icons.Edit />}
+              textStyle={[styles.textCardStyle]}
+              onPress={onPressVisa}
+            />
+          )}
         </View>
       </View>
     </View>

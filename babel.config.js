@@ -13,6 +13,7 @@ module.exports = {
           '@assets': './src/assets',
           '@lib': './src/lib',
           '@constants': './src/constants',
+          '@contexts': './src/contexts',
         },
       },
     ],

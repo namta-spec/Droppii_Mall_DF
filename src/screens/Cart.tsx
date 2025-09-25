@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { cartProductType, SizeType } from 'constants/type';
-import { cn } from 'lib/utils';
+import { addressType, cartProductType } from 'constants/type';
+import { cn, getDefaultAddress } from 'lib/utils';
 import HeaderCostumized from 'components/Header';
 import DataEmpty from 'components/DataEmpty';
 import ButtonCostumized from 'components/Button';
@@ -10,41 +11,36 @@ import Icons from '../../assets/icons/index';
 import CartSummary from 'components/CartSummary';
 import { NativeStackProps } from '../../routes';
 import { colors } from 'constants/color';
-
-const dataCart: cartProductType[] = [
-  {
-    id: 1,
-    name: 'Regular Fit Slogan',
-    cost: 1190,
-    amount: 2,
-    size: SizeType.L,
-    image:
-      'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-  },
-
-  {
-    id: 2,
-    name: 'Regular Fit Polo',
-    cost: 1100,
-    amount: 1,
-    size: SizeType.M,
-    image:
-      'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-  },
-  {
-    id: 3,
-    name: 'Regular Fit Black',
-    cost: 1690,
-    amount: 1,
-    size: SizeType.L,
-    image:
-      'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-  },
-];
+import { useAddress } from 'contexts/hooks/useAddress';
+import { useCart } from 'contexts/hooks/useCart';
 
 function Cart({ navigation }: NativeStackProps) {
-  const VAT = 0;
-  const shippingFee = 80;
+  const { cart, getCart } = useCart();
+  const { address, listAddress } = useAddress();
+  const [VAT, setVAT] = useState(0);
+  const [shippingFee, setShippingFee] = useState(0);
+
+  useEffect(() => {
+    getCart();
+  }, []);
+
+  useEffect(() => {
+    const selectedAddress =
+      address ||
+      (listAddress.length > 0 ? getDefaultAddress(listAddress) : null);
+    if (selectedAddress) {
+      getShippingFee(selectedAddress);
+    } else {
+      // navigation.navigate('Address');
+    }
+  }, [address, listAddress]);
+
+  function getShippingFee(addressInput: addressType | null) {
+    if (!addressInput) return;
+    // Call API to set VAT and ShippingFee by addressInput
+    setVAT(0);
+    setShippingFee(80);
+  }
 
   function getSubTotal(dataCartInput: cartProductType[]): number {
     if (dataCartInput && dataCartInput.length > 0) {
@@ -68,10 +64,10 @@ function Cart({ navigation }: NativeStackProps) {
   }
 
   function renderFooter() {
-    if (dataCart.length > 0) {
+    if (cart.length > 0) {
       return (
         <CartSummary
-          subTotal={getSubTotal(dataCart)}
+          subTotal={getSubTotal(cart)}
           vat={VAT}
           shippingFee={shippingFee}
         />
@@ -94,7 +90,7 @@ function Cart({ navigation }: NativeStackProps) {
     navigation.navigate('Checkout', {
       VAT: VAT,
       shippingFee: shippingFee,
-      subTotal: getSubTotal(dataCart),
+      subTotal: getSubTotal(cart),
     });
   }
 
@@ -107,12 +103,12 @@ function Cart({ navigation }: NativeStackProps) {
       />
       <View
         className={cn('flex-1 px-6 mt-4', {
-          'flex-row justify-center items-center': dataCart.length === 0,
+          'flex-row justify-center items-center': cart.length === 0,
         })}
       >
         <FlatList
           contentContainerStyle={styles.contentContainerStyle}
-          data={dataCart}
+          data={cart}
           showsVerticalScrollIndicator={false}
           renderItem={renderItemCart}
           ListEmptyComponent={
@@ -124,7 +120,7 @@ function Cart({ navigation }: NativeStackProps) {
           }
           ListFooterComponent={renderFooter}
         />
-        {dataCart.length > 0 && (
+        {cart.length > 0 && (
           <View className="py-5">
             <ButtonCostumized
               title="Go to checkout"

@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { addressType, categoryMethod, TypePaymentMethod } from 'constants/type';
-import { cn, getDefaultAddress } from 'lib/utils';
+import { categoryMethod, TypePaymentMethod } from 'constants/type';
+import { cn } from 'lib/utils';
 import HeaderCostumized from 'components/Header';
 import ButtonCostumized from 'components/Button';
 import { MainStackParamList } from '../../../routes';
@@ -17,29 +17,12 @@ import DeliveryAddress from './component/DeliveryAddress';
 import PaymentMethod from './component/PaymentMethod';
 import Summary from './component/Summary';
 import { colors } from 'constants/color';
+import { useAddress } from 'contexts/hooks/useAddress';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Checkout'>;
 
-const dataAddress: addressType[] = [
-  {
-    id: 1,
-    title: 'Home',
-    address: '925 S Chugach St #APT 10, Alaska 99645',
-    default: true,
-  },
-  {
-    id: 2,
-    title: 'Office',
-    address: '2438 6th Ave, Ketchikan, Alaska 99901, USA',
-  },
-  {
-    id: 3,
-    title: 'Apartment',
-    address: '2551 Vista Dr #B301, Juneau, Alaska 99801, USA',
-  },
-];
-
 function Checkout({ route }: Props) {
+  const { address } = useAddress();
   const [visible, setVisible] = useState(true);
   const [VAT, setVAT] = useState<number>(route?.params?.VAT || 0);
   const [shippingFee, setShippingFee] = useState<number>(
@@ -51,6 +34,13 @@ function Checkout({ route }: Props) {
     title: 'Card',
     category: categoryMethod.Card,
   });
+
+  useEffect(() => {
+    if (!address) return;
+    // Call API to set VAT and ShippingFee
+    setVAT(0);
+    setShippingFee(80);
+  }, [address]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
@@ -99,7 +89,7 @@ function Checkout({ route }: Props) {
             onStartShouldSetResponder={() => true}
           >
             <DeliveryAddress
-              defaultAddress={getDefaultAddress(dataAddress)}
+              defaultAddress={address}
               openAddress={openAddress}
             />
             <PaymentMethod
