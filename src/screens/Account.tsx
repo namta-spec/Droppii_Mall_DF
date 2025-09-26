@@ -1,17 +1,19 @@
 import HeaderCostumized from 'components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icons from '../../assets/icons/index';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ReactElement } from 'react';
 import { colors } from 'constants/color';
+import { NativeStackProps } from '../../routes';
 
-type ItemType = {
+type MenuAccountType = {
   id: number;
   icon: ReactElement;
   title: string;
   line: 'long' | 'short' | 'large';
   className?: string;
   isLogout?: boolean;
+  onClick?: () => void;
 };
 
 type GetLineType = {
@@ -19,52 +21,27 @@ type GetLineType = {
   borderWidth: number;
 };
 
-function ItemAccount({ variant }: { variant: ItemType }) {
-  function getLine(variantInput: ItemType): GetLineType {
-    switch (variantInput.line) {
-      case 'long':
-        return {
-          className: 'px-6',
-          borderWidth: 1,
-        };
-      case 'short':
-        return {
-          className: 'pl-20 pr-6',
-          borderWidth: 1,
-        };
-      case 'large':
-        return { borderWidth: 8 };
-      default:
-        return { className: 'px-6', borderWidth: 1 };
-    }
+function getLine(itemInput: MenuAccountType): GetLineType {
+  switch (itemInput.line) {
+    case 'long':
+      return {
+        className: 'px-6',
+        borderWidth: 1,
+      };
+    case 'short':
+      return {
+        className: 'pl-20 pr-6',
+        borderWidth: 1,
+      };
+    case 'large':
+      return { borderWidth: 8 };
+    default:
+      return { className: 'px-6', borderWidth: 1 };
   }
-
-  return (
-    <View className="flex-1">
-      <View className={getLine(variant)?.className}>
-        <View
-          className={'border-primary-100'}
-          style={{ borderTopWidth: getLine(variant).borderWidth }}
-        />
-      </View>
-      <View className="px-6">
-        <View
-          style={styles.itemAccountStyle}
-          className="flex flex-row items-center gap-5"
-        >
-          {variant.icon}
-          <Text style={[styles.textStyle]} className={variant.className}>
-            {variant.title}
-          </Text>
-          {!variant?.isLogout && <Icons.Chevron style={styles.arrowStyle} />}
-        </View>
-      </View>
-    </View>
-  );
 }
 
-function Account() {
-  const accountMenuItem: ItemType[] = [
+function Account({ navigation }: NativeStackProps) {
+  const accountMenuItem: MenuAccountType[] = [
     {
       id: 1,
       icon: <Icons.Box />,
@@ -82,6 +59,9 @@ function Account() {
       icon: <Icons.Address />,
       title: 'Address Book',
       line: 'short',
+      onClick: () => {
+        navigation.navigate('InfoPaymentStack', { screen: 'Address' });
+      },
     },
     {
       id: 4,
@@ -116,6 +96,38 @@ function Account() {
       isLogout: true,
     },
   ];
+
+  function renderMenuAccount({ item }: { item: MenuAccountType }) {
+    function openTargetScreen() {
+      if (typeof item?.onClick === 'function') {
+        item.onClick();
+      }
+    }
+
+    return (
+      <Pressable className="flex-1" onPress={openTargetScreen}>
+        <View className={getLine(item)?.className}>
+          <View
+            className={'border-primary-100'}
+            style={{ borderTopWidth: getLine(item).borderWidth }}
+          />
+        </View>
+        <View className="px-6">
+          <View
+            style={styles.itemAccountStyle}
+            className="flex flex-row items-center gap-5"
+          >
+            {item.icon}
+            <Text style={styles.textStyle} className={item.className}>
+              {item.title}
+            </Text>
+            {!item?.isLogout && <Icons.Chevron style={styles.arrowStyle} />}
+          </View>
+        </View>
+      </Pressable>
+    );
+  }
+
   return (
     <SafeAreaView className="flex-1 bg-primary-0">
       <HeaderCostumized
@@ -126,7 +138,7 @@ function Account() {
       <FlatList
         className="flex-1"
         data={accountMenuItem}
-        renderItem={({ item }) => <ItemAccount variant={item} />}
+        renderItem={renderMenuAccount}
         keyExtractor={item => item.id.toString()}
       />
     </SafeAreaView>
@@ -134,9 +146,6 @@ function Account() {
 }
 
 const styles = StyleSheet.create({
-  lineStyle: {
-    borderBottomWidth: 1,
-  },
   itemAccountStyle: {
     paddingTop: 21,
     paddingBottom: 21,
@@ -148,9 +157,6 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 16,
     fontFamily: 'Montserrat-Regular',
-  },
-  lineBigStyle: {
-    borderTopWidth: 8,
   },
 });
 export default Account;

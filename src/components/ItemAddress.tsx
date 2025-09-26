@@ -3,7 +3,7 @@ import { addressType } from 'constants/type';
 import Icons from '../../assets/icons/index';
 import { cn } from 'lib/utils';
 
-function Address({
+function ItemAddress({
   item,
   isShowDefault,
   classNameAddress,
@@ -38,4 +38,4 @@ function Address({
   );
 }
 
-export default Address;
+export default ItemAddress;

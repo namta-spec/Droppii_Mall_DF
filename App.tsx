@@ -9,6 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import ToastManager from 'toastify-react-native';
 import './global.css';
 import RootNavigator from 'navigation/RootStack';
 import { navigationRef } from 'lib/navigation';
@@ -33,6 +34,7 @@ function App() {
                 backgroundColor="transparent"
               />
               <RootNavigator />
+              <ToastManager />
             </NavigationContainer>
           </BottomSheetModalProvider>
         </GestureHandlerRootView>

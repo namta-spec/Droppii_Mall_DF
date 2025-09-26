@@ -43,6 +43,9 @@ import Visa from './Visa.svg';
 import Edit from './Edit.svg';
 import ApplePay from './ApplePay.svg';
 import Cash from './Cash.svg';
+import RadioButton from './RadioButton.svg';
+import RadioButtonEmpty from './RadioButtonEmpty.svg';
+import PlusLarge from './PlusLarge.svg';
 
 const Icons = {
   Arrow,
@@ -90,6 +93,9 @@ const Icons = {
   ApplePay,
   Edit,
   Visa,
+  RadioButton,
+  RadioButtonEmpty,
+  PlusLarge,
 };
 
 export default Icons;

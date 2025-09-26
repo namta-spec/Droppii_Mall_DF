@@ -19,6 +19,12 @@ export type MainStackParamList = {
     VAT: number;
     shippingFee: number;
   };
+  InfoPaymentStack: {
+    screen: keyof MainStackParamList;
+    params?: any;
+  };
+  Address: undefined;
+  NewAddress: undefined;
 };
 
 export type NativeStackProps = NativeStackScreenProps<MainStackParamList>;

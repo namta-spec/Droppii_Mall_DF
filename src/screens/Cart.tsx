@@ -31,9 +31,9 @@ function Cart({ navigation }: NativeStackProps) {
     if (selectedAddress) {
       getShippingFee(selectedAddress);
     } else {
-      // navigation.navigate('Address');
+      navigation.navigate('InfoPaymentStack', { screen: 'Address' });
     }
-  }, [address, listAddress]);
+  }, [address, listAddress, navigation]);
 
   function getShippingFee(addressInput: addressType | null) {
     if (!addressInput) return;

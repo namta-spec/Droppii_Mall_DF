@@ -21,7 +21,7 @@ import { useAddress } from 'contexts/hooks/useAddress';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Checkout'>;
 
-function Checkout({ route }: Props) {
+function Checkout({ route, navigation }: Props) {
   const { address } = useAddress();
   const [visible, setVisible] = useState(true);
   const [VAT, setVAT] = useState<number>(route?.params?.VAT || 0);
@@ -58,7 +58,9 @@ function Checkout({ route }: Props) {
     };
   }, []);
 
-  function openAddress() {}
+  function openAddress() {
+    navigation.navigate('InfoPaymentStack', { screen: 'Address' });
+  }
 
   function handleChangeMethod(inputMethod: TypePaymentMethod) {
     setMethod(inputMethod);
