@@ -1,18 +1,24 @@
 import Icons from '../../assets/icons/index';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ImageStyle,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import ButtonCostumized from './Button';
-import { cn } from 'lib/utils';
 import { colors } from 'constants/color';
-type productType = {
+import FastImage from './FastImage';
+type productProps = {
   id: number;
   name: string;
   cost: number;
   image: string;
   discount?: number;
   saved?: boolean;
-  classNameImage?: string;
-  onPress: (id: number) => void;
-  tapSaved: (id: number) => void;
+  imageStyle?: ImageStyle;
+  onPress: (id: number) => () => void;
+  tapSaved: (id: number) => () => void;
 };
 
 function ProductCard({
@@ -22,16 +28,17 @@ function ProductCard({
   image,
   discount,
   saved,
-  classNameImage,
+  imageStyle,
   onPress,
   tapSaved,
-}: productType) {
+}: productProps) {
   return (
-    <TouchableOpacity className="flex-1 gap-2" onPress={() => onPress(id)}>
-      <Image
+    <TouchableOpacity className="flex-1 gap-2" onPress={onPress(id)}>
+      <FastImage
+        source={image}
         resizeMode="cover"
-        source={{ uri: image }}
-        className={cn('w-full h-44 rounded-lg', classNameImage)}
+        style={[styles.fastImageStyle, imageStyle ? imageStyle : {}]}
+        imageStyle={styles.imageStyle}
       />
       <Text className="text-base font-MontserratSemiBold">{name}</Text>
       <View className="flex flex-row gap-1">
@@ -46,7 +53,7 @@ function ProductCard({
       </View>
       <View className="absolute right-3 top-3">
         <ButtonCostumized
-          onPress={() => tapSaved(id)}
+          onPress={tapSaved(id)}
           title=""
           iconLeft={saved ? <Icons.HeartFilled /> : <Icons.SavedProduct />}
           style={[styles.buttonStyle]}
@@ -60,6 +67,13 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: colors.primary['0'],
     padding: 8,
+  },
+  fastImageStyle: {
+    width: '100%',
+    height: 176,
+  },
+  imageStyle: {
+    borderRadius: 10,
   },
 });
 

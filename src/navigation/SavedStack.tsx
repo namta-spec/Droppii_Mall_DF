@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../routes';
-import Saved from 'screens/Saved';
+import SavedScreen from 'screens/SavedScreen';
 import SubStack from './SubStack';
 
 const SavedStacks = createNativeStackNavigator<MainStackParamList>();
@@ -13,7 +13,7 @@ function SavedStack() {
         animation: 'flip',
       }}
     >
-      <SavedStacks.Screen name="SavedScreen" component={Saved} />
+      <SavedStacks.Screen name="SavedScreen" component={SavedScreen} />
       <SavedStacks.Screen name="SubStack" component={SubStack} />
     </SavedStacks.Navigator>
   );

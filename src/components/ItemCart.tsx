@@ -1,7 +1,8 @@
-import { Image, Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { cartProductType } from 'constants/type';
 import ButtonCostumized from 'components/Button';
 import Icons from '../../assets/icons/index';
+import FastImage from './FastImage';
 
 type ItemCartType = {
   item: cartProductType;
@@ -27,10 +28,11 @@ function ItemCart({
 
   return (
     <View className="flex-row justify-between items-center border border-primary-100 rounded-xl p-4 gap-4">
-      <Image
+      <FastImage
+        source={item.image}
         resizeMode="cover"
-        source={{ uri: item.image }}
-        className="w-20 h-20 rounded-md"
+        style={[styles.fastImageStyle]}
+        imageStyle={styles.imageStyle}
       />
       <View className="flex-1 h-20 justify-between">
         <View className="flex-row justify-between">
@@ -70,5 +72,15 @@ function ItemCart({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  fastImageStyle: {
+    height: 80,
+    width: 80,
+  },
+  imageStyle: {
+    borderRadius: 6,
+  },
+});
 
 export default ItemCart;

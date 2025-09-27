@@ -23,7 +23,6 @@ type Props = NativeStackScreenProps<MainStackParamList, 'Checkout'>;
 
 function Checkout({ route, navigation }: Props) {
   const { address } = useAddress();
-  const [visible, setVisible] = useState(true);
   const [VAT, setVAT] = useState<number>(route?.params?.VAT || 0);
   const [shippingFee, setShippingFee] = useState<number>(
     route?.params?.shippingFee || 0,
@@ -41,22 +40,6 @@ function Checkout({ route, navigation }: Props) {
     setVAT(0);
     setShippingFee(80);
   }, [address]);
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setVisible(false);
-    });
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setTimeout(() => {
-        setVisible(true);
-      }, 100);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
 
   function openAddress() {
     navigation.navigate('InfoPaymentStack', { screen: 'Address' });
@@ -79,12 +62,8 @@ function Checkout({ route, navigation }: Props) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView className="flex-1 bg-primary-0">
-        <HeaderCostumized
-          title="Checkout"
-          classNameHead="bg-primary-0"
-          classNameText="font-MontserratSemiBold primary-900 text-2xl"
-        />
+      <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
+        <HeaderCostumized title="Checkout" />
         <ScrollView>
           <View
             className="flex-1 px-6 mt-4 gap-5"
@@ -109,11 +88,7 @@ function Checkout({ route, navigation }: Props) {
           </View>
         </ScrollView>
 
-        <View
-          className={cn('px-6 py-5', {
-            'hidden border-hidden': !visible,
-          })}
-        >
+        <View className={cn('px-6 py-5')}>
           <ButtonCostumized
             title="Place Order"
             style={[styles.buttonStyle]}

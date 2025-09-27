@@ -14,7 +14,7 @@ import { colors } from 'constants/color';
 import { useAddress } from 'contexts/hooks/useAddress';
 import { useCart } from 'contexts/hooks/useCart';
 
-function Cart({ navigation }: NativeStackProps) {
+function CartScreen({ navigation }: NativeStackProps) {
   const { cart, getCart } = useCart();
   const { address, listAddress } = useAddress();
   const [VAT, setVAT] = useState(0);
@@ -95,12 +95,8 @@ function Cart({ navigation }: NativeStackProps) {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-0">
-      <HeaderCostumized
-        title="My Cart"
-        classNameHead="bg-primary-0"
-        classNameText="font-MontserratSemiBold primary-900 text-2xl"
-      />
+    <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
+      <HeaderCostumized title="My Cart" viewLeft={<></>} />
       <View
         className={cn('flex-1 px-6 mt-4', {
           'flex-row justify-center items-center': cart.length === 0,
@@ -151,4 +147,4 @@ const styles = StyleSheet.create({
     color: colors.primary['0'],
   },
 });
-export default Cart;
+export default CartScreen;

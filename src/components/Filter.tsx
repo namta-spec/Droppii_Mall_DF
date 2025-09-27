@@ -5,15 +5,10 @@ import ButtonCostumized from './Button';
 import Sort from './Sort';
 import SliderPrice from './SliderPrice';
 import SizeSelecter from './SizeSelecter';
-import { SizeType, SortType } from 'constants/type';
+import { filterType, SizeType, SortType } from 'constants/type';
 import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
 import { colors } from 'constants/color';
 
-type filterType = {
-  sortType: SortType;
-  price: number[];
-  size: SizeType | null;
-};
 
 type FilterProps = {
   dataFilter: filterType;

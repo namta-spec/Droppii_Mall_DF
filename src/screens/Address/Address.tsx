@@ -70,11 +70,7 @@ function Address({ navigation }: NativeStackProps) {
 
   return (
     <SafeAreaView className="flex-1 bg-primary-0">
-      <HeaderCostumized
-        title="Address"
-        classNameHead="bg-primary-0"
-        classNameText="font-MontserratSemiBold primary-900 text-2xl"
-      />
+      <HeaderCostumized title="Address" />
       <View
         className={cn('flex-1 px-6 mt-4 gap-5', {
           'gap-0': isEmpty(listAddress),

@@ -1,24 +1,32 @@
 import { ReactElement } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Icons from '../../assets/icons/index';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainStackParamList } from '../../routes';
+import { colors } from 'constants/color';
 
-type headType = {
+interface headerProps {
   title?: string;
   viewLeft?: ReactElement;
-  classNameText?: string;
-  classNameHead?: string;
+  style?: ViewStyle[];
+  textStyle?: TextStyle[];
   viewRight?: ReactElement;
-};
+}
 
 function HeaderCostumized({
   title,
   viewLeft,
-  classNameText,
-  classNameHead,
+  style,
+  textStyle,
   viewRight,
-}: headType) {
+}: headerProps) {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   function handleGoBack() {
@@ -30,15 +38,13 @@ function HeaderCostumized({
   }
 
   return (
-    <View style={styles.headType} className={classNameHead}>
-      <View>
-        {viewLeft || (
-          <Pressable onPress={handleGoBack}>
-            <Icons.ArrowLeft width={24} height={24} />
-          </Pressable>
-        )}
-      </View>
-      <Text className={classNameText}>{title}</Text>
+    <View style={[styles.headerStyle, style]}>
+      {viewLeft || (
+        <Pressable onPress={handleGoBack}>
+          <Icons.ArrowLeft width={24} height={24} />
+        </Pressable>
+      )}
+      <Text style={[styles.headerTextStyle, textStyle]}>{title}</Text>
       <View>
         {viewRight || (
           <Pressable onPress={openNotification}>
@@ -51,12 +57,18 @@ function HeaderCostumized({
 }
 
 const styles = StyleSheet.create({
-  headType: {
+  headerStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 24,
+    backgroundColor: colors.primary['0'],
+  },
+  headerTextStyle: {
+    fontFamily: 'Montserrat-SemiBold',
+    color: colors.primary['900'],
+    fontSize: 24,
   },
 });
 

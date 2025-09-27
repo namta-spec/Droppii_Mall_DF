@@ -1,13 +1,19 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { cn } from 'lib/utils';
+import {
+  ImageStyle,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icons from '../../assets/icons/index';
-type productType = {
+import FastImage from './FastImage';
+type productProps = {
   id: number;
   name: string;
   cost: number;
   image: string;
   discount?: number;
-  classNameImage?: string;
+  imageStyle?: ImageStyle;
   handleTapResult: (id: number) => void;
   index: number;
 };
@@ -18,10 +24,10 @@ function ItemResultSearch({
   cost,
   image,
   discount,
-  classNameImage,
+  imageStyle,
   handleTapResult,
   index,
-}: productType) {
+}: productProps) {
   const onPressResult = () => {
     handleTapResult(id);
   };
@@ -34,10 +40,11 @@ function ItemResultSearch({
         onPress={onPressResult}
       >
         <View className="flex-row gap-3 items-center">
-          <Image
+          <FastImage
+            source={image}
             resizeMode="cover"
-            source={{ uri: image }}
-            className={cn('w-14 h-13 rounded-lg border', classNameImage)}
+            style={[styles.fastImageStyle, imageStyle ? imageStyle : {}]}
+            imageStyle={styles.imageStyle}
           />
           <View className="gap-1">
             <Text className="text-base font-MontserratSemiBold text-primary-900">
@@ -60,5 +67,15 @@ function ItemResultSearch({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  fastImageStyle: {
+    height: 52,
+    width: 56,
+  },
+  imageStyle: {
+    borderRadius: 6,
+  },
+});
 
 export default ItemResultSearch;

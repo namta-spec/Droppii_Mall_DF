@@ -114,12 +114,8 @@ function renderSectionHeader(titleDate: number) {
 
 function Notification() {
   return (
-    <SafeAreaView className="flex-1 bg-primary-0">
-      <HeaderCostumized
-        title="Notification"
-        classNameHead="bg-primary-0"
-        classNameText="font-MontserratSemiBold primary-900 text-2xl"
-      />
+    <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
+      <HeaderCostumized title="Notification" />
       <View
         className={cn('flex-1 px-6 mt-4', {
           'flex-row justify-center items-center': dataNotification.length === 0,

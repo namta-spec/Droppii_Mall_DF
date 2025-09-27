@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../routes';
-import Search from 'screens/Search';
+import SearchScreen from 'screens/SearchScreen';
 import SubStack from './SubStack';
 
 const SearchStacks = createNativeStackNavigator<MainStackParamList>();
@@ -13,7 +13,7 @@ function SearchStack() {
         animation: 'flip',
       }}
     >
-      <SearchStacks.Screen name="SearchScreen" component={Search} />
+      <SearchStacks.Screen name="SearchScreen" component={SearchScreen} />
       <SearchStacks.Screen name="SubStack" component={SubStack} />
     </SearchStacks.Navigator>
   );

@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../routes';
-import Cart from 'screens/Cart';
+import CartScreen from 'screens/CartScreen';
 import Checkout from 'screens/Checkout/Checkout';
 import SubStack from './SubStack';
 import InfoPaymentStack from './InfoPaymentStack';
@@ -15,7 +15,7 @@ function CartStack() {
         animation: 'flip',
       }}
     >
-      <CartStacks.Screen name="CartScreen" component={Cart} />
+      <CartStacks.Screen name="CartScreen" component={CartScreen} />
       <CartStacks.Screen name="Checkout" component={Checkout} />
       <CartStacks.Screen name="InfoPaymentStack" component={InfoPaymentStack} />
       <CartStacks.Screen name="SubStack" component={SubStack} />

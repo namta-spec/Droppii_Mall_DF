@@ -122,7 +122,7 @@ function RecentSearches({
   );
 }
 
-function Search() {
+function SearchScreen() {
   const [search, setSearch] = useState<string>('');
 
   const dataResult: productType[] = [
@@ -130,6 +130,7 @@ function Search() {
       id: 1,
       name: 'Regular Fit Slogan',
       cost: 1190,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -137,6 +138,7 @@ function Search() {
       id: 2,
       name: 'Regular Fit Polo',
       cost: 1100,
+      categoryId: 1,
       discount: -52,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
@@ -145,6 +147,7 @@ function Search() {
       id: 3,
       name: 'Regular Fit Black',
       cost: 1690,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -152,6 +155,7 @@ function Search() {
       id: 4,
       name: 'Regular Fit V-Neck',
       cost: 1290,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -159,6 +163,7 @@ function Search() {
       id: 5,
       name: 'Regular Fit Black',
       cost: 1690,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -166,6 +171,7 @@ function Search() {
       id: 6,
       name: 'Regular Fit V-Neck',
       cost: 1290,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -213,12 +219,8 @@ function Search() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView className="flex-1 bg-primary-0">
-        <HeaderCostumized
-          title="Search"
-          classNameHead="bg-primary-0"
-          classNameText="font-MontserratSemiBold primary-900 text-2xl"
-        />
+      <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
+        <HeaderCostumized title="Search" />
         <View className="px-6 flex-row">
           <SearchCostumized
             placeholder="Search for clothes..."
@@ -264,4 +266,4 @@ const styles = StyleSheet.create({
     gap: 20,
   },
 });
-export default Search;
+export default SearchScreen;

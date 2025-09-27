@@ -19,6 +19,12 @@ export type SortType = {
   label: string;
 };
 
+export type filterType = {
+  sortType: SortType;
+  price: number[];
+  size: SizeType | null;
+};
+
 export type typeCategory =
   | 'Discount'
   | 'E-Wallet'
@@ -26,13 +32,20 @@ export type typeCategory =
   | 'Credit'
   | 'Account';
 
+export type categoryProductType = {
+  id: number;
+  value: String;
+};
+
 export type productType = {
   id: number;
   name: string;
   cost: number;
   image: string;
+  categoryId: categoryProductType['id'];
   discount?: number;
   saved?: boolean;
+  description?: string;
 };
 
 export type cartProductType = {

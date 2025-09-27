@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../routes';
-import HomePage from 'screens/HomePage';
+import HomeScreen from 'screens/HomeScreen';
 import SubStack from './SubStack';
 
 const HomeStacks = createNativeStackNavigator<MainStackParamList>();
@@ -13,7 +13,7 @@ function HomeStack() {
         animation: 'flip',
       }}
     >
-      <HomeStacks.Screen name="HomeScreen" component={HomePage} />
+      <HomeStacks.Screen name="HomeScreen" component={HomeScreen} />
       <HomeStacks.Screen name="SubStack" component={SubStack} />
     </HomeStacks.Navigator>
   );

@@ -40,7 +40,7 @@ function getLine(itemInput: MenuAccountType): GetLineType {
   }
 }
 
-function Account({ navigation }: NativeStackProps) {
+function AccountScreen({ navigation }: NativeStackProps) {
   const accountMenuItem: MenuAccountType[] = [
     {
       id: 1,
@@ -129,12 +129,8 @@ function Account({ navigation }: NativeStackProps) {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-0">
-      <HeaderCostumized
-        title="Account"
-        classNameHead="bg-primary-0"
-        classNameText="font-MontserratSemiBold primary-900 text-2xl"
-      />
+    <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
+      <HeaderCostumized title="Account" viewLeft={<></>} />
       <FlatList
         className="flex-1"
         data={accountMenuItem}
@@ -159,4 +155,4 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
   },
 });
-export default Account;
+export default AccountScreen;

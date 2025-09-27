@@ -16,7 +16,7 @@ import {
   View,
 } from 'react-native';
 import { MAX_PRICE, MIN_PRICE } from 'constants/screens';
-import { productType } from 'constants/type';
+import { categoryProductType, filterType, productType } from 'constants/type';
 import ProductCard from 'components/ProductCard';
 import ButtonCostumized from 'components/Button';
 import HeaderCostumized from 'components/Header';
@@ -25,38 +25,14 @@ import Filter from 'components/Filter';
 import Icons from '../../assets/icons/index';
 import { colors } from 'constants/color';
 
-type categoryType = {
-  id: number;
-  value: String;
-};
-
-type SortType = {
-  id: number;
-  label: string;
-};
-
-enum SizeType {
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-  XXL = '2XL',
-  XXXL = '3XL',
-  XXXXL = '4XL',
-}
-
-type filterType = {
-  sortType: SortType;
-  price: number[];
-  size: SizeType | null;
-};
-
-function HomePage() {
+function HomeScreen() {
   const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<categoryType>({
-    id: 1,
-    value: 'All',
-  });
+  const [selectedCategory, setSelectedCategory] = useState<categoryProductType>(
+    {
+      id: 1,
+      value: 'All',
+    },
+  );
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const [dataFilter, setDataFilter] = useState<filterType>({
@@ -68,7 +44,7 @@ function HomePage() {
     size: null,
   });
 
-  const categories: categoryType[] = [
+  const categories: categoryProductType[] = [
     { id: 1, value: 'All' },
     { id: 2, value: 'Tshirts' },
     { id: 3, value: 'Jeans' },
@@ -83,6 +59,7 @@ function HomePage() {
       cost: 1190,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      categoryId: 2,
     },
     {
       id: 2,
@@ -91,6 +68,7 @@ function HomePage() {
       discount: -52,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      categoryId: 2,
     },
     {
       id: 3,
@@ -98,6 +76,7 @@ function HomePage() {
       cost: 1690,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      categoryId: 3,
     },
     {
       id: 4,
@@ -105,6 +84,7 @@ function HomePage() {
       cost: 1290,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      categoryId: 2,
     },
     {
       id: 5,
@@ -112,6 +92,7 @@ function HomePage() {
       cost: 1690,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      categoryId: 4,
     },
     {
       id: 6,
@@ -119,6 +100,7 @@ function HomePage() {
       cost: 1290,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      categoryId: 4,
     },
   ];
 
@@ -126,17 +108,17 @@ function HomePage() {
     setSearch(inputText);
   }, 500);
 
-  function handleSelectCat(item: categoryType) {
+  const handleSelectCat = (item: categoryProductType) => () => {
     setSelectedCategory(item);
-  }
+  };
 
-  function handleTapProduct(id: number) {
+  const handleTapProduct = (id: number) => () => {
     console.log('Tap product: ', id);
-  }
+  };
 
-  function handelSaveProduct(id: number) {
+  const handelSaveProduct = (id: number) => () => {
     console.log('Saved product: ', id);
-  }
+  };
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -161,14 +143,39 @@ function HomePage() {
     setDataFilter(filterInput);
   }
 
+  function renderCategory({ item }: { item: categoryProductType }) {
+    const isActive = item.id === selectedCategory.id;
+
+    return (
+      <ButtonCostumized
+        title={item.value.toString()}
+        onPress={handleSelectCat(item)}
+        style={[
+          styles.categoryStyle,
+          isActive ? styles.categoryStyleActive : {},
+        ]}
+        textStyle={[styles.textStyle, isActive ? styles.textStyleActive : {}]}
+      />
+    );
+  }
+
+  function renderItemProduct({ item }: { item: productType }) {
+    return (
+      <ProductCard
+        {...item}
+        onPress={handleTapProduct}
+        tapSaved={handelSaveProduct}
+      />
+    );
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView className="flex-1 bg-primary-0">
+      <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
         <HeaderCostumized
           viewLeft={
             <Text className="font-MontserratSemiBold text-large">Discover</Text>
           }
-          classNameText="font-MontserratSemiBold primary-900 text-2xl"
         />
         <View className="px-6 flex flex-row gap-2">
           <SearchCostumized
@@ -190,26 +197,7 @@ function HomePage() {
             keyExtractor={item => item.id.toString()}
             contentContainerStyle={styles.gapStyle}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => {
-              const isActive = item.id === selectedCategory.id;
-
-              return (
-                <ButtonCostumized
-                  title={item.value.toString()}
-                  onPress={() => handleSelectCat(item)}
-                  style={[
-                    styles.categoryStyle,
-                    isActive
-                      ? styles.categoryStyleActive
-                      : {},
-                  ]}
-                  textStyle={[
-                    styles.textStyle,
-                    isActive ? styles.textStyleActive : {},
-                  ]}
-                />
-              );
-            }}
+            renderItem={renderCategory}
           />
         </View>
         <View className="flex-1 px-6 mt-4">
@@ -221,13 +209,7 @@ function HomePage() {
             numColumns={2} // 2 rows
             contentContainerStyle={styles.gapStyle}
             columnWrapperStyle={styles.gapStyle}
-            renderItem={({ item }) => (
-              <ProductCard
-                {...item}
-                onPress={handleTapProduct}
-                tapSaved={handelSaveProduct}
-              />
-            )}
+            renderItem={renderItemProduct}
           />
         </View>
         <BottomSheetModal
@@ -288,4 +270,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomePage;
+export default HomeScreen;

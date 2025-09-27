@@ -5,22 +5,16 @@ import HeaderCostumized from 'components/Header';
 import ProductCard from 'components/ProductCard';
 import DataEmpty from 'components/DataEmpty';
 import Icons from '../../assets/icons/index';
+import { productType } from 'constants/type';
 
-type productType = {
-  id: number;
-  name: string;
-  cost: number;
-  image: string;
-  discount?: number;
-  saved?: boolean;
-};
-function Saved() {
+function SavedScreen() {
   const products: productType[] = [
     {
       id: 1,
       name: 'Regular Fit Slogan',
       cost: 1190,
       saved: true,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -29,6 +23,7 @@ function Saved() {
       name: 'Regular Fit Polo',
       cost: 1100,
       saved: true,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -37,6 +32,7 @@ function Saved() {
       name: 'Regular Fit Black',
       cost: 1690,
       saved: true,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -45,6 +41,7 @@ function Saved() {
       name: 'Regular Fit V-Neck',
       cost: 1290,
       saved: true,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -53,6 +50,7 @@ function Saved() {
       name: 'Regular Fit Black',
       cost: 1690,
       saved: true,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
@@ -61,26 +59,34 @@ function Saved() {
       name: 'Regular Fit V-Neck',
       cost: 1290,
       saved: true,
+      categoryId: 1,
       image:
         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
     },
   ];
 
-  function handleTapProduct(id: number) {
+  const handleTapProduct = (id: number) => () => {
     console.log('Tap product: ', id);
-  }
+  };
 
-  function handelSaveProduct(id: number) {
-    console.log('Unsave product: ', id);
+  const handelSaveProduct = (id: number) => () => {
+    console.log('Saved product: ', id);
+  };
+
+  function renderItemProduct({ item }: { item: productType }) {
+    return (
+      <ProductCard
+        {...item}
+        onPress={handleTapProduct}
+        tapSaved={handelSaveProduct}
+        imageStyle={styles.imageStyle}
+      />
+    );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-0">
-      <HeaderCostumized
-        title="Saved Items"
-        classNameHead="bg-primary-0"
-        classNameText="font-MontserratSemiBold primary-900 text-2xl"
-      />
+    <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
+      <HeaderCostumized viewLeft={<></>} title="Saved Items" />
       <View
         className={cn('flex-1 px-6 mt-4', {
           'flex-row justify-center items-center': products.length === 0,
@@ -93,14 +99,7 @@ function Saved() {
           numColumns={2} // 2 rows
           contentContainerStyle={styles.gapStyle}
           columnWrapperStyle={styles.gapStyle}
-          renderItem={({ item }) => (
-            <ProductCard
-              {...item}
-              onPress={handleTapProduct}
-              tapSaved={handelSaveProduct}
-              classNameImage="h-30"
-            />
-          )}
+          renderItem={renderItemProduct}
           ListEmptyComponent={
             <DataEmpty
               icon={<Icons.HeartDuotone />}
@@ -118,6 +117,9 @@ const styles = StyleSheet.create({
   gapStyle: {
     gap: 10,
   },
+  imageStyle: {
+    height: 122,
+  },
 });
 
-export default Saved;
+export default SavedScreen;
