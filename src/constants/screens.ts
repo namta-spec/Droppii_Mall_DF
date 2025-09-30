@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native';
 import { MainStackParamList } from '../../routes';
-import { categoryMethod, TypePaymentMethod } from './type';
+import { categoryMethod, SizeType, TypePaymentMethod } from './type';
 
 type RouteType = keyof MainStackParamList | undefined;
 
@@ -15,10 +15,23 @@ export const ROUTES_HIDDEN_TABBAR: RouteType[] = [
   'InfoPaymentStack',
   'Address',
   'NewAddress',
+  'ProductStack',
+  'ProductDetail',
+  'Review',
 ];
 
 export const DATA_PAYMENT_METHOD: TypePaymentMethod[] = [
   { id: 1, title: 'Card', category: categoryMethod.Card },
   { id: 2, title: 'Cash', category: categoryMethod.Cash },
   { id: 3, title: '', category: categoryMethod.ApplePay },
+];
+
+export const DATA_SIZE: SizeType[] = [
+  SizeType.S,
+  SizeType.M,
+  SizeType.L,
+  SizeType.XL,
+  SizeType.XXL,
+  SizeType.XXXL,
+  SizeType.XXXXL,
 ];

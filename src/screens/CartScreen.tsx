@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { isEmpty } from 'lodash';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { addressType, cartProductType } from 'constants/type';
 import { cn, getDefaultAddress } from 'lib/utils';
@@ -15,7 +16,7 @@ import { useAddress } from 'contexts/hooks/useAddress';
 import { useCart } from 'contexts/hooks/useCart';
 
 function CartScreen({ navigation }: NativeStackProps) {
-  const { cart, getCart } = useCart();
+  const { cart, getCart, updateCart, deleteItem } = useCart();
   const { address, listAddress } = useAddress();
   const [VAT, setVAT] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
@@ -52,19 +53,19 @@ function CartScreen({ navigation }: NativeStackProps) {
     return 0;
   }
 
-  function handleChangeAmount(
+  async function handleChangeAmount(
     itemCart: cartProductType,
-    typeChange: 'plus' | 'minus',
+    amountChange: number,
   ) {
-    console.log(itemCart.id, typeChange);
+    await updateCart({ ...itemCart, amountChange });
   }
 
   function handleDeleteItem(itemCart: cartProductType) {
-    console.log('Delete:', itemCart.id);
+    deleteItem(itemCart);
   }
 
   function renderFooter() {
-    if (cart.length > 0) {
+    if (!isEmpty(cart)) {
       return (
         <CartSummary
           subTotal={getSubTotal(cart)}
@@ -106,6 +107,7 @@ function CartScreen({ navigation }: NativeStackProps) {
           contentContainerStyle={styles.contentContainerStyle}
           data={cart}
           showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.id + item.size}
           renderItem={renderItemCart}
           ListEmptyComponent={
             <DataEmpty

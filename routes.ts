@@ -14,6 +14,12 @@ export type MainStackParamList = {
   SavedScreen: undefined;
   CartScreen: undefined;
   AccountScreen: undefined;
+  ProductStack: {
+    screen: keyof MainStackParamList;
+    params: { idProduct: number };
+  };
+  ProductDetail: { idProduct: number };
+  Review: { idProduct: number };
   Checkout: {
     subTotal: number;
     VAT: number;

@@ -1,8 +1,18 @@
-import { ActionType, addressType, cartProductType } from 'constants/type';
+import {
+  ActionType,
+  addressType,
+  cartProductType,
+  categoryProductType,
+  productType,
+} from 'constants/type';
 import {
   FETCH_CARTS,
+  FETCH_CATEGORIES,
   FETCH_LIST_ADDRESS,
+  FETCH_PRODUCTS,
+  REMOVE_CART_ITEM,
   UPDATE_ADDRESS,
+  UPDATE_CARTS,
 } from 'contexts/constant';
 
 export const fetchListAddress = (listAddress: addressType[]): ActionType => {
@@ -23,5 +33,37 @@ export const fetchCarts = (dataCarts: cartProductType[]): ActionType => {
   return {
     type: FETCH_CARTS,
     payload: dataCarts,
+  };
+};
+
+export const updateCarts = (
+  dataCart: cartProductType & { amountChange?: number },
+): ActionType => {
+  return {
+    type: UPDATE_CARTS,
+    payload: dataCart,
+  };
+};
+
+export const removeCartItem = (dataCart: cartProductType): ActionType => {
+  return {
+    type: REMOVE_CART_ITEM,
+    payload: dataCart,
+  };
+};
+
+export const fetchCategories = (
+  dataCategory: categoryProductType[],
+): ActionType => {
+  return {
+    type: FETCH_CATEGORIES,
+    payload: dataCategory,
+  };
+};
+
+export const fetchProducts = (dataProducts: productType[]): ActionType => {
+  return {
+    type: FETCH_PRODUCTS,
+    payload: dataProducts,
   };
 };

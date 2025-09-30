@@ -1,7 +1,11 @@
 import {
   FETCH_CARTS,
+  FETCH_CATEGORIES,
   FETCH_LIST_ADDRESS,
+  FETCH_PRODUCTS,
+  REMOVE_CART_ITEM,
   UPDATE_ADDRESS,
+  UPDATE_CARTS,
 } from 'contexts/constant';
 
 export enum SizeType {
@@ -75,4 +79,37 @@ export type TypePaymentMethod = {
 export type ActionType =
   | { type: typeof FETCH_LIST_ADDRESS; payload: addressType[] }
   | { type: typeof UPDATE_ADDRESS; payload: addressType | null }
-  | { type: typeof FETCH_CARTS; payload: cartProductType[] };
+  | { type: typeof FETCH_CARTS; payload: cartProductType[] }
+  | {
+      type: typeof UPDATE_CARTS;
+      payload: cartProductType & { amountChange?: number };
+    }
+  | { type: typeof REMOVE_CART_ITEM; payload: cartProductType }
+  | { type: typeof FETCH_CATEGORIES; payload: categoryProductType[] }
+  | { type: typeof FETCH_PRODUCTS; payload: productType[] };
+
+export type ReviewType = {
+  numberOfRatings: number;
+  numberOfReview: number;
+  numberOfOneStar: number;
+  numberOfTwoStar: number;
+  numberOfThreeStar: number;
+  numberOfFourStar: number;
+  numberOfFiveStar: number;
+  rating: number;
+};
+
+export enum Rating {
+  oneStar = 1,
+  twoStar = 2,
+  threeStar = 3,
+  fourStar = 4,
+  fiveStar = 5,
+}
+
+export type ReviewerType = {
+  rating: Rating;
+  review: string;
+  owner: string;
+  time: Date;
+};

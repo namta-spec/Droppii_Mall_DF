@@ -1,6 +1,9 @@
+import { isEmpty } from 'lodash';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { ReactElement } from 'react';
+import { ToastType } from 'toastify-react-native/utils/interfaces';
+import { Toast } from 'toastify-react-native';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isYesterday from 'dayjs/plugin/isYesterday';
@@ -81,4 +84,52 @@ export function formatCreditCard(creditcard: number, hash: boolean) {
     return hash ? '**** **** **** ' + last : format;
   }
   return null;
+}
+
+type WithEmpty<T> = T & {
+  id: number;
+  empty?: boolean;
+};
+
+export function formatDataFlatList<T>(
+  data: T[] = [],
+  numColumns: number,
+): WithEmpty<T>[] {
+  if (!Array.isArray(data) || isEmpty(data) || numColumns <= 0) {
+    return [];
+  }
+
+  const amountfullRows = Math.floor(data.length / numColumns);
+  let amountItemLastRow = data.length - amountfullRows * numColumns;
+
+  const newData = [...data] as WithEmpty<T>[];
+
+  while (amountItemLastRow !== 0 && amountItemLastRow !== numColumns) {
+    newData.push({
+      id: amountItemLastRow,
+      empty: true,
+    } as WithEmpty<T>);
+    amountItemLastRow++;
+  }
+
+  return newData;
+}
+
+export function showToast({
+  title,
+  text,
+  type,
+}: {
+  title?: string;
+  text: string;
+  type: ToastType;
+}) {
+  return Toast.show({
+    type: type,
+    text1: title,
+    text2: text,
+    icon: <Icons.Bell />,
+    closeIcon: <Icons.Cancel />,
+    backgroundColor: colors.primary['100'],
+  });
 }

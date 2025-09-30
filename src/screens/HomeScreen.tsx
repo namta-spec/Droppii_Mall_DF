@@ -1,6 +1,6 @@
-import { debounce } from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   BottomSheetView,
   BottomSheetBackdrop,
@@ -24,17 +24,18 @@ import SearchCostumized from 'components/Search';
 import Filter from 'components/Filter';
 import Icons from '../../assets/icons/index';
 import { colors } from 'constants/color';
+import { NativeStackProps } from '../../routes';
+import { useProduct } from 'contexts/hooks/useProduct';
+import { formatDataFlatList } from 'lib/utils';
 
-function HomeScreen() {
+function HomeScreen({ navigation }: NativeStackProps) {
   const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<categoryProductType>(
-    {
-      id: 1,
-      value: 'All',
-    },
-  );
+  const { getCategories, getProducts, listProduct, listProductCategory } =
+    useProduct();
+  const [selectedCategory, setSelectedCategory] =
+    useState<categoryProductType | null>(null);
+  const [products, setProducts] = useState<productType[]>([]);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
   const [dataFilter, setDataFilter] = useState<filterType>({
     sortType: {
       id: 1,
@@ -44,65 +45,27 @@ function HomeScreen() {
     size: null,
   });
 
-  const categories: categoryProductType[] = [
-    { id: 1, value: 'All' },
-    { id: 2, value: 'Tshirts' },
-    { id: 3, value: 'Jeans' },
-    { id: 4, value: 'Shoes' },
-    { id: 5, value: 'Orther' },
-  ];
+  useEffect(() => {
+    getCategories();
+    getProducts();
+  }, []);
 
-  const products: productType[] = [
-    {
-      id: 1,
-      name: 'Regular Fit Slogan',
-      cost: 1190,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-      categoryId: 2,
-    },
-    {
-      id: 2,
-      name: 'Regular Fit Polo',
-      cost: 1100,
-      discount: -52,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-      categoryId: 2,
-    },
-    {
-      id: 3,
-      name: 'Regular Fit Black',
-      cost: 1690,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-      categoryId: 3,
-    },
-    {
-      id: 4,
-      name: 'Regular Fit V-Neck',
-      cost: 1290,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-      categoryId: 2,
-    },
-    {
-      id: 5,
-      name: 'Regular Fit Black',
-      cost: 1690,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-      categoryId: 4,
-    },
-    {
-      id: 6,
-      name: 'Regular Fit V-Neck',
-      cost: 1290,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-      categoryId: 4,
-    },
-  ];
+  useEffect(() => {
+    if (!isEmpty(listProductCategory) && !selectedCategory) {
+      setSelectedCategory(listProductCategory[0]);
+    }
+  }, [listProductCategory, selectedCategory]);
+
+  useEffect(() => {
+    if (!selectedCategory || isEmpty(listProductCategory)) return;
+    if (selectedCategory.id !== listProductCategory[0].id) {
+      setProducts(
+        listProduct.filter(item => item.categoryId === selectedCategory.id),
+      );
+    } else {
+      setProducts(listProduct);
+    }
+  }, [selectedCategory, listProduct, listProductCategory]);
 
   const handleChange = debounce((inputText: string) => {
     setSearch(inputText);
@@ -113,7 +76,12 @@ function HomeScreen() {
   };
 
   const handleTapProduct = (id: number) => () => {
-    console.log('Tap product: ', id);
+    navigation.navigate('ProductStack', {
+      screen: 'ProductDetail',
+      params: {
+        idProduct: id,
+      },
+    });
   };
 
   const handelSaveProduct = (id: number) => () => {
@@ -144,7 +112,7 @@ function HomeScreen() {
   }
 
   function renderCategory({ item }: { item: categoryProductType }) {
-    const isActive = item.id === selectedCategory.id;
+    const isActive = item.id === selectedCategory?.id;
 
     return (
       <ButtonCostumized
@@ -193,7 +161,7 @@ function HomeScreen() {
         <View className="ml-6 mt-4">
           <FlatList
             horizontal
-            data={categories}
+            data={listProductCategory}
             keyExtractor={item => item.id.toString()}
             contentContainerStyle={styles.gapStyle}
             showsHorizontalScrollIndicator={false}
@@ -203,10 +171,10 @@ function HomeScreen() {
         <View className="flex-1 px-6 mt-4">
           <FlatList
             onScroll={Keyboard.dismiss}
-            data={products}
+            data={formatDataFlatList(products, 2)}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item.id.toString()}
-            numColumns={2} // 2 rows
+            numColumns={2}
             contentContainerStyle={styles.gapStyle}
             columnWrapperStyle={styles.gapStyle}
             renderItem={renderItemProduct}

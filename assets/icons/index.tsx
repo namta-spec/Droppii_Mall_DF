@@ -46,6 +46,10 @@ import Cash from './Cash.svg';
 import RadioButton from './RadioButton.svg';
 import RadioButtonEmpty from './RadioButtonEmpty.svg';
 import PlusLarge from './PlusLarge.svg';
+import Star from './Star.svg';
+import Bag from './Bag.svg';
+import Warning from './Warning.svg';
+import CheckDuotone from './CheckDuotone.svg';
 
 const Icons = {
   Arrow,
@@ -96,6 +100,10 @@ const Icons = {
   RadioButton,
   RadioButtonEmpty,
   PlusLarge,
+  Star,
+  Bag,
+  Warning,
+  CheckDuotone,
 };
 
 export default Icons;

@@ -3,28 +3,66 @@ import { cartProductType } from 'constants/type';
 import ButtonCostumized from 'components/Button';
 import Icons from '../../assets/icons/index';
 import FastImage from './FastImage';
+import { debounce } from 'lodash';
+import { useMemo, useState } from 'react';
+import { colors } from 'constants/color';
+import ModalCustom from './Modal';
 
 type ItemCartType = {
   item: cartProductType;
   handleDeleteItem: (itemCart: cartProductType) => void;
-  handleChangeAmount: (
-    itemCart: cartProductType,
-    typeChange: 'plus' | 'minus',
-  ) => void;
+  handleChangeAmount: (itemCart: cartProductType, amountChange: number) => void;
 };
+
+enum TypeChange {
+  minus = 'minus',
+  plus = 'plus',
+}
 
 function ItemCart({
   item,
   handleChangeAmount,
   handleDeleteItem,
 }: ItemCartType) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [countNumber, setCountNumber] = useState(0);
+
   const onPressDelete = () => {
     handleDeleteItem(item);
   };
 
-  const onChangeAmount = (value: 'minus' | 'plus') => () => {
-    handleChangeAmount(item, value);
+  const debouncedSetAmountChange = useMemo(
+    () =>
+      debounce(value => {
+        setCountNumber(0);
+        handleChangeAmount(item, value);
+      }, 500),
+    [],
+  );
+
+  const onChangeAmount = (typeChange: TypeChange) => () => {
+    let number = countNumber;
+    switch (typeChange) {
+      case TypeChange.minus:
+        number--;
+        break;
+      case TypeChange.plus:
+        number++;
+        break;
+      default:
+        break;
+    }
+    if (number + item.amount <= 0 && typeChange === TypeChange.minus) {
+      setModalVisible(true);
+      return;
+    }
+    setCountNumber(number);
+    debouncedSetAmountChange(number);
   };
+
+  function closeModal() {
+    setModalVisible(false);
+  }
 
   return (
     <View className="flex-row justify-between items-center border border-primary-100 rounded-xl p-4 gap-4">
@@ -56,19 +94,32 @@ function ItemCart({
             <ButtonCostumized
               title=""
               iconLeft={<Icons.Minus />}
-              onPress={onChangeAmount('minus')}
+              onPress={onChangeAmount(TypeChange.minus)}
             />
             <Text className="font-MontserratMedium text-xs text-primary-900">
-              {item.amount}
+              {item.amount + countNumber}
             </Text>
             <ButtonCostumized
               title=""
               iconLeft={<Icons.Plus />}
-              onPress={onChangeAmount('plus')}
+              onPress={onChangeAmount(TypeChange.plus)}
             />
           </View>
         </View>
       </View>
+      <ModalCustom
+        closeModal={closeModal}
+        modalVisible={modalVisible}
+        styleButton={styles.styleButton}
+        styleText={styles.styleTextButton}
+        type="waring"
+        title="Delete?"
+        text=" Are you sure to delete this item?"
+        titleDeleteButton="Yes, Delete"
+        titleButton="No, Cancle"
+        onPressDeleteButton={onPressDelete}
+        onPressButton={closeModal}
+      />
     </View>
   );
 }
@@ -80,6 +131,17 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     borderRadius: 6,
+  },
+  styleButton: {
+    backgroundColor: colors.primary['0'],
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: colors.primary['200'],
+  },
+  styleTextButton: {
+    color: colors.primary['900'],
+    fontSize: 14,
+    fontFamily: 'Montserrat-Regular',
   },
 });
 

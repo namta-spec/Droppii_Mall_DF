@@ -5,9 +5,10 @@ import HeaderCostumized from 'components/Header';
 import ProductCard from 'components/ProductCard';
 import DataEmpty from 'components/DataEmpty';
 import Icons from '../../assets/icons/index';
+import { NativeStackProps } from '../../routes';
 import { productType } from 'constants/type';
 
-function SavedScreen() {
+function SavedScreen({ navigation }: NativeStackProps) {
   const products: productType[] = [
     {
       id: 1,
@@ -66,7 +67,12 @@ function SavedScreen() {
   ];
 
   const handleTapProduct = (id: number) => () => {
-    console.log('Tap product: ', id);
+    navigation.navigate('ProductStack', {
+      screen: 'ProductDetail',
+      params: {
+        idProduct: id,
+      },
+    });
   };
 
   const handelSaveProduct = (id: number) => () => {

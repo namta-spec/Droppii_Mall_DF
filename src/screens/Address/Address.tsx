@@ -3,8 +3,7 @@ import { isEmpty } from 'lodash';
 import { usePreventRemove } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { Toast } from 'toastify-react-native';
-import { cn } from 'lib/utils';
+import { cn, showToast } from 'lib/utils';
 import HeaderCostumized from 'components/Header';
 import ButtonCostumized from 'components/Button';
 import { addressType } from 'constants/type';
@@ -23,13 +22,10 @@ function Address({ navigation }: NativeStackProps) {
   }, []);
 
   usePreventRemove(!address, () => {
-    Toast.show({
+    showToast({
       type: 'warn',
-      text1: 'Waring!',
-      text2: 'Please choose to continue',
-      icon: <Icons.Bell />,
-      closeIcon: <></>,
-      backgroundColor: colors.primary['100'],
+      title: 'Waring!',
+      text: 'Please choose to continue',
     });
   });
 

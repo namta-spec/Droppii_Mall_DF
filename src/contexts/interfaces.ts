@@ -1,4 +1,10 @@
-import { ActionType, addressType, cartProductType } from 'constants/type';
+import {
+  ActionType,
+  addressType,
+  cartProductType,
+  categoryProductType,
+  productType,
+} from 'constants/type';
 import React from 'react';
 
 export interface TInitialAuthState {
@@ -9,6 +15,10 @@ export interface TInitialAuthState {
     address: addressType | null;
     listAddress: addressType[];
     cart: cartProductType[];
+  };
+  product: {
+    listProductCategory: categoryProductType[];
+    listProduct: productType[];
   };
 }
 
