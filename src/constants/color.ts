@@ -9,4 +9,5 @@ export const colors = {
     '900': '#1A1A1A',
   },
   red: '#ED1010',
+  yellow: '#FFA928',
 };

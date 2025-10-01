@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
-import { productType, ReviewType } from 'constants/type';
+import { productType, ReviewSummaryType } from 'constants/type';
 
 export const useDetailProduct = (idProduct: number | null) => {
   const [detailProduct, setDetailProduct] = useState<
-    (productType & ReviewType) | null
+    (productType & ReviewSummaryType) | null
   >(null);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export const useDetailProduct = (idProduct: number | null) => {
         item => item.id === idProduct,
       );
       if (!isEmpty(findProduct)) {
-        const dataProduct: productType & ReviewType = {
+        const dataProduct: productType & ReviewSummaryType = {
           ...findProduct,
           description:
             'The name says it all, the right size slightly snugs the body leaving enough room for comfort in the sleeves and waist.',
@@ -75,7 +75,7 @@ export const useDetailProduct = (idProduct: number | null) => {
           numberOfFourStar: 10,
           numberOfFiveStar: 20,
           numberOfRatings: 37,
-          numberOfReview: 20,
+          numberOfReview: 4,
           rating: 4.18,
         };
         setDetailProduct(dataProduct);
