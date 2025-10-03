@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { debounce } from 'lodash';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { isEmpty } from 'lodash';
 import {
   FlatList,
   Keyboard,
@@ -18,6 +17,7 @@ import ItemResultSearch from 'components/ItemResultSearch';
 import DataEmpty from 'components/DataEmpty';
 import Icons from '../../assets/icons/index';
 import { cn } from 'lib/utils';
+import { useSearch } from 'contexts/hooks/useSearch';
 
 type TypeRecent = {
   id: number;
@@ -123,78 +123,10 @@ function RecentSearches({
 }
 
 function SearchScreen() {
-  const [search, setSearch] = useState<string>('');
-
-  const dataResult: productType[] = [
-    {
-      id: 1,
-      name: 'Regular Fit Slogan',
-      cost: 1190,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 2,
-      name: 'Regular Fit Polo',
-      cost: 1100,
-      categoryId: 1,
-      discount: -52,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 3,
-      name: 'Regular Fit Black',
-      cost: 1690,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 4,
-      name: 'Regular Fit V-Neck',
-      cost: 1290,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 5,
-      name: 'Regular Fit Black',
-      cost: 1690,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 6,
-      name: 'Regular Fit V-Neck',
-      cost: 1290,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-  ];
-
-  const handleQuery = (inputText: string) => {
-    console.log(inputText);
-  };
-
-  const handleChange = debounce((inputText: string) => {
-    setSearch(inputText);
-    if (inputText.length > 0) {
-      handleQuery(inputText);
-      console.log('Call API with payload: ', inputText);
-    }
-  }, 500);
+  const { search, dataResult, handleChange } = useSearch();
 
   const handleTapRecent = (textRecent: string) => {
-    setSearch(textRecent);
-    if (textRecent.length > 0) {
-      handleQuery(textRecent);
-      console.log('Call API with payload: ', textRecent);
-    }
+    handleChange(textRecent);
   };
 
   const handleTapResult = (id: number) => {
@@ -220,7 +152,7 @@ function SearchScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
-        <HeaderCostumized title="Search" />
+        <HeaderCostumized title="Search" viewLeft={<></>} />
         <View className="px-6 flex-row">
           <SearchCostumized
             placeholder="Search for clothes..."
@@ -231,10 +163,11 @@ function SearchScreen() {
         </View>
         <View
           className={cn('flex-1 px-6 mt-4', {
-            'flex-row justify-center items-center': dataResult.length === 0,
+            'flex-row justify-center items-center':
+              isEmpty(dataResult) && search,
           })}
         >
-          {search.length > 0 ? (
+          {!isEmpty(dataResult) ? (
             <FlatList
               data={dataResult}
               contentContainerStyle={styles.contentResultStyle}
