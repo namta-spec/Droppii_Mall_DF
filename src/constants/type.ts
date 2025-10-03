@@ -113,3 +113,16 @@ export type ReviewerType = {
   owner: string;
   time: Date;
 };
+
+export enum InputAuthName {
+  default = '',
+  fullname = 'fullname',
+  email = 'email',
+  password = 'password',
+}
+
+export enum InputStatus {
+  deafult = 'deafult',
+  error = 'error',
+  success = 'success',
+}

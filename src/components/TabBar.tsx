@@ -4,7 +4,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
 import { navigationRef } from 'lib/navigation';
-import { Keyboard, Text } from 'react-native';
+import { Keyboard, StyleSheet, Text, View } from 'react-native';
 import Icons from '../../assets/icons/index';
 import { ReactElement, useEffect, useState } from 'react';
 import { RootBottomParamList } from '../../routes';
@@ -103,6 +103,11 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               color={isFocused ? colors.primary['900'] : colors.primary['400']}
               label={route.name as TabLabel}
             />
+            {options.tabBarBadge ? (
+              <View style={styles.badgeStyle}>
+                <Text style={styles.textBadgeStyle}>{options.tabBarBadge}</Text>
+              </View>
+            ) : null}
             <Text
               className={cn('text-primary-400 text-sm font-MontserratMedium', {
                 'text-primary-900 ': isFocused,
@@ -116,5 +121,20 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  badgeStyle: {
+    backgroundColor: 'red',
+    position: 'absolute',
+    borderRadius: '100%',
+    height: 20,
+    width: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: 10,
+    top: -5,
+  },
+  textBadgeStyle: { fontSize: 12, color: colors.primary['0'] },
+});
 
 export default TabBar;

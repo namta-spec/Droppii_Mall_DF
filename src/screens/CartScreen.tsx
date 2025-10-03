@@ -16,14 +16,10 @@ import { useAddress } from 'contexts/hooks/useAddress';
 import { useCart } from 'contexts/hooks/useCart';
 
 function CartScreen({ navigation }: NativeStackProps) {
-  const { cart, getCart, updateCart, deleteItem } = useCart();
+  const { cart, updateCart, deleteItem } = useCart();
   const { address, listAddress } = useAddress();
   const [VAT, setVAT] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
-
-  useEffect(() => {
-    getCart();
-  }, []);
 
   useEffect(() => {
     const selectedAddress =

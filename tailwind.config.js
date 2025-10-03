@@ -29,8 +29,9 @@ module.exports = {
           500: '#808080',
           900: '#1A1A1A',
         },
-        blue: '#1877F1',
+        blue: '#1877F2',
         red: '#ED1010',
+        green: '#0C9409',
       },
       fontFamily: {
         MontserratBlack: ['Montserrat-Black'],

@@ -49,7 +49,13 @@ import PlusLarge from './PlusLarge.svg';
 import Star from './Star.svg';
 import Bag from './Bag.svg';
 import Warning from './Warning.svg';
+import Check from './Check.svg';
 import CheckDuotone from './CheckDuotone.svg';
+import EyeOff from './EyeOff.svg';
+import Eye from './Eye.svg';
+import WarningCircle from './WarningCircle.svg';
+import Google from './Google.svg';
+import Facebook from './Facebook.svg';
 
 const Icons = {
   Arrow,
@@ -103,7 +109,13 @@ const Icons = {
   Star,
   Bag,
   Warning,
+  Check,
   CheckDuotone,
+  EyeOff,
+  Eye,
+  WarningCircle,
+  Google,
+  Facebook,
 };
 
 export default Icons;

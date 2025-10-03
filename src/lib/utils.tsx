@@ -10,7 +10,12 @@ import isYesterday from 'dayjs/plugin/isYesterday';
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
 import Icons from '../../assets/icons/index';
-import { addressType, categoryMethod, typeCategory } from 'constants/type';
+import {
+  addressType,
+  categoryMethod,
+  InputStatus,
+  typeCategory,
+} from 'constants/type';
 import { colors } from 'constants/color';
 
 export function cn(...inputs: ClassValue[]) {
@@ -132,4 +137,30 @@ export function showToast({
     closeIcon: <Icons.Cancel />,
     backgroundColor: colors.primary['100'],
   });
+}
+
+export function ValidateFullName(fullName: string): InputStatus {
+  if (isEmpty(fullName)) return InputStatus.deafult;
+  if (!isEmpty(fullName.trim())) return InputStatus.success;
+  return InputStatus.error;
+}
+
+export function ValidateEmail(email: string): InputStatus {
+  if (isEmpty(email)) return InputStatus.deafult;
+  const regex =
+    /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+  if (regex.test(email.trim())) {
+    return InputStatus.success;
+  }
+  return InputStatus.error;
+}
+
+export function ValidatePassword(password: string): InputStatus {
+  if (isEmpty(password)) return InputStatus.deafult;
+  const regex =
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+  if (regex.test(password)) {
+    return InputStatus.success;
+  }
+  return InputStatus.error;
 }

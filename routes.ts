@@ -2,6 +2,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type MainStackParamList = {
   Onboarding: undefined;
+  AuthStack: undefined;
+  SignUp: undefined;
+  Login: undefined;
+  ForgotPassword: undefined;
+  Verification: {
+    email: string;
+  };
+  ResetPassword: undefined;
   Notification: undefined;
   MainStack: undefined;
   MainTab: undefined;
