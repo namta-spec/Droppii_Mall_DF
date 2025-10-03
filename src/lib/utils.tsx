@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { ReactElement } from 'react';
 import { ToastType } from 'toastify-react-native/utils/interfaces';
 import { Toast } from 'toastify-react-native';
+import type { FirebaseError } from 'firebase/app';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isYesterday from 'dayjs/plugin/isYesterday';
@@ -13,10 +14,12 @@ import Icons from '../../assets/icons/index';
 import {
   addressType,
   categoryMethod,
+  FirebaseAuthErrorCode,
   InputStatus,
   typeCategory,
 } from 'constants/type';
 import { colors } from 'constants/color';
+import { firebaseAuthErrorMessage } from 'constants/screens';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -163,4 +166,9 @@ export function ValidatePassword(password: string): InputStatus {
     return InputStatus.success;
   }
   return InputStatus.error;
+}
+
+export function getFirebaseAuthErrorMessage(error: FirebaseError): string {
+  const code = error.code as FirebaseAuthErrorCode;
+  return firebaseAuthErrorMessage[code] ?? 'An unknown error occurred.';
 }

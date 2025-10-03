@@ -14,22 +14,38 @@ import InputField from 'components/InputField';
 import { colors } from 'constants/color';
 import ButtonCostumized from 'components/Button';
 import Icons from '../../../assets/icons';
-import { NativeStackProps } from '../../../routes';
+import { MainStackParamList } from '../../../routes';
 import { InputAuthName } from 'constants/type';
 import { useAuth } from 'contexts/hooks/useAuth';
 import AuthHeader from './component/AuthHeader';
+import { useEffect } from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { showToast } from 'lib/utils';
 
-function Login({ navigation }: NativeStackProps) {
+type Props = NativeStackScreenProps<MainStackParamList, 'Login'>;
+
+function Login({ navigation, route }: Props) {
   const {
+    loading,
+    errorText,
     email,
     password,
     statusEmail,
     statusPassWord,
     disableLogin,
     onChangeInput,
+    handleLogin,
   } = useAuth();
 
-  function handleLogin() {}
+  useEffect(() => {
+    if (route.params?.isSignUp) {
+      showToast({
+        title: 'Notification',
+        text: 'Create account success! Please login.',
+        type: 'success',
+      });
+    }
+  }, [route.params?.isSignUp]);
 
   function openSignUp() {
     const exist = navigation
@@ -68,6 +84,11 @@ function Login({ navigation }: NativeStackProps) {
             onStartShouldSetResponder={() => true}
           >
             <View className="gap-4">
+              {errorText && !loading && (
+                <Text className="text-red text-base font-MontserratRegular">
+                  {errorText}
+                </Text>
+              )}
               <InputField
                 name={InputAuthName.email}
                 onChangeText={onChangeInput}
@@ -101,13 +122,16 @@ function Login({ navigation }: NativeStackProps) {
             <View className="flex-1 mt-2">
               <View className="gap-6">
                 <ButtonCostumized
+                  loading={loading}
                   title="Login"
                   style={[
                     styles.createButtonStyle,
-                    !disableLogin ? styles.createActiveButtonStyle : {},
+                    !disableLogin && !loading
+                      ? styles.createActiveButtonStyle
+                      : {},
                   ]}
                   textStyle={[styles.createTextStyle]}
-                  disabled={disableLogin}
+                  disabled={disableLogin || loading}
                   onPress={handleLogin}
                 />
                 <View className="gap-2 flex-row items-center">

@@ -11,9 +11,11 @@ import {
   FETCH_LIST_ADDRESS,
   FETCH_PRODUCTS,
   REMOVE_CART_ITEM,
+  SET_USER,
   UPDATE_ADDRESS,
   UPDATE_CARTS,
 } from 'contexts/constant';
+import { IUserState } from 'contexts/interfaces';
 
 export const fetchListAddress = (listAddress: addressType[]): ActionType => {
   return {
@@ -65,5 +67,12 @@ export const fetchProducts = (dataProducts: productType[]): ActionType => {
   return {
     type: FETCH_PRODUCTS,
     payload: dataProducts,
+  };
+};
+
+export const setUser = (dataUser: IUserState | null): ActionType => {
+  return {
+    type: SET_USER,
+    payload: dataUser,
   };
 };

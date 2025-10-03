@@ -4,7 +4,11 @@ export type MainStackParamList = {
   Onboarding: undefined;
   AuthStack: undefined;
   SignUp: undefined;
-  Login: undefined;
+  Login:
+    | {
+        isSignUp: boolean;
+      }
+    | undefined;
   ForgotPassword: undefined;
   Verification: {
     email: string;

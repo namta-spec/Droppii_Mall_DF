@@ -9,7 +9,7 @@ import {
 
 export const useCart = () => {
   const { state, dispatch } = useContext(AuthContext);
-  const { cart } = state.user;
+  const cart = state.user?.cart ?? [];
 
   const getCart = async () => {
     // Call API in here

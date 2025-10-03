@@ -9,17 +9,11 @@ import {
   FETCH_PRODUCTS,
   UPDATE_ADDRESS,
   UPDATE_CARTS,
+  SET_USER,
 } from '../constant';
 
 const initAuthState: TInitialAuthState = {
-  user: {
-    id: null,
-    fullName: '',
-    email: '',
-    address: null,
-    listAddress: [],
-    cart: [],
-  },
+  user: null,
   product: {
     listProductCategory: [],
     listProduct: [],
@@ -31,7 +25,15 @@ function AuthReducer(
   action: ActionType,
 ): TInitialAuthState {
   switch (action.type) {
+    case SET_USER:
+      return !deepEqual(state.user, action.payload)
+        ? {
+            ...state,
+            user: action.payload,
+          }
+        : state;
     case FETCH_LIST_ADDRESS:
+      if (!state.user) return state;
       return !deepEqual(state.user.listAddress, action.payload)
         ? {
             ...state,
@@ -42,6 +44,7 @@ function AuthReducer(
           }
         : state;
     case UPDATE_ADDRESS:
+      if (!state.user) return state;
       return !deepEqual(state.user.address, action.payload)
         ? {
             ...state,
@@ -52,6 +55,7 @@ function AuthReducer(
           }
         : state;
     case FETCH_CARTS:
+      if (!state.user) return state;
       return !deepEqual(state.user.cart, action.payload)
         ? {
             ...state,
@@ -62,6 +66,7 @@ function AuthReducer(
           }
         : state;
     case UPDATE_CARTS:
+      if (!state.user) return state;
       const existingItemIndex = state.user.cart.findIndex(
         item =>
           item.id === action.payload.id && item.size === action.payload.size,
@@ -89,6 +94,7 @@ function AuthReducer(
         },
       };
     case REMOVE_CART_ITEM:
+      if (!state.user) return state;
       const existItemIndex = state.user.cart.findIndex(
         item =>
           item.id === action.payload.id && item.size === action.payload.size,

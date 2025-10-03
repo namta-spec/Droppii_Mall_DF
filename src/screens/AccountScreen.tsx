@@ -5,6 +5,7 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ReactElement } from 'react';
 import { colors } from 'constants/color';
 import { NativeStackProps } from '../../routes';
+import { useAuth } from 'contexts/hooks/useAuth';
 
 type MenuAccountType = {
   id: number;
@@ -41,6 +42,7 @@ function getLine(itemInput: MenuAccountType): GetLineType {
 }
 
 function AccountScreen({ navigation }: NativeStackProps) {
+  const { handleLogout } = useAuth();
   const accountMenuItem: MenuAccountType[] = [
     {
       id: 1,
@@ -94,6 +96,9 @@ function AccountScreen({ navigation }: NativeStackProps) {
       className: 'text-red',
       line: 'large',
       isLogout: true,
+      onClick() {
+        handleLogout();
+      },
     },
   ];
 

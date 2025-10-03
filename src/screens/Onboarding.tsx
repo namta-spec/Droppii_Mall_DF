@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { Animated, Image, StyleSheet, Text } from 'react-native';
+import { Animated, Image, Platform, StyleSheet, Text } from 'react-native';
 import image from '@assets/images/index';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ButtonCostumized from '@components/Button';
@@ -53,7 +53,7 @@ function OnBoarding({ navigation }: NativeStackProps) {
   }, [scaleAnim, textAnim, imageAnim, buttonAnim]);
 
   const handleTap = () => {
-    navigation.navigate('MainStack');
+    navigation.navigate('AuthStack');
   };
 
   useEffect(() => {
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   textStyle: {
+    paddingTop: Platform.OS === 'ios' ? 20 : 0,
     lineHeight: 50,
     letterSpacing: -5,
     position: 'absolute',

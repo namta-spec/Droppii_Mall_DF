@@ -4,9 +4,11 @@ import {
   FETCH_LIST_ADDRESS,
   FETCH_PRODUCTS,
   REMOVE_CART_ITEM,
+  SET_USER,
   UPDATE_ADDRESS,
   UPDATE_CARTS,
 } from 'contexts/constant';
+import { IUserState } from 'contexts/interfaces';
 
 export enum SizeType {
   S = 'S',
@@ -86,7 +88,8 @@ export type ActionType =
     }
   | { type: typeof REMOVE_CART_ITEM; payload: cartProductType }
   | { type: typeof FETCH_CATEGORIES; payload: categoryProductType[] }
-  | { type: typeof FETCH_PRODUCTS; payload: productType[] };
+  | { type: typeof FETCH_PRODUCTS; payload: productType[] }
+  | { type: typeof SET_USER; payload: IUserState | null };
 
 export type ReviewType = {
   numberOfRatings: number;
@@ -115,8 +118,8 @@ export type ReviewerType = {
 };
 
 export enum InputAuthName {
-  default = '',
-  fullname = 'fullname',
+  default = 'off',
+  fullname = 'username',
   email = 'email',
   password = 'password',
 }
@@ -126,3 +129,17 @@ export enum InputStatus {
   error = 'error',
   success = 'success',
 }
+
+export type FirebaseAuthErrorCode =
+  | 'auth/invalid-email'
+  | 'auth/user-disabled'
+  | 'auth/user-not-found'
+  | 'auth/wrong-password'
+  | 'auth/invalid-credential'
+  | 'auth/email-already-in-use'
+  | 'auth/weak-password'
+  | 'auth/too-many-requests'
+  | 'auth/operation-not-allowed'
+  | 'auth/missing-password'
+  | 'auth/network-request-failed'
+  | 'auth/internal-error';

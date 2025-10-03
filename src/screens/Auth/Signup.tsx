@@ -20,6 +20,8 @@ import AuthHeader from './component/AuthHeader';
 
 function SignUp({ navigation }: NativeStackProps) {
   const {
+    loading,
+    errorText,
     fullName,
     email,
     password,
@@ -28,9 +30,8 @@ function SignUp({ navigation }: NativeStackProps) {
     statusPassWord,
     disableSignUp,
     onChangeInput,
+    handleCreateAccount,
   } = useAuth();
-
-  function handleCreateAccount() {}
 
   function openLogin() {
     navigation.navigate('Login');
@@ -58,6 +59,11 @@ function SignUp({ navigation }: NativeStackProps) {
             onStartShouldSetResponder={() => true}
           >
             <View className="gap-4">
+              {errorText && loading && (
+                <Text className="text-red text-base font-MontserratRegular">
+                  {errorText}
+                </Text>
+              )}
               <InputField
                 name={InputAuthName.fullname}
                 onChangeText={onChangeInput}
@@ -114,13 +120,16 @@ function SignUp({ navigation }: NativeStackProps) {
             <View className="flex-1 mt-2">
               <View className="gap-6">
                 <ButtonCostumized
+                  loading={loading}
                   title="Create an Account"
                   style={[
                     styles.createButtonStyle,
-                    !disableSignUp ? styles.createActiveButtonStyle : {},
+                    !disableSignUp && !loading
+                      ? styles.createActiveButtonStyle
+                      : {},
                   ]}
                   textStyle={[styles.createTextStyle]}
-                  disabled={disableSignUp}
+                  disabled={disableSignUp || loading}
                   onPress={handleCreateAccount}
                 />
                 <View className="gap-2 flex-row items-center">

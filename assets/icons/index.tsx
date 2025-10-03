@@ -1,3 +1,4 @@
+import Logo from './Logo.svg';
 import Home from './Home.svg';
 import ArrowRight from './ArrowRight.svg';
 import ArrowLeft from './ArrowLeft.svg';
@@ -58,6 +59,7 @@ import Google from './Google.svg';
 import Facebook from './Facebook.svg';
 
 const Icons = {
+  Logo,
   Arrow,
   Home,
   ArrowRight,

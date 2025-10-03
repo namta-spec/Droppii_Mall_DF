@@ -65,7 +65,7 @@ function Address({ navigation }: NativeStackProps) {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-0">
+    <SafeAreaView edges={['top']} className="flex-1 bg-primary-0">
       <HeaderCostumized title="Address" />
       <View
         className={cn('flex-1 px-6 mt-4 gap-5', {

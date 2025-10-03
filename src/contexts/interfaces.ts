@@ -7,15 +7,17 @@ import {
 } from 'constants/type';
 import React from 'react';
 
+export interface IUserState {
+  id: number | string | null;
+  fullName: string;
+  email: string;
+  address: addressType | null;
+  listAddress: addressType[];
+  cart: cartProductType[];
+}
+
 export interface TInitialAuthState {
-  user: {
-    id: number | null;
-    fullName: string;
-    email: string;
-    address: addressType | null;
-    listAddress: addressType[];
-    cart: cartProductType[];
-  };
+  user: IUserState | null;
   product: {
     listProductCategory: categoryProductType[];
     listProduct: productType[];
