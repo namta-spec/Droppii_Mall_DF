@@ -133,3 +133,30 @@ export function showToast({
     backgroundColor: colors.primary['100'],
   });
 }
+
+export function formatTimeAgo(date: Date): string {
+  if (!date) return '';
+  const now = dayjs();
+  const input = dayjs(date);
+
+  const units: { unit: dayjs.ManipulateType; limit: number; label: string }[] =
+    [
+      { unit: 'minute', limit: 60, label: 'minute' },
+      { unit: 'hour', limit: 24, label: 'hour' },
+      { unit: 'day', limit: 7, label: 'day' },
+      { unit: 'week', limit: 5, label: 'week' },
+      { unit: 'month', limit: 12, label: 'month' },
+      { unit: 'year', limit: Infinity, label: 'year' },
+    ];
+
+  for (const { unit, limit, label } of units) {
+    let diff = now.diff(input, unit);
+    if (diff < limit) {
+      if (unit === 'minute' && diff < 1) return 'Just now';
+      if (unit === 'day' && diff === 1) return 'Yesterday';
+      return `${diff} ${label}${diff > 1 ? 's' : ''} ago`;
+    }
+  }
+
+  return 'a long time ago';
+}

@@ -88,7 +88,7 @@ export type ActionType =
   | { type: typeof FETCH_CATEGORIES; payload: categoryProductType[] }
   | { type: typeof FETCH_PRODUCTS; payload: productType[] };
 
-export type ReviewType = {
+export type ReviewSummaryType = {
   numberOfRatings: number;
   numberOfReview: number;
   numberOfOneStar: number;
@@ -112,4 +112,9 @@ export type ReviewerType = {
   review: string;
   owner: string;
   time: Date;
+};
+
+export type ReviewType = {
+  reviewSummary: ReviewSummaryType;
+  listReview: ReviewerType[];
 };
