@@ -9,6 +9,8 @@ import {
 
 type RouteType = keyof MainStackParamList | undefined;
 
+export const STORAGE_KEY = 'APP_STORE';
+
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 

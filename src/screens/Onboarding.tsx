@@ -7,6 +7,7 @@ import { NativeStackProps } from '../../routes';
 import Icons from '../../assets/icons/index';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from 'constants/screens';
 import { colors } from 'constants/color';
+import { saveDataStore } from 'lib/utils';
 
 type VectorIcon = { key: number; size: number };
 
@@ -52,8 +53,9 @@ function OnBoarding({ navigation }: NativeStackProps) {
     ]).start();
   }, [scaleAnim, textAnim, imageAnim, buttonAnim]);
 
-  const handleTap = () => {
-    navigation.navigate('AuthStack');
+  const handleTap = async () => {
+    await saveDataStore({ hasSeenOnboarding:true });
+    navigation.navigate('AuthStack', { screen: 'SignUp' });
   };
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { debounce, isEmpty } from 'lodash';
 import {
   createUserWithEmailAndPassword,
@@ -7,27 +7,15 @@ import {
   signOut,
 } from '@react-native-firebase/auth';
 import type { FirebaseError } from 'firebase/app';
-import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { AuthContext } from 'contexts/contexts/AuthContext';
-import {
-  addressType,
-  CardType,
-  cartProductType,
-  InputAuthName,
-  InputStatus,
-  SizeType,
-} from 'constants/type';
+import { InputAuthName, InputStatus } from 'constants/type';
 import {
   getFirebaseAuthErrorMessage,
   ValidateEmail,
   ValidateFullName,
   ValidatePassword,
 } from 'lib/utils';
-import { IUserState } from 'contexts/interfaces';
-import { setUser } from 'contexts/actions/AuthAction';
 
 export const useAuth = () => {
-  const { dispatch } = useContext(AuthContext);
   const [fullName, setFullName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -95,68 +83,69 @@ export const useAuth = () => {
   const handleLogin = () => {
     setloading(true);
     signInWithEmailAndPassword(getAuth(), email, password)
-      .then(async (res: FirebaseAuthTypes.UserCredential) => {
-        // call API to get info user
-        let dataCart: cartProductType[] = [
-          {
-            id: 1,
-            name: 'Regular Fit Slogan',
-            cost: 1190,
-            amount: 2,
-            size: SizeType.L,
-            categoryId: 1,
-            image:
-              'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-          },
-          {
-            id: 1,
-            name: 'Regular Fit Slogan',
-            cost: 1190,
-            amount: 2,
-            size: SizeType.M,
-            categoryId: 1,
-            image:
-              'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-          },
-          {
-            id: 3,
-            name: 'Regular Fit Black',
-            cost: 1690,
-            amount: 1,
-            size: SizeType.L,
-            categoryId: 1,
-            image:
-              'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-          },
-        ];
-        let dataAddress: addressType = {
-          id: 1,
-          title: 'Home',
-          address: '925 S Chugach St #APT 10, Alaska 99645',
-          default: true,
-        };
-        let dataCard: CardType = {
-          token: 'pm_1PqABC123xyz',
-          card: {
-            brand: 'visa',
-            last_four: 4242,
-            exp_month: 12,
-            exp_year: 2028,
-          },
-          default: true,
-        };
-        const dataUser: IUserState = {
-          id: res.user.uid,
-          fullName: fullName,
-          email: res.user.email || email,
-          address: dataAddress,
-          listAddress: [],
-          cart: dataCart,
-          listCard: [],
-          card: dataCard,
-        };
-        dispatch(setUser(dataUser));
-      })
+      .then(() => {})
+      // .then(async (res: FirebaseAuthTypes.UserCredential) => {
+      //   // call API to get info user
+      //   let dataCart: cartProductType[] = [
+      //     {
+      //       id: 1,
+      //       name: 'Regular Fit Slogan',
+      //       cost: 1190,
+      //       amount: 2,
+      //       size: SizeType.L,
+      //       categoryId: 1,
+      //       image:
+      //         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      //     },
+      //     {
+      //       id: 1,
+      //       name: 'Regular Fit Slogan',
+      //       cost: 1190,
+      //       amount: 2,
+      //       size: SizeType.M,
+      //       categoryId: 1,
+      //       image:
+      //         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      //     },
+      //     {
+      //       id: 3,
+      //       name: 'Regular Fit Black',
+      //       cost: 1690,
+      //       amount: 1,
+      //       size: SizeType.L,
+      //       categoryId: 1,
+      //       image:
+      //         'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
+      //     },
+      //   ];
+      //   let dataAddress: addressType = {
+      //     id: 1,
+      //     title: 'Home',
+      //     address: '925 S Chugach St #APT 10, Alaska 99645',
+      //     default: true,
+      //   };
+      //   let dataCard: CardType = {
+      //     token: 'pm_1PqABC123xyz',
+      //     card: {
+      //       brand: 'visa',
+      //       last_four: 4242,
+      //       exp_month: 12,
+      //       exp_year: 2028,
+      //     },
+      //     default: true,
+      //   };
+      //   const dataUser: IUserState = {
+      //     id: res.user.uid,
+      //     fullName: fullName,
+      //     email: res.user.email || email,
+      //     address: dataAddress,
+      //     listAddress: [],
+      //     cart: dataCart,
+      //     listCard: [],
+      //     card: dataCard,
+      //   };
+      //   dispatch(setUser(dataUser));
+      // })
       .catch(error => {
         const message = getFirebaseAuthErrorMessage(error as FirebaseError);
         setError(message);

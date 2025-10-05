@@ -12,6 +12,10 @@ import {
 } from 'contexts/constant';
 import { IUserState } from 'contexts/interfaces';
 
+export type AsyncStorageType = {
+  hasSeenOnboarding: boolean;
+};
+
 export enum SizeType {
   S = 'S',
   M = 'M',
@@ -83,7 +87,7 @@ export type ActionType =
   | { type: typeof FETCH_PRODUCTS; payload: productType[] }
   | { type: typeof SET_USER; payload: IUserState | null };
 
-export type ReviewType = {
+export type ReviewSummaryType = {
   numberOfRatings: number;
   numberOfReview: number;
   numberOfOneStar: number;
@@ -107,6 +111,11 @@ export type ReviewerType = {
   review: string;
   owner: string;
   time: Date;
+};
+
+export type ReviewType = {
+  reviewSummary: ReviewSummaryType;
+  listReview: ReviewerType[];
 };
 
 export enum InputAuthName {

@@ -16,6 +16,7 @@ import SizeSelector from './component/SizeSelecter';
 import FastImage from 'components/FastImage';
 import { useCart } from 'contexts/hooks/useCart';
 import { showToast } from 'lib/utils';
+import { SCREEN_HEIGHT } from 'constants/screens';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'ProductDetail'>;
 
@@ -117,7 +118,8 @@ function ProductDetail({ route, navigation }: Props) {
 
 const styles = StyleSheet.create({
   fastImageStyle: {
-    height: 370,
+    minHeight: 370,
+    height: SCREEN_HEIGHT * 0.5,
   },
   imageStyle: {
     borderRadius: 10,

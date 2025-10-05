@@ -118,30 +118,32 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
                 className="flex-1 items-center"
                 key={index}
               >
-                <IconTab
-                  size={24}
-                  color={
-                    isFocused ? colors.primary['900'] : colors.primary['400']
-                  }
-                  label={route.name as TabLabel}
-                />
-                {options.tabBarBadge ? (
-                  <View style={styles.badgeStyle}>
-                    <Text style={styles.textBadgeStyle}>
-                      {options.tabBarBadge}
-                    </Text>
-                  </View>
-                ) : null}
-                <Text
-                  className={cn(
-                    'text-primary-400 text-sm font-MontserratMedium',
-                    {
-                      'text-primary-900 ': isFocused,
-                    },
-                  )}
-                >
-                  {route.name}
-                </Text>
+                <View>
+                  <IconTab
+                    size={24}
+                    color={
+                      isFocused ? colors.primary['900'] : colors.primary['400']
+                    }
+                    label={route.name as TabLabel}
+                  />
+                  <Text
+                    className={cn(
+                      'text-primary-400 text-sm font-MontserratMedium',
+                      {
+                        'text-primary-900 ': isFocused,
+                      },
+                    )}
+                  >
+                    {route.name}
+                  </Text>
+                  {options.tabBarBadge ? (
+                    <View style={styles.badgeStyle}>
+                      <Text style={styles.textBadgeStyle}>
+                        {options.tabBarBadge}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
               </PlatformPressable>
             );
           })}
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     width: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    right: 10,
+    right: -10,
     top: -5,
   },
   textBadgeStyle: { fontSize: 12, color: colors.primary['0'] },

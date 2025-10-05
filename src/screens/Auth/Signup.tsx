@@ -17,6 +17,7 @@ import { NativeStackProps } from '../../../routes';
 import { InputAuthName } from 'constants/type';
 import { useAuth } from 'contexts/hooks/useAuth';
 import AuthHeader from './component/AuthHeader';
+import { isEmpty } from 'lodash';
 
 function SignUp({ navigation }: NativeStackProps) {
   const {
@@ -34,7 +35,14 @@ function SignUp({ navigation }: NativeStackProps) {
   } = useAuth();
 
   function openLogin() {
-    navigation.navigate('Login');
+    const exist = navigation
+      .getState()
+      .routes.find(item => item.name === 'Login');
+    if (isEmpty(exist)) {
+      navigation.navigate('Login');
+      return;
+    }
+    navigation.goBack();
   }
 
   return (

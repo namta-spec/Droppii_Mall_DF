@@ -15,8 +15,8 @@ function AuthStacks() {
         animation: 'flip',
       }}
     >
-      <AuthStack.Screen name="SignUp" component={SignUp} />
       <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen name="SignUp" component={SignUp} />
       <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <AuthStack.Screen name="Verification" component={Verification} />
     </AuthStack.Navigator>
