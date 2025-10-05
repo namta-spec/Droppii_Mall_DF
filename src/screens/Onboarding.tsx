@@ -54,7 +54,7 @@ function OnBoarding({ navigation }: NativeStackProps) {
   }, [scaleAnim, textAnim, imageAnim, buttonAnim]);
 
   const handleTap = async () => {
-    await saveDataStore({ hasSeenOnboarding:true });
+    await saveDataStore({ hasSeenOnboarding: true });
     navigation.navigate('AuthStack', { screen: 'SignUp' });
   };
 

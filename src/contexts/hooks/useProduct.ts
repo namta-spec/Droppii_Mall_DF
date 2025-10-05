@@ -6,6 +6,7 @@ import { fetchCategories, fetchProducts } from 'contexts/actions/AuthAction';
 export const useProduct = () => {
   const { state, dispatch } = useContext(AuthContext);
   const { listProduct, listProductCategory } = state.product;
+  console.log(state);
 
   const getCategories = async () => {
     // Call API in here

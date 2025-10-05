@@ -27,6 +27,7 @@ type Props = NativeStackScreenProps<MainStackParamList, 'Login'>;
 function Login({ navigation, route }: Props) {
   const {
     loading,
+    loadingGoogle,
     errorText,
     email,
     password,
@@ -35,6 +36,7 @@ function Login({ navigation, route }: Props) {
     disableLogin,
     onChangeInput,
     handleLogin,
+    handleLoginWithGoogle,
   } = useAuth();
 
   useEffect(() => {
@@ -143,10 +145,12 @@ function Login({ navigation, route }: Props) {
                 </View>
                 <View className="gap-4">
                   <ButtonCostumized
+                    loading={loadingGoogle}
                     title="Login with Google"
                     style={[styles.GoogleButtonStyle]}
                     iconLeft={<Icons.Google />}
                     textStyle={[styles.GoogleTextStyle]}
+                    onPress={handleLoginWithGoogle}
                   />
                   <ButtonCostumized
                     title="Login with Facebook"
