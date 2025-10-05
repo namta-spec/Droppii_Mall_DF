@@ -18,21 +18,23 @@ import PaymentMethod from './component/PaymentMethod';
 import Summary from './component/Summary';
 import { colors } from 'constants/color';
 import { useAddress } from 'contexts/hooks/useAddress';
+import { usePaymentMethod } from 'contexts/hooks/usePaymentMethod';
+import { DATA_PAYMENT_METHOD } from 'constants/screens';
+import { isEmpty } from 'lodash';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Checkout'>;
 
 function Checkout({ route, navigation }: Props) {
   const { address } = useAddress();
+  const { card } = usePaymentMethod();
   const [VAT, setVAT] = useState<number>(route?.params?.VAT || 0);
   const [shippingFee, setShippingFee] = useState<number>(
     route?.params?.shippingFee || 0,
   );
   const [code, setCode] = useState('');
-  const [method, setMethod] = useState<TypePaymentMethod>({
-    id: 1,
-    title: 'Card',
-    category: categoryMethod.Card,
-  });
+  const [method, setMethod] = useState<TypePaymentMethod>(
+    DATA_PAYMENT_METHOD[1],
+  );
 
   useEffect(() => {
     if (!address) return;
@@ -46,7 +48,17 @@ function Checkout({ route, navigation }: Props) {
   }
 
   function handleChangeMethod(inputMethod: TypePaymentMethod) {
+    if (inputMethod.category === categoryMethod.Card && isEmpty(card)) {
+      navigation.navigate('InfoPaymentStack', {
+        screen: 'NewCard',
+      });
+      return;
+    }
     setMethod(inputMethod);
+  }
+
+  function openPaymentMethod() {
+    navigation.navigate('InfoPaymentStack', { screen: 'PaymentMethod' });
   }
 
   function handleChangeCode(codeInput: string) {
@@ -75,7 +87,9 @@ function Checkout({ route, navigation }: Props) {
             />
             <PaymentMethod
               method={method}
+              card={card}
               onChangeMethod={handleChangeMethod}
+              openPaymentMethod={openPaymentMethod}
             />
             <Summary
               code={code}

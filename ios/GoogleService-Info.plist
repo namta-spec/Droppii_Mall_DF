@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>619593642997-q1la3asg11tekq566inr73shrm83qurn.apps.googleusercontent.com</string>
+	<string>619593642997-ufd0s34skrq0qd1u3f0nhrmmiv89t1r0.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.619593642997-q1la3asg11tekq566inr73shrm83qurn</string>
+	<string>com.googleusercontent.apps.619593642997-ufd0s34skrq0qd1u3f0nhrmmiv89t1r0</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBgidd-VtaN4RxmDDX3G_u-NkXEK-GYVLE</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.AwesomeProject</string>
+	<string>com.namdev.AwesomeProject</string>
 	<key>PROJECT_ID</key>
 	<string>shopmall-c40ed</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:619593642997:ios:c9618715c65f8be65f26bc</string>
+	<string>1:619593642997:ios:707a6a5c21c88cf25f26bc</string>
 </dict>
 </plist>

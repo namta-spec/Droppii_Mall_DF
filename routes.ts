@@ -43,6 +43,8 @@ export type MainStackParamList = {
   };
   Address: undefined;
   NewAddress: undefined;
+  PaymentMethod: undefined;
+  NewCard: undefined;
 };
 
 export type NativeStackProps = NativeStackScreenProps<MainStackParamList>;

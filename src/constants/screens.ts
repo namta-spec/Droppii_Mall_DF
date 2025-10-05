@@ -20,6 +20,8 @@ export const ROUTES_HIDDEN_TABBAR: RouteType[] = [
   'InfoPaymentStack',
   'Address',
   'NewAddress',
+  'PaymentMethod',
+  'NewCard',
   'ProductStack',
   'ProductDetail',
   'Review',

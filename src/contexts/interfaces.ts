@@ -1,6 +1,7 @@
 import {
   ActionType,
   addressType,
+  CardType,
   cartProductType,
   categoryProductType,
   productType,
@@ -14,6 +15,8 @@ export interface IUserState {
   address: addressType | null;
   listAddress: addressType[];
   cart: cartProductType[];
+  listCard: CardType[];
+  card: CardType | null;
 }
 
 export interface TInitialAuthState {

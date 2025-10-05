@@ -2,10 +2,11 @@ import HeaderCostumized from 'components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icons from '../../assets/icons/index';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { colors } from 'constants/color';
 import { NativeStackProps } from '../../routes';
 import { useAuth } from 'contexts/hooks/useAuth';
+import ModalCustom from 'components/Modal';
 
 type MenuAccountType = {
   id: number;
@@ -43,6 +44,7 @@ function getLine(itemInput: MenuAccountType): GetLineType {
 
 function AccountScreen({ navigation }: NativeStackProps) {
   const { handleLogout } = useAuth();
+  const [modalVisible, setModalVisible] = useState(false);
   const accountMenuItem: MenuAccountType[] = [
     {
       id: 1,
@@ -70,6 +72,9 @@ function AccountScreen({ navigation }: NativeStackProps) {
       icon: <Icons.Card color={colors.primary['900']} />,
       title: 'Payment Methods',
       line: 'short',
+      onClick: () => {
+        navigation.navigate('InfoPaymentStack', { screen: 'PaymentMethod' });
+      },
     },
     {
       id: 5,
@@ -97,20 +102,24 @@ function AccountScreen({ navigation }: NativeStackProps) {
       line: 'large',
       isLogout: true,
       onClick() {
-        handleLogout();
+        setModalVisible(true);
       },
     },
   ];
 
-  function renderMenuAccount({ item }: { item: MenuAccountType }) {
-    function openTargetScreen() {
-      if (typeof item?.onClick === 'function') {
-        item.onClick();
-      }
-    }
+  function closeModal() {
+    setModalVisible(false);
+  }
 
+  const openTargetScreen = (item: MenuAccountType) => () => {
+    if (typeof item?.onClick === 'function') {
+      item.onClick();
+    }
+  };
+
+  function renderMenuAccount({ item }: { item: MenuAccountType }) {
     return (
-      <Pressable className="flex-1" onPress={openTargetScreen}>
+      <Pressable className="flex-1" onPress={openTargetScreen(item)}>
         <View className={getLine(item)?.className}>
           <View
             className={'border-primary-100'}
@@ -129,6 +138,19 @@ function AccountScreen({ navigation }: NativeStackProps) {
             {!item?.isLogout && <Icons.Chevron style={styles.arrowStyle} />}
           </View>
         </View>
+        <ModalCustom
+          closeModal={closeModal}
+          modalVisible={modalVisible}
+          styleButton={styles.styleButton}
+          styleText={styles.styleTextButton}
+          type="waring"
+          title="Logout?"
+          text="Are you sure you want to logout?"
+          titleDeleteButton="Yes, Logout"
+          titleButton="No, Cancle"
+          onPressDeleteButton={handleLogout}
+          onPressButton={closeModal}
+        />
       </Pressable>
     );
   }
@@ -157,6 +179,17 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 16,
+    fontFamily: 'Montserrat-Regular',
+  },
+  styleButton: {
+    backgroundColor: colors.primary['0'],
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: colors.primary['200'],
+  },
+  styleTextButton: {
+    color: colors.primary['900'],
+    fontSize: 14,
     fontFamily: 'Montserrat-Regular',
   },
 });

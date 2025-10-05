@@ -1,70 +1,22 @@
+import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { cn } from 'lib/utils';
+import { cn, formatDataFlatList } from 'lib/utils';
 import HeaderCostumized from 'components/Header';
 import ProductCard from 'components/ProductCard';
 import DataEmpty from 'components/DataEmpty';
 import Icons from '../../assets/icons/index';
 import { NativeStackProps } from '../../routes';
 import { productType } from 'constants/type';
+import { isEmpty } from 'lodash';
+import { useSaved } from 'contexts/hooks/useSaved';
 
 function SavedScreen({ navigation }: NativeStackProps) {
-  const products: productType[] = [
-    {
-      id: 1,
-      name: 'Regular Fit Slogan',
-      cost: 1190,
-      saved: true,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 2,
-      name: 'Regular Fit Polo',
-      cost: 1100,
-      saved: true,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 3,
-      name: 'Regular Fit Black',
-      cost: 1690,
-      saved: true,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 4,
-      name: 'Regular Fit V-Neck',
-      cost: 1290,
-      saved: true,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 5,
-      name: 'Regular Fit Black',
-      cost: 1690,
-      saved: true,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-    {
-      id: 6,
-      name: 'Regular Fit V-Neck',
-      cost: 1290,
-      saved: true,
-      categoryId: 1,
-      image:
-        'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
-    },
-  ];
+  const { listSavedProduct, getSavedProducts } = useSaved();
+
+  useEffect(() => {
+    getSavedProducts();
+  }, []);
 
   const handleTapProduct = (id: number) => () => {
     navigation.navigate('ProductStack', {
@@ -95,11 +47,11 @@ function SavedScreen({ navigation }: NativeStackProps) {
       <HeaderCostumized viewLeft={<></>} title="Saved Items" />
       <View
         className={cn('flex-1 px-6 mt-4', {
-          'flex-row justify-center items-center': products.length === 0,
+          'flex-row justify-center items-center': isEmpty(listSavedProduct),
         })}
       >
         <FlatList
-          data={products}
+          data={formatDataFlatList(listSavedProduct, 2)}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}
           numColumns={2} // 2 rows

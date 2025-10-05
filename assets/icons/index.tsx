@@ -41,6 +41,7 @@ import Trash from './Trash.svg';
 import Minus from './Minus.svg';
 import Plus from './Plus.svg';
 import Visa from './Visa.svg';
+import MasterCard from './MasterCard.svg';
 import Edit from './Edit.svg';
 import ApplePay from './ApplePay.svg';
 import Cash from './Cash.svg';
@@ -105,6 +106,7 @@ const Icons = {
   ApplePay,
   Edit,
   Visa,
+  MasterCard,
   RadioButton,
   RadioButtonEmpty,
   PlusLarge,

@@ -10,6 +10,8 @@ import {
   UPDATE_ADDRESS,
   UPDATE_CARTS,
   SET_USER,
+  FETCH_LIST_CARD,
+  UPDATE_CARD,
 } from '../constant';
 
 const initAuthState: TInitialAuthState = {
@@ -51,6 +53,28 @@ function AuthReducer(
             user: {
               ...state.user,
               address: action.payload,
+            },
+          }
+        : state;
+    case FETCH_LIST_CARD:
+      if (!state.user) return state;
+      return !deepEqual(state.user.listCard, action.payload)
+        ? {
+            ...state,
+            user: {
+              ...state.user,
+              listCard: action.payload,
+            },
+          }
+        : state;
+    case UPDATE_CARD:
+      if (!state.user) return state;
+      return !deepEqual(state.user.card, action.payload)
+        ? {
+            ...state,
+            user: {
+              ...state.user,
+              card: action.payload,
             },
           }
         : state;

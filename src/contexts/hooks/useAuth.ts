@@ -11,6 +11,7 @@ import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { AuthContext } from 'contexts/contexts/AuthContext';
 import {
   addressType,
+  CardType,
   cartProductType,
   InputAuthName,
   InputStatus,
@@ -134,6 +135,16 @@ export const useAuth = () => {
           address: '925 S Chugach St #APT 10, Alaska 99645',
           default: true,
         };
+        let dataCard: CardType = {
+          token: 'pm_1PqABC123xyz',
+          card: {
+            brand: 'visa',
+            last_four: 4242,
+            exp_month: 12,
+            exp_year: 2028,
+          },
+          default: true,
+        };
         const dataUser: IUserState = {
           id: res.user.uid,
           fullName: fullName,
@@ -141,6 +152,8 @@ export const useAuth = () => {
           address: dataAddress,
           listAddress: [],
           cart: dataCart,
+          listCard: [],
+          card: dataCard,
         };
         dispatch(setUser(dataUser));
       })

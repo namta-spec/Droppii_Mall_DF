@@ -13,6 +13,7 @@ dayjs.extend(isYesterday);
 import Icons from '../../assets/icons/index';
 import {
   addressType,
+  CardBrand,
   categoryMethod,
   FirebaseAuthErrorCode,
   InputStatus,
@@ -74,6 +75,27 @@ export function getPaymentIcon(
       return <Icons.ApplePay color={iconColor} />;
     default:
       return <Icons.Card color={iconColor} />;
+  }
+}
+
+export function getBrandCardIcon(inputBrand: CardBrand | null): ReactElement {
+  switch (inputBrand) {
+    case 'visa':
+      return <Icons.Visa />;
+    case 'mastercard':
+      return <Icons.MasterCard />;
+    case 'amex':
+      return <Icons.Card />;
+    case 'diners':
+      return <Icons.Card />;
+    case 'discover':
+      return <Icons.Card />;
+    case 'jcb':
+      return <Icons.Card />;
+    case 'unionpay':
+      return <Icons.Card />;
+    default:
+      return <Icons.Card />;
   }
 }
 

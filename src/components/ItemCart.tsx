@@ -114,7 +114,7 @@ function ItemCart({
         styleText={styles.styleTextButton}
         type="waring"
         title="Delete?"
-        text=" Are you sure to delete this item?"
+        text="Are you sure to delete this item?"
         titleDeleteButton="Yes, Delete"
         titleButton="No, Cancle"
         onPressDeleteButton={onPressDelete}

@@ -9,7 +9,12 @@ import { isEmpty } from 'lodash';
 import { setUser } from 'contexts/actions/AuthAction';
 import { IUserState } from 'contexts/interfaces';
 import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
-import { addressType, cartProductType, SizeType } from 'constants/type';
+import {
+  addressType,
+  CardType,
+  cartProductType,
+  SizeType,
+} from 'constants/type';
 import LoadingScreen from 'screens/LoadingScreen';
 
 const RootStack = createNativeStackNavigator<MainStackParamList>();
@@ -61,6 +66,16 @@ function RootNavigator() {
           address: '925 S Chugach St #APT 10, Alaska 99645',
           default: true,
         };
+        let dataCard: CardType = {
+          token: 'pm_1PqABC123xyz',
+          card: {
+            brand: 'visa',
+            last_four: 4242,
+            exp_month: 12,
+            exp_year: 2028,
+          },
+          default: true,
+        };
         const dataUser: IUserState = {
           id: firebaseUser.uid,
           fullName: 'DangNam',
@@ -68,6 +83,8 @@ function RootNavigator() {
           address: dataAddress,
           listAddress: [],
           cart: dataCart,
+          listCard: [],
+          card: dataCard,
         };
         dispatch(setUser(dataUser));
       } else {
