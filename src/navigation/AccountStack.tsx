@@ -3,6 +3,7 @@ import { MainStackParamList } from '../../routes';
 import AccountScreen from 'screens/AccountScreen';
 import SubStack from './SubStack';
 import InfoPaymentStack from './InfoPaymentStack';
+import MyOrderTab from './MyOrderStack';
 
 const AccountStacks = createNativeStackNavigator<MainStackParamList>();
 
@@ -20,6 +21,7 @@ function AccountStack() {
         name="InfoPaymentStack"
         component={InfoPaymentStack}
       />
+      <AccountStacks.Screen name="MyOrders" component={MyOrderTab} />
     </AccountStacks.Navigator>
   );
 }

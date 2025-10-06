@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from 'react-native';
-import { productType, ReviewType } from 'constants/type';
+import { productType, ReviewSummaryType } from 'constants/type';
 import { formatNumber } from 'lib/utils';
 import Icons from '../../../../assets/icons/index';
 
@@ -7,7 +7,7 @@ function ProductInformation({
   detailProduct,
   openReview,
 }: {
-  detailProduct: productType & ReviewType;
+  detailProduct: productType & ReviewSummaryType;
   openReview: () => void;
 }) {
   return (

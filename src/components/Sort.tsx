@@ -13,14 +13,17 @@ const dataSort: SortType[] = [
   {
     id: 1,
     label: 'Relevance',
+    type: 'relevance',
   },
   {
     id: 2,
     label: 'Price: Low - High',
+    type: 'lowToHight',
   },
   {
     id: 3,
     label: 'Price: High - Low',
+    type: 'hightToLow',
   },
 ];
 

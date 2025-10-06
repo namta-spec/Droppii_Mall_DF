@@ -1,9 +1,26 @@
 import { useEffect, useState } from 'react';
 import { debounce, isEmpty } from 'lodash';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from '@react-native-firebase/auth';
+import { onGoogleButtonPress } from 'provider/googleAuthProvider';
+import type { FirebaseError } from 'firebase/app';
+import { useNetInfo } from '@react-native-community/netinfo';
 import { InputAuthName, InputStatus } from 'constants/type';
-import { ValidateEmail, ValidateFullName, ValidatePassword } from 'lib/utils';
+import {
+  getFirebaseAuthErrorMessage,
+  showToast,
+  // saveDataStore,
+  ValidateEmail,
+  ValidateFullName,
+  ValidatePassword,
+} from 'lib/utils';
 
 export const useAuth = () => {
+  const { type, isConnected } = useNetInfo();
   const [fullName, setFullName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -18,6 +35,9 @@ export const useAuth = () => {
   );
   const [disableSignUp, setDisableSignUp] = useState(true);
   const [disableLogin, setDisableLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const [errorText, setError] = useState('');
 
   useEffect(() => {
     if (
@@ -53,7 +73,55 @@ export const useAuth = () => {
     }
   }, 1000);
 
+  const handleCreateAccount = () => {
+    setLoading(true);
+    createUserWithEmailAndPassword(getAuth(), email, password)
+      .then(() => {})
+      .catch(error => {
+        const message = getFirebaseAuthErrorMessage(error as FirebaseError);
+        setError(message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleLogin = () => {
+    setLoading(true);
+    signInWithEmailAndPassword(getAuth(), email, password)
+      .then(() => {})
+      .catch(error => {
+        const message = getFirebaseAuthErrorMessage(error as FirebaseError);
+        setError(message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleLogout = () => {
+    signOut(getAuth());
+  };
+
+  const handleLoginWithGoogle = async () => {
+    if (!isConnected) {
+      showToast({
+        title: 'Network',
+        type: 'warn',
+        text: 'No internet connecttion',
+      });
+      return;
+    }
+    // await saveDataStore({ hasSeenOnboarding: true });
+    setLoadingGoogle(true);
+    await onGoogleButtonPress();
+    setLoadingGoogle(false);
+  };
+
   return {
+    loading,
+    errorText,
+    loadingGoogle,
     fullName,
     email,
     password,
@@ -63,5 +131,9 @@ export const useAuth = () => {
     disableSignUp,
     disableLogin,
     onChangeInput,
+    handleCreateAccount,
+    handleLogin,
+    handleLoginWithGoogle,
+    handleLogout,
   };
 };

@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { ReactElement } from 'react';
 import { ToastType } from 'toastify-react-native/utils/interfaces';
 import { Toast } from 'toastify-react-native';
+import type { FirebaseError } from 'firebase/app';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isYesterday from 'dayjs/plugin/isYesterday';
@@ -12,11 +13,31 @@ dayjs.extend(isYesterday);
 import Icons from '../../assets/icons/index';
 import {
   addressType,
+  AsyncStorageType,
+  CardBrand,
   categoryMethod,
+  FirebaseAuthErrorCode,
   InputStatus,
   typeCategory,
 } from 'constants/type';
 import { colors } from 'constants/color';
+import { firebaseAuthErrorMessage, STORAGE_KEY } from 'constants/screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const saveDataStore = async (value: AsyncStorageType) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(STORAGE_KEY, jsonValue);
+  } catch (e) {}
+};
+
+export const getDataStore = async (): Promise<AsyncStorageType | null> => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {}
+  return null;
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -71,6 +92,27 @@ export function getPaymentIcon(
       return <Icons.ApplePay color={iconColor} />;
     default:
       return <Icons.Card color={iconColor} />;
+  }
+}
+
+export function getBrandCardIcon(inputBrand: CardBrand | null): ReactElement {
+  switch (inputBrand) {
+    case 'visa':
+      return <Icons.Visa />;
+    case 'mastercard':
+      return <Icons.MasterCard />;
+    case 'amex':
+      return <Icons.Card />;
+    case 'diners':
+      return <Icons.Card />;
+    case 'discover':
+      return <Icons.Card />;
+    case 'jcb':
+      return <Icons.Card />;
+    case 'unionpay':
+      return <Icons.Card />;
+    default:
+      return <Icons.Card />;
   }
 }
 
@@ -139,6 +181,33 @@ export function showToast({
   });
 }
 
+export function formatTimeAgo(date: Date): string {
+  if (!date) return '';
+  const now = dayjs();
+  const input = dayjs(date);
+
+  const units: { unit: dayjs.ManipulateType; limit: number; label: string }[] =
+    [
+      { unit: 'minute', limit: 60, label: 'minute' },
+      { unit: 'hour', limit: 24, label: 'hour' },
+      { unit: 'day', limit: 7, label: 'day' },
+      { unit: 'week', limit: 5, label: 'week' },
+      { unit: 'month', limit: 12, label: 'month' },
+      { unit: 'year', limit: Infinity, label: 'year' },
+    ];
+
+  for (const { unit, limit, label } of units) {
+    let diff = now.diff(input, unit);
+    if (diff < limit) {
+      if (unit === 'minute' && diff < 1) return 'Just now';
+      if (unit === 'day' && diff === 1) return 'Yesterday';
+      return `${diff} ${label}${diff > 1 ? 's' : ''} ago`;
+    }
+  }
+
+  return 'a long time ago';
+}
+
 export function ValidateFullName(fullName: string): InputStatus {
   if (isEmpty(fullName)) return InputStatus.deafult;
   if (!isEmpty(fullName.trim())) return InputStatus.success;
@@ -163,4 +232,9 @@ export function ValidatePassword(password: string): InputStatus {
     return InputStatus.success;
   }
   return InputStatus.error;
+}
+
+export function getFirebaseAuthErrorMessage(error: FirebaseError): string {
+  const code = error.code as FirebaseAuthErrorCode;
+  return firebaseAuthErrorMessage[code] ?? 'An unknown error occurred.';
 }

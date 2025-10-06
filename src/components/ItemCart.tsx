@@ -4,7 +4,7 @@ import ButtonCostumized from 'components/Button';
 import Icons from '../../assets/icons/index';
 import FastImage from './FastImage';
 import { debounce } from 'lodash';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { colors } from 'constants/color';
 import ModalCustom from './Modal';
 
@@ -40,24 +40,57 @@ function ItemCart({
     [],
   );
 
+  // const onChangeAmount = (typeChange: TypeChange) => () => {
+  //   console.log('User Tap: ', countNumber);
+  //   let number = countNumber;
+  //   switch (typeChange) {
+  //     case TypeChange.minus:
+  //       number--;
+  //       break;
+  //     case TypeChange.plus:
+  //       number++;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   if (number + item.amount <= 0 && typeChange === TypeChange.minus) {
+  //     setModalVisible(true);
+  //     return;
+  //   }
+  //   setCountNumber(number);
+  //   debouncedSetAmountChange(number);
+  // };
+  // Sitution: Distance at the n and (n+1) taps is 501ms
+  // cause 501ms > 500ms => Call API and setNumberCount to 0
+  // The time rest: 1ms, numberCount not updated to 0 yet
+  // But onChangeAmount be called again
+  // So in this line: let number = countNumber; => number = n not 0
+  // LINE TIME:
+  // t = 0     n = 1 (count first need : 0) => count++ = 1
+  // t = 500   => call API with count = 1, reset count = 0
+  // t = 501   n = 2 (count first need : 0) but count first = 1
+
   const onChangeAmount = (typeChange: TypeChange) => () => {
-    let number = countNumber;
-    switch (typeChange) {
-      case TypeChange.minus:
-        number--;
-        break;
-      case TypeChange.plus:
-        number++;
-        break;
-      default:
-        break;
-    }
-    if (number + item.amount <= 0 && typeChange === TypeChange.minus) {
-      setModalVisible(true);
-      return;
-    }
-    setCountNumber(number);
-    debouncedSetAmountChange(number);
+    setCountNumber(prev => {
+      let number = prev;
+      switch (typeChange) {
+        case TypeChange.minus:
+          number--;
+          break;
+        case TypeChange.plus:
+          number++;
+          break;
+      }
+
+      if (number + item.amount <= 0 && typeChange === TypeChange.minus) {
+        setModalVisible(true);
+        return prev;
+      }
+
+      // Gọi debounce ngay bên trong functional update
+      debouncedSetAmountChange(number);
+      return number;
+    });
   };
 
   function closeModal() {
@@ -114,7 +147,7 @@ function ItemCart({
         styleText={styles.styleTextButton}
         type="waring"
         title="Delete?"
-        text=" Are you sure to delete this item?"
+        text="Are you sure to delete this item?"
         titleDeleteButton="Yes, Delete"
         titleButton="No, Cancle"
         onPressDeleteButton={onPressDelete}

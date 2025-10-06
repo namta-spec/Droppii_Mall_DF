@@ -1,3 +1,4 @@
+import Logo from './Logo.svg';
 import Home from './Home.svg';
 import ArrowRight from './ArrowRight.svg';
 import ArrowLeft from './ArrowLeft.svg';
@@ -40,6 +41,7 @@ import Trash from './Trash.svg';
 import Minus from './Minus.svg';
 import Plus from './Plus.svg';
 import Visa from './Visa.svg';
+import MasterCard from './MasterCard.svg';
 import Edit from './Edit.svg';
 import ApplePay from './ApplePay.svg';
 import Cash from './Cash.svg';
@@ -58,6 +60,7 @@ import Google from './Google.svg';
 import Facebook from './Facebook.svg';
 
 const Icons = {
+  Logo,
   Arrow,
   Home,
   ArrowRight,
@@ -103,6 +106,7 @@ const Icons = {
   ApplePay,
   Edit,
   Visa,
+  MasterCard,
   RadioButton,
   RadioButtonEmpty,
   PlusLarge,

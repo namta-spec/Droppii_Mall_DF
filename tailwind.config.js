@@ -15,6 +15,7 @@ module.exports = {
         large: '32px',
       },
       spacing: {
+        1.5: '5px',
         5.5: '22px',
         13: '52px',
         30: '122px',
@@ -32,6 +33,7 @@ module.exports = {
         blue: '#1877F2',
         red: '#ED1010',
         green: '#0C9409',
+        yellow: '#FFA928',
       },
       fontFamily: {
         MontserratBlack: ['Montserrat-Black'],

@@ -30,8 +30,13 @@ import { formatDataFlatList } from 'lib/utils';
 
 function HomeScreen({ navigation }: NativeStackProps) {
   const [search, setSearch] = useState('');
-  const { getCategories, getProducts, listProduct, listProductCategory } =
-    useProduct();
+  const {
+    filterProduct,
+    getCategories,
+    getProducts,
+    product,
+    listProductCategory,
+  } = useProduct();
   const [selectedCategory, setSelectedCategory] =
     useState<categoryProductType | null>(null);
   const [products, setProducts] = useState<productType[]>([]);
@@ -40,6 +45,7 @@ function HomeScreen({ navigation }: NativeStackProps) {
     sortType: {
       id: 1,
       label: 'Relevance',
+      type: 'relevance',
     },
     price: [MIN_PRICE, MAX_PRICE],
     size: null,
@@ -60,12 +66,12 @@ function HomeScreen({ navigation }: NativeStackProps) {
     if (!selectedCategory || isEmpty(listProductCategory)) return;
     if (selectedCategory.id !== listProductCategory[0].id) {
       setProducts(
-        listProduct.filter(item => item.categoryId === selectedCategory.id),
+        product.filter(item => item.categoryId === selectedCategory.id),
       );
     } else {
-      setProducts(listProduct);
+      setProducts(product);
     }
-  }, [selectedCategory, listProduct, listProductCategory]);
+  }, [selectedCategory, product, listProductCategory]);
 
   const handleChange = debounce((inputText: string) => {
     setSearch(inputText);
@@ -109,6 +115,7 @@ function HomeScreen({ navigation }: NativeStackProps) {
 
   function handleSetDataFilter(filterInput: filterType) {
     setDataFilter(filterInput);
+    filterProduct(filterInput);
   }
 
   function renderCategory({ item }: { item: categoryProductType }) {

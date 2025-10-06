@@ -18,6 +18,7 @@ import DataEmpty from 'components/DataEmpty';
 import Icons from '../../assets/icons/index';
 import { cn } from 'lib/utils';
 import { useSearch } from 'contexts/hooks/useSearch';
+import { NativeStackProps } from '../../routes';
 
 type TypeRecent = {
   id: number;
@@ -122,7 +123,7 @@ function RecentSearches({
   );
 }
 
-function SearchScreen() {
+function SearchScreen({ navigation }: NativeStackProps) {
   const { search, dataResult, handleChange } = useSearch();
 
   const handleTapRecent = (textRecent: string) => {
@@ -130,7 +131,12 @@ function SearchScreen() {
   };
 
   const handleTapResult = (id: number) => {
-    console.log(id);
+    navigation.navigate('ProductStack', {
+      screen: 'ProductDetail',
+      params: {
+        idProduct: id,
+      },
+    });
   };
 
   const renderItemResultSearch = ({

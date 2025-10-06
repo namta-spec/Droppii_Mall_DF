@@ -1,6 +1,7 @@
 import {
   ActionType,
   addressType,
+  CardType,
   cartProductType,
   categoryProductType,
   productType,
@@ -9,11 +10,15 @@ import {
   FETCH_CARTS,
   FETCH_CATEGORIES,
   FETCH_LIST_ADDRESS,
+  FETCH_LIST_CARD,
   FETCH_PRODUCTS,
   REMOVE_CART_ITEM,
+  SET_USER,
   UPDATE_ADDRESS,
+  UPDATE_CARD,
   UPDATE_CARTS,
 } from 'contexts/constant';
+import { IUserState } from 'contexts/interfaces';
 
 export const fetchListAddress = (listAddress: addressType[]): ActionType => {
   return {
@@ -26,6 +31,20 @@ export const updateAddress = (address: addressType | null): ActionType => {
   return {
     type: UPDATE_ADDRESS,
     payload: address,
+  };
+};
+
+export const fetchListCard = (listCard: CardType[]): ActionType => {
+  return {
+    type: FETCH_LIST_CARD,
+    payload: listCard,
+  };
+};
+
+export const updateCard = (card: CardType | null): ActionType => {
+  return {
+    type: UPDATE_CARD,
+    payload: card,
   };
 };
 
@@ -65,5 +84,12 @@ export const fetchProducts = (dataProducts: productType[]): ActionType => {
   return {
     type: FETCH_PRODUCTS,
     payload: dataProducts,
+  };
+};
+
+export const setUser = (dataUser: IUserState | null): ActionType => {
+  return {
+    type: SET_USER,
+    payload: dataUser,
   };
 };
