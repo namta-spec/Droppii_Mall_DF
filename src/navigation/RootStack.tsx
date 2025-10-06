@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { MainStackParamList } from '../../routes';
 import OnBoarding from 'screens/Onboarding';
 import MainStacks from './MainStack';
@@ -27,6 +28,15 @@ function RootNavigator() {
   const { user } = state;
   const [loading, setloading] = useState(true);
   const [store, setStore] = useState<AsyncStorageType | null>(null);
+
+  useEffect(() => {
+    const GOOGLE_WEB_CLIENT_ID =
+      '619593642997-iq1s62mvgjl7si6fqr88vapnem15j1b3.apps.googleusercontent.com';
+    // GOOGLE_WEB_CLIENT_ID from .env
+    GoogleSignin.configure({
+      webClientId: GOOGLE_WEB_CLIENT_ID,
+    });
+  }, []);
 
   useEffect(() => {
     const fetchStore = async () => {
@@ -111,8 +121,6 @@ function RootNavigator() {
     );
     return unsubscribe;
   }, []);
-
-  console.log(store);
 
   if (loading || !store) return <LoadingScreen />;
 
