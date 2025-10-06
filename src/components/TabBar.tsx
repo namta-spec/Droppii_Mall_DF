@@ -4,9 +4,17 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from 'lib/utils';
 import { navigationRef } from 'lib/navigation';
-import { Keyboard, Text } from 'react-native';
+import {
+  Animated,
+  Easing,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Icons from '../../assets/icons/index';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { RootBottomParamList } from '../../routes';
 import { ROUTES_HIDDEN_TABBAR } from 'constants/screens';
 import { colors } from 'constants/color';
@@ -43,6 +51,7 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const { buildHref } = useLinkBuilder();
   const routeName = navigationRef.current?.getCurrentRoute()?.name;
   const [visible, setVisible] = useState(true);
+  const tabBarAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
@@ -60,61 +69,103 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     };
   }, []);
 
+  useEffect(() => {
+    Animated.timing(tabBarAnimation, {
+      toValue: visible && !ROUTES_HIDDEN_TABBAR.includes(routeName) ? 0 : 100,
+      duration: 250,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: true,
+    }).start();
+  }, [visible, routeName, tabBarAnimation]);
+
   return (
-    <SafeAreaView
-      edges={['bottom']}
-      className={cn(
-        'flex flex-row px-6 py-4 bg-primary-0 border-t border-primary-100',
-        {
-          'hidden border-hidden':
-            ROUTES_HIDDEN_TABBAR.includes(routeName) || !visible,
-        },
-      )}
+    <Animated.View
+      style={{
+        transform: [{ translateY: tabBarAnimation }],
+      }}
     >
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+      {!ROUTES_HIDDEN_TABBAR.includes(routeName) && visible && (
+        <SafeAreaView
+          edges={Platform.OS === 'android' ? ['bottom'] : []}
+          className={cn(
+            'flex flex-row px-6 py-4 bg-primary-0 border-t border-primary-100',
+          )}
+        >
+          {state.routes.map((route, index) => {
+            const { options } = descriptors[route.key];
 
-        const isFocused = state.index === index;
+            const isFocused = state.index === index;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
+            const onPress = () => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: route.key,
+                canPreventDefault: true,
+              });
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
-          }
-        };
+              if (!isFocused && !event.defaultPrevented) {
+                navigation.navigate(route.name, route.params);
+              }
+            };
 
-        return (
-          <PlatformPressable
-            href={buildHref(route.name, route.params)}
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarButtonTestID}
-            onPress={onPress}
-            className="flex-1 items-center"
-            key={index}
-          >
-            <IconTab
-              size={24}
-              color={isFocused ? colors.primary['900'] : colors.primary['400']}
-              label={route.name as TabLabel}
-            />
-            <Text
-              className={cn('text-primary-400 text-sm font-MontserratMedium', {
-                'text-primary-900 ': isFocused,
-              })}
-            >
-              {route.name}
-            </Text>
-          </PlatformPressable>
-        );
-      })}
-    </SafeAreaView>
+            return (
+              <PlatformPressable
+                href={buildHref(route.name, route.params)}
+                accessibilityState={isFocused ? { selected: true } : {}}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarButtonTestID}
+                onPress={onPress}
+                className="flex-1 items-center"
+                key={index}
+              >
+                <View className="flex items-center">
+                  <IconTab
+                    size={24}
+                    color={
+                      isFocused ? colors.primary['900'] : colors.primary['400']
+                    }
+                    label={route.name as TabLabel}
+                  />
+                  <Text
+                    className={cn(
+                      'text-primary-400 text-sm font-MontserratMedium',
+                      {
+                        'text-primary-900 ': isFocused,
+                      },
+                    )}
+                  >
+                    {route.name}
+                  </Text>
+                  {options.tabBarBadge ? (
+                    <View style={styles.badgeStyle}>
+                      <Text style={styles.textBadgeStyle}>
+                        {options.tabBarBadge}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+              </PlatformPressable>
+            );
+          })}
+        </SafeAreaView>
+      )}
+    </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  badgeStyle: {
+    backgroundColor: 'red',
+    position: 'absolute',
+    borderRadius: '100%',
+    height: 20,
+    width: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: -10,
+    top: -5,
+  },
+  textBadgeStyle: { fontSize: 12, color: colors.primary['0'] },
+});
 
 export default TabBar;

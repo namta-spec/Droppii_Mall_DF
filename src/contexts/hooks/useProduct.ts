@@ -39,6 +39,7 @@ export const useProduct = () => {
         image:
           'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
         categoryId: 2,
+        saved: true,
       },
       {
         id: 3,
@@ -47,6 +48,7 @@ export const useProduct = () => {
         image:
           'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
         categoryId: 3,
+        saved: true,
       },
       {
         id: 4,
@@ -71,6 +73,7 @@ export const useProduct = () => {
         image:
           'https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/477199/item/vngoods_08_477199_3x4.jpg?width=423',
         categoryId: 4,
+        saved: true,
       },
     ];
     setProducts(dataProducts);

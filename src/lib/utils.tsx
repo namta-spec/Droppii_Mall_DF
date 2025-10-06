@@ -4,14 +4,40 @@ import { twMerge } from 'tailwind-merge';
 import { ReactElement } from 'react';
 import { ToastType } from 'toastify-react-native/utils/interfaces';
 import { Toast } from 'toastify-react-native';
+import type { FirebaseError } from 'firebase/app';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isYesterday from 'dayjs/plugin/isYesterday';
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
 import Icons from '../../assets/icons/index';
-import { addressType, categoryMethod, typeCategory } from 'constants/type';
+import {
+  addressType,
+  AsyncStorageType,
+  CardBrand,
+  categoryMethod,
+  FirebaseAuthErrorCode,
+  InputStatus,
+  typeCategory,
+} from 'constants/type';
 import { colors } from 'constants/color';
+import { firebaseAuthErrorMessage, STORAGE_KEY } from 'constants/screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const saveDataStore = async (value: AsyncStorageType) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(STORAGE_KEY, jsonValue);
+  } catch (e) {}
+};
+
+export const getDataStore = async (): Promise<AsyncStorageType | null> => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {}
+  return null;
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -66,6 +92,27 @@ export function getPaymentIcon(
       return <Icons.ApplePay color={iconColor} />;
     default:
       return <Icons.Card color={iconColor} />;
+  }
+}
+
+export function getBrandCardIcon(inputBrand: CardBrand | null): ReactElement {
+  switch (inputBrand) {
+    case 'visa':
+      return <Icons.Visa />;
+    case 'mastercard':
+      return <Icons.MasterCard />;
+    case 'amex':
+      return <Icons.Card />;
+    case 'diners':
+      return <Icons.Card />;
+    case 'discover':
+      return <Icons.Card />;
+    case 'jcb':
+      return <Icons.Card />;
+    case 'unionpay':
+      return <Icons.Card />;
+    default:
+      return <Icons.Card />;
   }
 }
 
@@ -159,4 +206,35 @@ export function formatTimeAgo(date: Date): string {
   }
 
   return 'a long time ago';
+}
+
+export function ValidateFullName(fullName: string): InputStatus {
+  if (isEmpty(fullName)) return InputStatus.deafult;
+  if (!isEmpty(fullName.trim())) return InputStatus.success;
+  return InputStatus.error;
+}
+
+export function ValidateEmail(email: string): InputStatus {
+  if (isEmpty(email)) return InputStatus.deafult;
+  const regex =
+    /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+  if (regex.test(email.trim())) {
+    return InputStatus.success;
+  }
+  return InputStatus.error;
+}
+
+export function ValidatePassword(password: string): InputStatus {
+  if (isEmpty(password)) return InputStatus.deafult;
+  const regex =
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+  if (regex.test(password)) {
+    return InputStatus.success;
+  }
+  return InputStatus.error;
+}
+
+export function getFirebaseAuthErrorMessage(error: FirebaseError): string {
+  const code = error.code as FirebaseAuthErrorCode;
+  return firebaseAuthErrorMessage[code] ?? 'An unknown error occurred.';
 }

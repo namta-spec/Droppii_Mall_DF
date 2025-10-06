@@ -5,7 +5,8 @@ import { AuthContext } from 'contexts/contexts/AuthContext';
 
 export const useAddress = () => {
   const { state, dispatch } = useContext(AuthContext);
-  const { address, listAddress } = state.user;
+  const address = state.user?.address ?? null;
+  const listAddress = state.user?.listAddress ?? [];
 
   const getListAddress = () => {
     // Call API in here

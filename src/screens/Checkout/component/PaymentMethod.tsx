@@ -1,15 +1,18 @@
 import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { getPaymentIcon, formatCreditCard } from 'lib/utils';
-import { categoryMethod, TypePaymentMethod } from 'constants/type';
+import { getPaymentIcon } from 'lib/utils';
+import { CardType, categoryMethod, TypePaymentMethod } from 'constants/type';
 import { DATA_PAYMENT_METHOD } from 'constants/screens';
 import Icons from '../../../../assets/icons';
 import ButtonCostumized from 'components/Button';
 import { colors } from 'constants/color';
+import ItemCard from 'components/ItemCard';
 
 type PaymentMethodProps = {
   method: TypePaymentMethod;
+  card: CardType | null;
   onChangeMethod: (value: TypePaymentMethod) => void;
+  openPaymentMethod: () => void;
 };
 
 function ItemPaymentMethod({
@@ -41,9 +44,12 @@ function ItemPaymentMethod({
   );
 }
 
-function PaymentMethod({ method, onChangeMethod }: PaymentMethodProps) {
-  function onPressVisa() {}
-
+function PaymentMethod({
+  method,
+  card,
+  onChangeMethod,
+  openPaymentMethod,
+}: PaymentMethodProps) {
   return (
     <View className="gap-5">
       <View className="border-primary-100 border-t" />
@@ -72,17 +78,10 @@ function PaymentMethod({ method, onChangeMethod }: PaymentMethodProps) {
             <ButtonCostumized
               title=""
               style={[styles.buttonCardStyle]}
-              iconLeft={
-                <View className="flex-1 flex-row items-center gap-2">
-                  <Icons.Visa />
-                  <Text className="font-MontserratMedium text-primary-900 text-base">
-                    {formatCreditCard(2345573832982512, true)}
-                  </Text>
-                </View>
-              }
+              iconLeft={card ? <ItemCard item={card} /> : <View />}
               iconRight={<Icons.Edit />}
               textStyle={[styles.textCardStyle]}
-              onPress={onPressVisa}
+              onPress={openPaymentMethod}
             />
           )}
         </View>
@@ -118,6 +117,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderRadius: 10,
+    justifyContent: 'space-between',
   },
   buttonCardHidden: {
     display: 'none',

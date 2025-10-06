@@ -9,6 +9,8 @@ import SearchStack from './SearchStack';
 import SavedStack from './SavedStack';
 import CartStack from './CartStack';
 import AccountStack from './AccountStack';
+import { useCart } from 'contexts/hooks/useCart';
+import { useEffect } from 'react';
 
 const TabBarNavigator = createBottomTabNavigator<RootBottomParamList>();
 
@@ -17,6 +19,12 @@ function CustomTabBar(props: BottomTabBarProps) {
 }
 
 function MainTab() {
+  const { cart, getCart } = useCart();
+
+  useEffect(() => {
+    getCart();
+  }, []);
+
   return (
     <TabBarNavigator.Navigator
       screenOptions={{
@@ -28,7 +36,13 @@ function MainTab() {
       <TabBarNavigator.Screen name="Home" component={HomeStack} />
       <TabBarNavigator.Screen name="Search" component={SearchStack} />
       <TabBarNavigator.Screen name="Saved" component={SavedStack} />
-      <TabBarNavigator.Screen name="Cart" component={CartStack} />
+      <TabBarNavigator.Screen
+        options={{
+          tabBarBadge: cart.length,
+        }}
+        name="Cart"
+        component={CartStack}
+      />
       <TabBarNavigator.Screen name="Account" component={AccountStack} />
     </TabBarNavigator.Navigator>
   );

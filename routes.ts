@@ -2,6 +2,23 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type MainStackParamList = {
   Onboarding: undefined;
+  AuthStack:
+    | {
+        screen: keyof MainStackParamList;
+        params?: any;
+      }
+    | undefined;
+  SignUp: undefined;
+  Login:
+    | {
+        isSignUp: boolean;
+      }
+    | undefined;
+  ForgotPassword: undefined;
+  Verification: {
+    email: string;
+  };
+  ResetPassword: undefined;
   Notification: undefined;
   MainStack: undefined;
   MainTab: undefined;
@@ -31,6 +48,8 @@ export type MainStackParamList = {
   };
   Address: undefined;
   NewAddress: undefined;
+  PaymentMethod: undefined;
+  NewCard: undefined;
 };
 
 export type NativeStackProps = NativeStackScreenProps<MainStackParamList>;

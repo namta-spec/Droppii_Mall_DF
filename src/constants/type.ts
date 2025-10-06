@@ -2,11 +2,19 @@ import {
   FETCH_CARTS,
   FETCH_CATEGORIES,
   FETCH_LIST_ADDRESS,
+  FETCH_LIST_CARD,
   FETCH_PRODUCTS,
   REMOVE_CART_ITEM,
+  SET_USER,
   UPDATE_ADDRESS,
+  UPDATE_CARD,
   UPDATE_CARTS,
 } from 'contexts/constant';
+import { IUserState } from 'contexts/interfaces';
+
+export type AsyncStorageType = {
+  hasSeenOnboarding: boolean;
+};
 
 export enum SizeType {
   S = 'S',
@@ -65,21 +73,11 @@ export type addressType = {
   default?: boolean;
 };
 
-export enum categoryMethod {
-  Card = 'Card',
-  Cash = 'Cash',
-  ApplePay = 'ApplePay',
-}
-
-export type TypePaymentMethod = {
-  id: number;
-  title: string;
-  category: categoryMethod;
-};
-
 export type ActionType =
   | { type: typeof FETCH_LIST_ADDRESS; payload: addressType[] }
   | { type: typeof UPDATE_ADDRESS; payload: addressType | null }
+  | { type: typeof FETCH_LIST_CARD; payload: CardType[] }
+  | { type: typeof UPDATE_CARD; payload: CardType | null }
   | { type: typeof FETCH_CARTS; payload: cartProductType[] }
   | {
       type: typeof UPDATE_CARTS;
@@ -87,7 +85,8 @@ export type ActionType =
     }
   | { type: typeof REMOVE_CART_ITEM; payload: cartProductType }
   | { type: typeof FETCH_CATEGORIES; payload: categoryProductType[] }
-  | { type: typeof FETCH_PRODUCTS; payload: productType[] };
+  | { type: typeof FETCH_PRODUCTS; payload: productType[] }
+  | { type: typeof SET_USER; payload: IUserState | null };
 
 export type ReviewSummaryType = {
   numberOfRatings: number;
@@ -118,4 +117,66 @@ export type ReviewerType = {
 export type ReviewType = {
   reviewSummary: ReviewSummaryType;
   listReview: ReviewerType[];
+};
+
+export enum InputAuthName {
+  default = 'off',
+  fullname = 'username',
+  email = 'email',
+  password = 'password',
+}
+
+export enum InputStatus {
+  deafult = 'deafult',
+  error = 'error',
+  success = 'success',
+}
+
+export type FirebaseAuthErrorCode =
+  | 'auth/invalid-email'
+  | 'auth/user-disabled'
+  | 'auth/user-not-found'
+  | 'auth/wrong-password'
+  | 'auth/invalid-credential'
+  | 'auth/email-already-in-use'
+  | 'auth/weak-password'
+  | 'auth/too-many-requests'
+  | 'auth/operation-not-allowed'
+  | 'auth/missing-password'
+  | 'auth/network-request-failed'
+  | 'auth/internal-error';
+
+export type CardBrand =
+  | 'visa'
+  | 'mastercard'
+  | 'amex'
+  | 'jcb'
+  | 'discover'
+  | 'unionpay'
+  | 'diners'
+  | 'unknown';
+
+export type StripeCard = {
+  brand: CardBrand;
+  last_four: number;
+  exp_month?: number;
+  exp_year?: number;
+};
+
+export type CardType = {
+  token: string;
+  card: StripeCard;
+  default?: boolean;
+};
+
+export enum categoryMethod {
+  Card = 'Card',
+  Cash = 'Cash',
+  ApplePay = 'ApplePay',
+}
+
+export type TypePaymentMethod = {
+  id: number;
+  title: string;
+  category: categoryMethod;
 };

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "619593642997",
+    "project_id": "shopmall-c40ed",
+    "storage_bucket": "shopmall-c40ed.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619593642997:android:9e179a030ad12d8b5f26bc",
+        "android_client_info": {
+          "package_name": "com.awesomeproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619593642997-iq1s62mvgjl7si6fqr88vapnem15j1b3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3xqlR4R_m8GLT5opo5qQrpBkYZsqta0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619593642997-iq1s62mvgjl7si6fqr88vapnem15j1b3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
