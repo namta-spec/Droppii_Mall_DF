@@ -1,11 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from 'contexts/contexts/AuthContext';
-import { categoryProductType, productType } from 'constants/type';
+import { categoryProductType, filterType, productType } from 'constants/type';
 import { fetchCategories, fetchProducts } from 'contexts/actions/AuthAction';
 
 export const useProduct = () => {
   const { state, dispatch } = useContext(AuthContext);
   const { listProduct, listProductCategory } = state.product;
+  const [product, setProducts] = useState<productType[]>(listProduct);
 
   const getCategories = async () => {
     // Call API in here
@@ -21,7 +22,7 @@ export const useProduct = () => {
   };
 
   const getProducts = async () => {
-    const products: productType[] = [
+    const dataProducts: productType[] = [
       {
         id: 1,
         name: 'Regular Fit Slogan',
@@ -72,9 +73,38 @@ export const useProduct = () => {
         categoryId: 4,
       },
     ];
-
-    dispatch(fetchProducts(products));
+    setProducts(dataProducts);
+    dispatch(fetchProducts(dataProducts));
   };
 
-  return { listProduct, listProductCategory, getCategories, getProducts };
+  function compareCost(productA: productType, productB: productType) {
+    return productA.cost - productB.cost;
+  }
+
+  const filterProduct = (filterInput: filterType) => {
+    let newList: productType[];
+    let oldList = [...listProduct];
+
+    if (filterInput.sortType.type === 'lowToHight' || 'hightToLow') {
+      newList = oldList.sort(compareCost);
+    } else {
+      newList = listProduct;
+    }
+    if (filterInput.sortType.type === 'hightToLow') {
+      newList = newList.reverse();
+    }
+    newList = newList.filter(
+      item =>
+        item.cost >= filterInput.price[0] && item.cost <= filterInput.price[1],
+    );
+    setProducts(newList);
+  };
+
+  return {
+    product,
+    listProductCategory,
+    getCategories,
+    getProducts,
+    filterProduct,
+  };
 };

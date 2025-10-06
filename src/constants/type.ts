@@ -21,6 +21,7 @@ export enum SizeType {
 export type SortType = {
   id: number;
   label: string;
+  type: 'relevance' | 'lowToHight' | 'hightToLow';
 };
 
 export type filterType = {
